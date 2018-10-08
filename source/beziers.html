@@ -1,0 +1,348 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>beziers package &#8212; beziers  documentation</title>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="beziers-package">
+<h1>beziers package<a class="headerlink" href="#beziers-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="subpackages">
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="beziers.path.html">beziers.path package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="beziers.path.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="beziers.path.representations.html">beziers.path.representations package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="beziers.path.representations.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="beziers.path.representations.html#module-beziers.path.representations.GSPath">beziers.path.representations.GSPath module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="beziers.path.representations.html#module-beziers.path.representations.Nodelist">beziers.path.representations.Nodelist module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="beziers.path.representations.html#module-beziers.path.representations.Segment">beziers.path.representations.Segment module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="beziers.path.representations.html#module-beziers.path.representations">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="beziers.path.html#module-beziers.path">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-beziers.cubicbezier">
+<span id="beziers-cubicbezier-module"></span><h2>beziers.cubicbezier module<a class="headerlink" href="#module-beziers.cubicbezier" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="beziers.cubicbezier.CubicBezier">
+<em class="property">class </em><code class="descclassname">beziers.cubicbezier.</code><code class="descname">CubicBezier</code><span class="sig-paren">(</span><em>start</em>, <em>c1</em>, <em>c2</em>, <em>end</em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.cubicbezier.CubicBezier" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#beziers.segment.Segment" title="beziers.segment.Segment"><code class="xref py py-class docutils literal notranslate"><span class="pre">beziers.segment.Segment</span></code></a></p>
+<dl class="method">
+<dt id="beziers.cubicbezier.CubicBezier.curvatureAtTime">
+<code class="descname">curvatureAtTime</code><span class="sig-paren">(</span><em>t</em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.cubicbezier.CubicBezier.curvatureAtTime" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="beziers.cubicbezier.CubicBezier.derivative">
+<code class="descname">derivative</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#beziers.cubicbezier.CubicBezier.derivative" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="beziers.cubicbezier.CubicBezier.findExtremes">
+<code class="descname">findExtremes</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#beziers.cubicbezier.CubicBezier.findExtremes" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="beziers.cubicbezier.CubicBezier.join">
+<code class="descname">join</code><span class="sig-paren">(</span><em>other</em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.cubicbezier.CubicBezier.join" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="beziers.cubicbezier.CubicBezier.length">
+<code class="descname">length</code><a class="headerlink" href="#beziers.cubicbezier.CubicBezier.length" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="beziers.cubicbezier.CubicBezier.normalAtTime">
+<code class="descname">normalAtTime</code><span class="sig-paren">(</span><em>t</em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.cubicbezier.CubicBezier.normalAtTime" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="beziers.cubicbezier.CubicBezier.pointAtTime">
+<code class="descname">pointAtTime</code><span class="sig-paren">(</span><em>t</em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.cubicbezier.CubicBezier.pointAtTime" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the point at time t (0-&gt;1) along the curve.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="beziers.cubicbezier.CubicBezier.splitAtTime">
+<code class="descname">splitAtTime</code><span class="sig-paren">(</span><em>t</em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.cubicbezier.CubicBezier.splitAtTime" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns two segments, dividing the given segment at a point t (0-&gt;1) along the curve.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="beziers.cubicbezier.CubicBezier.tangentAtTime">
+<code class="descname">tangentAtTime</code><span class="sig-paren">(</span><em>t</em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.cubicbezier.CubicBezier.tangentAtTime" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="beziers.cubicbezier.CubicBezier.toQuadratic">
+<code class="descname">toQuadratic</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#beziers.cubicbezier.CubicBezier.toQuadratic" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-beziers.line">
+<span id="beziers-line-module"></span><h2>beziers.line module<a class="headerlink" href="#module-beziers.line" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="beziers.line.Line">
+<em class="property">class </em><code class="descclassname">beziers.line.</code><code class="descname">Line</code><span class="sig-paren">(</span><em>start</em>, <em>end</em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.line.Line" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#beziers.segment.Segment" title="beziers.segment.Segment"><code class="xref py py-class docutils literal notranslate"><span class="pre">beziers.segment.Segment</span></code></a></p>
+<p>Represents a line segment within a Bezier path.</p>
+<dl class="method">
+<dt id="beziers.line.Line.bothPointsAreOnSameSideOfOrigin">
+<code class="descname">bothPointsAreOnSameSideOfOrigin</code><span class="sig-paren">(</span><em>b</em>, <em>c</em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.line.Line.bothPointsAreOnSameSideOfOrigin" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="beziers.line.Line.findExtremes">
+<code class="descname">findExtremes</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#beziers.line.Line.findExtremes" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="beziers.line.Line.intercept">
+<code class="descname">intercept</code><a class="headerlink" href="#beziers.line.Line.intercept" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="beziers.line.Line.intersection">
+<code class="descname">intersection</code><span class="sig-paren">(</span><em>other</em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.line.Line.intersection" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="beziers.line.Line.length">
+<code class="descname">length</code><a class="headerlink" href="#beziers.line.Line.length" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="beziers.line.Line.pointAtTime">
+<code class="descname">pointAtTime</code><span class="sig-paren">(</span><em>t</em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.line.Line.pointAtTime" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the point at time t (0-&gt;1) along the line.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="beziers.line.Line.slope">
+<code class="descname">slope</code><a class="headerlink" href="#beziers.line.Line.slope" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="beziers.line.Line.splitAtTime">
+<code class="descname">splitAtTime</code><span class="sig-paren">(</span><em>t</em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.line.Line.splitAtTime" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns two segments, dividing the given segment at a point t (0-&gt;1) along the line.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-beziers.point">
+<span id="beziers-point-module"></span><h2>beziers.point module<a class="headerlink" href="#module-beziers.point" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="beziers.point.Point">
+<em class="property">class </em><code class="descclassname">beziers.point.</code><code class="descname">Point</code><span class="sig-paren">(</span><em>x</em>, <em>y</em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.point.Point" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>A representation of a point within the Beziers world.</p>
+<dl class="attribute">
+<dt id="beziers.point.Point.angle">
+<code class="descname">angle</code><a class="headerlink" href="#beziers.point.Point.angle" title="Permalink to this definition">¶</a></dt>
+<dd><p>Interpreting this point as a vector, returns the angle in radians of the vector.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="beziers.point.Point.clone">
+<code class="descname">clone</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#beziers.point.Point.clone" title="Permalink to this definition">¶</a></dt>
+<dd><p>Clone a point, returning a new object with the same co-ordinates.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="beziers.point.Point.distanceFrom">
+<code class="descname">distanceFrom</code><span class="sig-paren">(</span><em>other</em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.point.Point.distanceFrom" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the Euclidean distance between this point and another.</p>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="beziers.point.Point.fromAngle">
+<em class="property">classmethod </em><code class="descname">fromAngle</code><span class="sig-paren">(</span><em>angle</em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.point.Point.fromAngle" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given an angle in radians, return a unit vector representing that angle.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="beziers.point.Point.lerp">
+<code class="descname">lerp</code><span class="sig-paren">(</span><em>other</em>, <em>t</em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.point.Point.lerp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Interpolate between two points, at time t.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="beziers.point.Point.magnitude">
+<code class="descname">magnitude</code><a class="headerlink" href="#beziers.point.Point.magnitude" title="Permalink to this definition">¶</a></dt>
+<dd><p>Interpreting this point as a vector, returns the magnitude (Euclidean length) of the vector.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="beziers.point.Point.rotate">
+<code class="descname">rotate</code><span class="sig-paren">(</span><em>around</em>, <em>by</em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.point.Point.rotate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Rotate a point around another point, by an angle given in radians.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="beziers.point.Point.squareDistanceFrom">
+<code class="descname">squareDistanceFrom</code><span class="sig-paren">(</span><em>other</em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.point.Point.squareDistanceFrom" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the squared Euclidean distance between this point and another.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="beziers.point.Point.squareMagnitude">
+<code class="descname">squareMagnitude</code><a class="headerlink" href="#beziers.point.Point.squareMagnitude" title="Permalink to this definition">¶</a></dt>
+<dd><p>Interpreting this point as a vector, returns the squared magnitude (Euclidean length) of the vector.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="beziers.point.Point.toUnitVector">
+<code class="descname">toUnitVector</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#beziers.point.Point.toUnitVector" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-beziers.segment">
+<span id="beziers-segment-module"></span><h2>beziers.segment module<a class="headerlink" href="#module-beziers.segment" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="beziers.segment.Segment">
+<em class="property">class </em><code class="descclassname">beziers.segment.</code><code class="descname">Segment</code><a class="headerlink" href="#beziers.segment.Segment" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="method">
+<dt id="beziers.segment.Segment.align">
+<code class="descname">align</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#beziers.segment.Segment.align" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="beziers.segment.Segment.end">
+<code class="descname">end</code><a class="headerlink" href="#beziers.segment.Segment.end" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="beziers.segment.Segment.rotate">
+<code class="descname">rotate</code><span class="sig-paren">(</span><em>around</em>, <em>by</em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.segment.Segment.rotate" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="beziers.segment.Segment.start">
+<code class="descname">start</code><a class="headerlink" href="#beziers.segment.Segment.start" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="beziers.segment.Segment.translate">
+<code class="descname">translate</code><span class="sig-paren">(</span><em>vector</em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.segment.Segment.translate" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-beziers">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-beziers" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">beziers</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2018, Simon Cozens.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../_sources/source/beziers.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
