@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>beziers.path package &#8212; beziers  documentation</title>
+    <title>Handling Bezier Paths (Splines) &#8212; beziers  documentation</title>
     <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
@@ -16,6 +16,8 @@
     <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="beziers.path.representations package" href="beziers.path.representations.html" />
+    <link rel="prev" title="Core Concepts" href="beziers.html" />
    
   <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
   
@@ -32,8 +34,80 @@
 
           <div class="body" role="main">
             
-  <div class="section" id="beziers-path-package">
-<h1>beziers.path package<a class="headerlink" href="#beziers-path-package" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="module-beziers.path">
+<span id="handling-bezier-paths-splines"></span><h1>Handling Bezier Paths (Splines)<a class="headerlink" href="#module-beziers.path" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="beziers.path.BezierPath">
+<em class="property">class </em><code class="descclassname">beziers.path.</code><code class="descname">BezierPath</code><a class="headerlink" href="#beziers.path.BezierPath" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p><cite>BezierPath</cite> represents a collection of <cite>Segment</cite> objects - the
+curves and lines that make up a path.</p>
+<p>One of the really fiddly things about manipulating Bezier paths in
+a computer is that there are various ways to represent them.
+Different applications prefer different representations. For instance,
+when you’re drawing a path on a canvas, you often want a list of nodes
+like so:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span> <span class="s2">&quot;x&quot;</span><span class="p">:</span><span class="mf">255.0</span><span class="p">,</span> <span class="s2">&quot;y&quot;</span><span class="p">:</span><span class="mf">20.0</span><span class="p">,</span> <span class="s2">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;curve&quot;</span><span class="p">},</span>
+<span class="p">{</span> <span class="s2">&quot;x&quot;</span><span class="p">:</span><span class="mf">385.0</span><span class="p">,</span> <span class="s2">&quot;y&quot;</span><span class="p">:</span><span class="mf">20.0</span><span class="p">,</span> <span class="s2">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;offcurve&quot;</span><span class="p">},</span>
+<span class="p">{</span> <span class="s2">&quot;x&quot;</span><span class="p">:</span><span class="mf">526.0</span><span class="p">,</span> <span class="s2">&quot;y&quot;</span><span class="p">:</span><span class="mf">79.0</span><span class="p">,</span> <span class="s2">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;offcurve&quot;</span><span class="p">},</span>
+<span class="p">{</span> <span class="s2">&quot;x&quot;</span><span class="p">:</span><span class="mf">566.0</span><span class="p">,</span> <span class="s2">&quot;y&quot;</span><span class="p">:</span><span class="mf">135.0</span><span class="p">,</span> <span class="s2">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;curve&quot;</span><span class="p">},</span>
+<span class="p">{</span> <span class="s2">&quot;x&quot;</span><span class="p">:</span><span class="mf">585.0</span><span class="p">,</span> <span class="s2">&quot;y&quot;</span><span class="p">:</span><span class="mf">162.0</span><span class="p">,</span> <span class="s2">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;offcurve&quot;</span><span class="p">},</span>
+<span class="p">{</span> <span class="s2">&quot;x&quot;</span><span class="p">:</span><span class="mf">566.0</span><span class="p">,</span> <span class="s2">&quot;y&quot;</span><span class="p">:</span><span class="mf">260.0</span><span class="p">,</span> <span class="s2">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;offcurve&quot;</span><span class="p">},</span>
+<span class="p">{</span> <span class="s2">&quot;x&quot;</span><span class="p">:</span><span class="mf">484.0</span><span class="p">,</span> <span class="s2">&quot;y&quot;</span><span class="p">:</span><span class="mf">281.0</span><span class="p">,</span> <span class="s2">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;curve&quot;</span><span class="p">},</span>
+<span class="o">...</span>
+</pre></div>
+</div>
+<p>But when you’re doing Clever Bezier Mathematics, you generally want
+a list of segments instead:</p>
+<blockquote>
+<div>[ (255.0,20.0), (385.0,20.0), (526.0,79.0), (566.0,135.0)],
+[ (566.0,135.0), (585.0,162.0), (566.0,260.0), (484.0,281.0)],</div></blockquote>
+<p>The Beziers module is designed to allow you to move fluidly between these
+different representations depending on what you’re wanting to do.</p>
+<dl class="method">
+<dt id="beziers.path.BezierPath.fromSegments">
+<code class="descname">fromSegments</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.BezierPath.fromSegments" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="beziers.path.BezierPath.asSegments">
+<code class="descname">asSegments</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.BezierPath.asSegments" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the path as an array of segments (either Line, CubicBezier,
+or, if you are exceptionally unlucky, QuadraticBezier objects).</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="beziers.path.BezierPath.asNodelist">
+<code class="descname">asNodelist</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.BezierPath.asNodelist" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the path as an array of Node objects.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="beziers.path.BezierPath.asMatplot">
+<code class="descname">asMatplot</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.BezierPath.asMatplot" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="beziers.path.BezierPath.plot">
+<code class="descname">plot</code><span class="sig-paren">(</span><em>ax</em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.BezierPath.plot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot the path on a Matplot subplot which you supply.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="beziers.path.BezierPath.bounds">
+<code class="descname">bounds</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.BezierPath.bounds" title="Permalink to this definition">¶</a></dt>
+<dd><p>Determine the bounding box of the path, returned as two Point
+objects representing the lower left and upper right corners.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="beziers.path.BezierPath.addExtremes">
+<code class="descname">addExtremes</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.BezierPath.addExtremes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add extreme points to the path.</p>
+</dd></dl>
+
+</dd></dl>
+
 <div class="section" id="subpackages">
 <h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this headline">¶</a></h2>
 <div class="toctree-wrapper compound">
@@ -48,57 +122,6 @@
 </li>
 </ul>
 </div>
-</div>
-<div class="section" id="module-beziers.path">
-<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-beziers.path" title="Permalink to this headline">¶</a></h2>
-<dl class="class">
-<dt id="beziers.path.BezierPath">
-<em class="property">class </em><code class="descclassname">beziers.path.</code><code class="descname">BezierPath</code><a class="headerlink" href="#beziers.path.BezierPath" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<dl class="method">
-<dt id="beziers.path.BezierPath.addExtremes">
-<code class="descname">addExtremes</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.BezierPath.addExtremes" title="Permalink to this definition">¶</a></dt>
-<dd><p>Add extreme points to the path.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="beziers.path.BezierPath.asMatplot">
-<code class="descname">asMatplot</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.BezierPath.asMatplot" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="beziers.path.BezierPath.asNodelist">
-<code class="descname">asNodelist</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.BezierPath.asNodelist" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return the path as an array of Node objects.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="beziers.path.BezierPath.asSegments">
-<code class="descname">asSegments</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.BezierPath.asSegments" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return the path as an array of segments (either Line, CubicBezier,
-or, if you are exceptionally unlucky, QuadraticBezier objects).</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="beziers.path.BezierPath.bounds">
-<code class="descname">bounds</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.BezierPath.bounds" title="Permalink to this definition">¶</a></dt>
-<dd><p>Determine the bounding box of the path, returned as two Point
-objects representing the lower left and upper right corners.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="beziers.path.BezierPath.fromSegments">
-<code class="descname">fromSegments</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.BezierPath.fromSegments" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="beziers.path.BezierPath.plot">
-<code class="descname">plot</code><span class="sig-paren">(</span><em>ax</em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.BezierPath.plot" title="Permalink to this definition">¶</a></dt>
-<dd><p>Plot the path on a Matplot subplot which you supply.</p>
-</dd></dl>
-
-</dd></dl>
-
 </div>
 </div>
 
@@ -119,11 +142,21 @@ objects representing the lower left and upper right corners.</p>
 
 
 <h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="beziers.html">Core Concepts</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Handling Bezier Paths (Splines)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#subpackages">Subpackages</a></li>
+</ul>
+</li>
+</ul>
 
 <div class="relations">
 <h3>Related Topics</h3>
 <ul>
   <li><a href="../index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="beziers.html" title="previous chapter">Core Concepts</a></li>
+      <li>Next: <a href="beziers.path.representations.html" title="next chapter">beziers.path.representations package</a></li>
   </ul></li>
 </ul>
 </div>
