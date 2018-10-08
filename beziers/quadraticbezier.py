@@ -16,6 +16,7 @@ class QuadraticBezier(Segment):
     return Point(x,y)
 
   def derivative(self):
+    """Returns a `Line` representing the derivative of this curve."""
     return Line(
       (self[1]-self[0])*2,
       (self[2]-self[1])*2
@@ -30,4 +31,5 @@ class QuadraticBezier(Segment):
     return [ r for r in roots if r >= 0.01 and r <= 0.99 ]
 
   def findExtremes(self):
+    """Returns a list of time `t` values for extremes of the curve."""
     return self._findRoots()

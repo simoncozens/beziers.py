@@ -1,53 +1,46 @@
-beziers package
-===============
+Core Concepts
+=============
 
-Subpackages
------------
+A `Point`
+---------
 
-.. toctree::
-
-    beziers.path
-
-Submodules
-----------
-
-beziers.cubicbezier module
---------------------------
-
-.. automodule:: beziers.cubicbezier
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-beziers.line module
--------------------
-
-.. automodule:: beziers.line
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-beziers.point module
---------------------
+Beziers.py provides a rich abstraction over the concept of a
+two-dimensional point, containing the kind of methods that
+someone manipulating Bezier curves would find handy.
 
 .. automodule:: beziers.point
     :members:
     :undoc-members:
     :show-inheritance:
 
-beziers.segment module
-----------------------
+A `Segment`
+-----------
 
 .. automodule:: beziers.segment
     :members:
     :undoc-members:
     :show-inheritance:
 
+A `Line`
+--------
 
-Module contents
----------------
+.. automodule:: beziers.line
+    :members:
+    :undoc-members:
+    :show-inheritance:
 
-.. automodule:: beziers
+A `QuadraticBezier` curve
+-------------------------
+
+.. automodule:: beziers.quadraticbezier
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+A `CubicBezier` curve
+---------------------
+
+.. automodule:: beziers.cubicbezier
     :members:
     :undoc-members:
     :show-inheritance:

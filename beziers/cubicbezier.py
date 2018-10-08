@@ -18,6 +18,19 @@ class CubicBezier(Segment):
     y = (1 - t) * (1 - t) * (1 - t) * self[0].y + 3 * (1 - t) * (1 - t) * t * self[1].y + 3 * (1 - t) * t * t * self[2].y + t * t * t * self[3].y;
     return Point(x,y)
 
+  @property
+  def length(self):
+    """Returns the length of the cubic Bezier using the Legendre-Gauss approximation."""
+    d = self.derivative()
+    z = 0.5
+    _sum = 0
+    for i in range(0,len(Tvalues)):
+      t = z * Tvalues[i] + z
+      p = d.pointAtTime(t)
+      arc = math.sqrt(p.x * p.x + p.y * p.y)
+      _sum += Cvalues[i] * arc
+    return _sum * z
+
   def splitAtTime(self,t):
     """Returns two segments, dividing the given segment at a point t (0->1) along the curve."""
     t = 1-t
@@ -30,24 +43,15 @@ class CubicBezier(Segment):
     return (CubicBezier(self[0],p4,p7,p9), CubicBezier(p9,p8,p6,self[3]))
 
   def join(self,other):
+    """Not currently implemented: join two `CubicBezier` together."""
     raise "Not implemented"
 
   def toQuadratic(self):
+    """Not currently implemented: reduce this to a `QuadraticBezier`."""
     raise "Not implemented"
 
-  @property
-  def length(self):
-    d = self.derivative()
-    z = 0.5
-    _sum = 0
-    for i in range(0,len(Tvalues)):
-      t = z * Tvalues[i] + z
-      p = d.pointAtTime(t)
-      arc = math.sqrt(p.x * p.x + p.y * p.y)
-      _sum += Cvalues[i] * arc
-    return _sum * z
-
   def derivative(self):
+    """Returns a `QuadraticBezier` representing the derivative of this curve."""
     return QuadraticBezier(
       (self[1]-self[0])*3,
       (self[2]-self[1])*3,
@@ -55,9 +59,11 @@ class CubicBezier(Segment):
     )
 
   def tangentAtTime(self,t):
+    """Returns a `Point` representing the unit vector of tangent at time `t`."""
     return self.derivative().pointAtTime(t).toUnitVector()
 
   def normalAtTime(self,t):
+    """Returns a `Point` representing the normal (rotated tangent) at time `t`."""
     tan = self.tangentAtTime(t)
     return Point(-tan.y,tan.x)
 
@@ -89,11 +95,13 @@ class CubicBezier(Segment):
     return roots
 
   def findExtremes(self):
+    """Returns a list of time `t` values for extremes of the curve."""
     r = self._findRoots()
     r.sort()
     return [ root for root in r if root >= 0.01 and root <= 0.99 ]
 
   def curvatureAtTime(self,t):
+    """Returns the C curvature at time `t`.."""
     d = self.derivative()
     d2 = d.derivative()
     return d.pointAtTime(t).x * d2.pointAtTime(t).y - d.pointAtTime(t).y * d2.pointAtTime(t).x

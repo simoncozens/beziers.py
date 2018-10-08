@@ -1,7 +1,36 @@
 import math
 
 class Point(object):
-  """A representation of a point within the Beziers world."""
+  """A representation of a point within the Beziers world.
+
+  Here are some things you can do with points. You can interpret
+  them as vectors, and add them together::
+
+    >>> a = Point(5,5)
+    >>> b = Point(10,10)
+    >>> a + b
+    <15.0,15.0>
+
+  You can multiply them by a scalar to scale them::
+
+    >>> a * 2
+    <10.0,10.0>
+
+  You can adjust them::
+
+    >>> a += b
+    >>> a
+    <15.0,15.0>
+
+  If you're using Python 3, you can abuse operator overloading
+  and compute the dot product of two vectors:
+
+    >>> a = Point(5,5)
+    >>> b = Point(10,10)
+    >>> a @ b
+    100.0
+
+"""
 
   def __init__(self, x,y):
     self.x = float(x)
@@ -26,12 +55,14 @@ class Point(object):
   def __iadd__(self, other):
     self.x += other.x
     self.y += other.y
+    return self
 
   def __isub__(self, other):
     self.x -= other.x
     self.y -= other.y
+    return self
 
-  def __matmul__(self,other): # Dot protect. Abusing overloading. Sue me.
+  def __matmul__(self,other): # Dot product. Abusing overloading. Sue me.
     return self.x * other.x + self.y * other.y
 
   def clone(self):
@@ -53,6 +84,7 @@ class Point(object):
     return math.sqrt(self.squareMagnitude)
 
   def toUnitVector(self):
+    """Divides this point by its magnitude, returning a vector of length 1."""
     return Point(self.x/self.magnitude, self.y/self.magnitude)
 
   @property

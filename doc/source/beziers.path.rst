@@ -1,5 +1,10 @@
-beziers.path package
-====================
+Handling Bezier Paths (Splines)
+===============================
+
+.. automodule:: beziers.path
+    :members:
+    :undoc-members:
+    :show-inheritance:
 
 Subpackages
 -----------
@@ -8,10 +13,3 @@ Subpackages
 
     beziers.path.representations
 
-Module contents
----------------
-
-.. automodule:: beziers.path
-    :members:
-    :undoc-members:
-    :show-inheritance:

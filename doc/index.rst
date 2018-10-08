@@ -3,12 +3,15 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to beziers's documentation!
-===================================
+Beziers.py - a library for manipulating Bezier paths
+====================================================
 
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
+
+   source/beziers
+   source/beziers.path
 
 
 

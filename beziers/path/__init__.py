@@ -3,14 +3,42 @@ from beziers.path.representations.Nodelist import NodelistRepresentation
 from beziers.point import Point
 
 class BezierPath(object):
+  """`BezierPath` represents a collection of `Segment` objects - the
+  curves and lines that make up a path.
+
+  One of the really fiddly things about manipulating Bezier paths in
+  a computer is that there are various ways to represent them.
+  Different applications prefer different representations. For instance,
+  when you're drawing a path on a canvas, you often want a list of nodes
+  like so::
+
+    { "x":255.0, "y":20.0, "type":"curve"},
+    { "x":385.0, "y":20.0, "type":"offcurve"},
+    { "x":526.0, "y":79.0, "type":"offcurve"},
+    { "x":566.0, "y":135.0, "type":"curve"},
+    { "x":585.0, "y":162.0, "type":"offcurve"},
+    { "x":566.0, "y":260.0, "type":"offcurve"},
+    { "x":484.0, "y":281.0, "type":"curve"},
+    ...
+
+  But when you're doing Clever Bezier Mathematics, you generally want
+  a list of segments instead:
+
+    [ (255.0,20.0), (385.0,20.0), (526.0,79.0), (566.0,135.0)],
+    [ (566.0,135.0), (585.0,162.0), (566.0,260.0), (484.0,281.0)],
+
+  The Beziers module is designed to allow you to move fluidly between these
+  different representations depending on what you're wanting to do.
+
+  """
+
   def __init__(self):
     self.activeRepresentation = None
     self.closed = True
 
   def fromSegments(array):
     # XXX sanity check here
-    self.representations["segment"] = array
-    self.activeRepresentation = SegmentRepresentation
+    self.activeRepresentation = SegmentRepresentation(self,array)
 
   def asSegments(self):
     """Return the path as an array of segments (either Line, CubicBezier,
