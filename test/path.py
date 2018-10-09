@@ -53,29 +53,14 @@ class PathTests(unittest.TestCase):
     segs = path.asSegments()
     self.assertEqual(len(segs), 4)
 
-  def test_curvature(self):
+  def test_sample(self):
     q = CubicBezier(
-      Point(122,102), Point(35,200), Point(228,145), Point(190,46)
+      Point(122,102), Point(35,250), Point(268,40), Point(190,46)
     )
     path = BezierPath()
     path.closed = False
-    fig = plt.figure()
-    ax = fig.add_subplot(111)
     path.activeRepresentation = SegmentRepresentation(path,[q])
-    t = 0
-    from matplotlib.path import Path
-    import matplotlib.patches as patches
-    verts, codes = [],[]
-    path.addExtremes()
-    while t < 1.0:
-      p = q.pointAtTime(t)
-      p2 = p + q.normalAtTime(t) * (q.curvatureAtTime(t) * 0.0001)
-      verts.append((p.x,p.y))
-      verts.append((p2.x,p2.y))
-      codes.append(Path.MOVETO)
-      codes.append(Path.LINETO)
-      t+= 0.01
-    patch = patches.PathPatch(Path(verts,codes), lw=2, fill = False)
-    ax.add_patch(patch)
-    path.plot(ax)
-    plt.show()
+    s1 = path.regularSample(40)
+    s2 = path.sample(40)
+    self.assertAlmostEqual(s1[20].x, 152.29373852373408)
+    self.assertAlmostEqual(s2[20].x, 152.625)

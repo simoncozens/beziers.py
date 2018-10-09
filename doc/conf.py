@@ -184,4 +184,4 @@ epub_exclude_files = ['search.html']
 todo_include_todos = True
 
 autodoc_member_order = 'bysource'
-
+autodoc_default_flags = ['members', 'inherited-members']

@@ -1,8 +1,10 @@
 from beziers.path.representations.Segment import SegmentRepresentation
 from beziers.path.representations.Nodelist import NodelistRepresentation
 from beziers.point import Point
+from beziers.utils.samplemixin import SampleMixin
+import math
 
-class BezierPath(object):
+class BezierPath(SampleMixin,object):
   """`BezierPath` represents a collection of `Segment` objects - the
   curves and lines that make up a path.
 
@@ -76,7 +78,7 @@ class BezierPath(object):
       codes.append(Path.CLOSEPOLY)
     return Path(verts, codes)
 
-  def plot(self,ax):
+  def plot(self,ax, drawNodes = True):
     """Plot the path on a Matplot subplot which you supply."""
     import matplotlib.pyplot as plt
     from matplotlib.path import Path
@@ -89,13 +91,14 @@ class BezierPath(object):
     tr = tr + Point(50,50)
     ax.set_xlim(bl.x,tr.x)
     ax.set_ylim(bl.y,tr.y)
-    for n in self.asNodelist():
-      if n.type =="offcurve":
-        circle = plt.Circle((n.x, n.y), 1, fill=False)
-        ax.add_artist(circle)
-      else:
-        circle = plt.Circle((n.x, n.y), 2)
-        ax.add_artist(circle)
+    if drawNodes:
+      for n in self.asNodelist():
+        if n.type =="offcurve":
+          circle = plt.Circle((n.x, n.y), 1, fill=False)
+          ax.add_artist(circle)
+        else:
+          circle = plt.Circle((n.x, n.y), 2)
+          ax.add_artist(circle)
 
   def bounds(self):
     """Determine the bounding box of the path, returned as two Point
@@ -130,3 +133,34 @@ class BezierPath(object):
         newsegs.append(seg1)
         seg = seg2
     self.activeRepresentation = SegmentRepresentation(self,newsegs)
+
+  @property
+  def length(self):
+    """Returns the length of the whole path."""
+    segs = self.asSegments()
+    length = 0
+    for s in segs: length += s.length
+    return length
+
+  def pointAtTime(self,t):
+    """Returns the point at time t (0->1) along the curve, where 1 is the end of the whole curve."""
+    segs = self.asSegments()
+    t *= len(segs)
+    seg = segs[int(math.floor(t))]
+    return seg.pointAtTime(t-math.floor(t))
+
+  def lengthAtTime(self,t):
+    """Returns the length of the subset of the path from the start
+    up to the point t (0->1), where 1 is the end of the whole curve."""
+    segs = self.asSegments()
+    t *= len(segs)
+    length = 0
+    for s in segs[:int(math.floor(t))]: length += s.length
+    seg = segs[int(math.floor(t))]
+    s1,s2 = seg.splitAtTime(t-math.floor(t))
+    length += s1.length
+    return length
+
+  @classmethod
+  def fromPoints(self, points):
+    pass

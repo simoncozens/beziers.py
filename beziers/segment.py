@@ -1,6 +1,7 @@
 from beziers.point import Point
+from beziers.utils.samplemixin import SampleMixin
 
-class Segment(object):
+class Segment(SampleMixin,object):
 
   """A segment is part of a path. Although this package is called
   `beziers.py`, it's really for font people, and paths in the font

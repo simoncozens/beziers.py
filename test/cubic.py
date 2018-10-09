@@ -31,7 +31,6 @@ class CubicMethods(unittest.TestCase):
       Point(120,160), Point(35,200), Point(220,260), Point(220,40)
     )
     s = q.align()
-    print(s)
     self.assertAlmostEqual(s[0].x,0.0)
     self.assertAlmostEqual(s[0].y,0.0)
     self.assertAlmostEqual(s[1].x,-85.14452515537582)
@@ -40,3 +39,9 @@ class CubicMethods(unittest.TestCase):
     self.assertAlmostEqual(s[2].y,140.84056792618557)
     self.assertAlmostEqual(s[3].x,156.2049935181331)
     self.assertAlmostEqual(s[3].y,0.0)
+
+  def test_curvature(self):
+    q = CubicBezier(
+      Point(122,102), Point(35,200), Point(228,145), Point(190,46)
+    )
+    self.assertAlmostEqual(q.curvatureAtTime(0.5),-103450.5)
