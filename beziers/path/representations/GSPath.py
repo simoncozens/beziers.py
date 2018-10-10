@@ -8,7 +8,7 @@ class GSPathRepresentation(object):
     self.path = path
     if (gspath):
       self.nodes = gspath.nodes
-      self.closed = gspath.closed
+      path.closed = gspath.closed
 
   def toNodelist(self):
     return map( lambda n: Node(n.x,n.y,n.type), self.nodes)

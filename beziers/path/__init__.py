@@ -2,6 +2,9 @@ from beziers.path.representations.Segment import SegmentRepresentation
 from beziers.path.representations.Nodelist import NodelistRepresentation
 from beziers.point import Point
 from beziers.utils.samplemixin import SampleMixin
+from beziers.line import Line
+from beziers.cubicbezier import CubicBezier
+
 import math
 
 class BezierPath(SampleMixin,object):
@@ -209,3 +212,44 @@ class BezierPath(SampleMixin,object):
     s1,s2 = seg.splitAtTime(t-math.floor(t))
     length += s1.length
     return length
+
+  def offset(self, vector, rotateVector = True):
+    """Returns a new BezierPath which approximates offsetting the
+    current Bezier path by the given vector. Note that the vector
+    will be rotated around the normal of the curve so that the
+    offsetting always happens on the same 'side' of the curve::
+
+..  figure:: offset1.png
+    :scale: 75 %
+    :alt: offset1
+
+    If you don't want that and you want 'straight' offsetting instead
+    (which may intersect with the original curve), pass
+    `rotateVector=False`::
+
+..  figure:: offset2.png
+    :scale: 75 %
+    :alt: offset1
+
+    """
+    # Method 1 - curve fit
+    newsegs = []
+    for seg in self.asSegments():
+      if isinstance(seg, Line):
+        newsegs.append(Line(seg.start + vector, seg.end+vector))
+      elif isinstance(seg, CubicBezier):
+        t = 0.0
+        points = []
+        while t <1.0:
+          if rotateVector:
+            points.append( seg.pointAtTime(t) + vector.rotated(Point(0,0), seg.normalAtTime(t).angle))
+          else:
+            points.append( seg.pointAtTime(t) + vector)
+          t = t + 0.01
+        # points = [ p + vector for p in seg.sample(seg.length) ]
+        bp = BezierPath.fromPoints(points, error=1, cornerTolerance= 1)
+        for seg2 in bp.asSegments(): newsegs.append(seg2)
+    newbp = BezierPath()
+    newbp.activeRepresentation = SegmentRepresentation(newbp, newsegs)
+    newbp.closed = self.closed
+    return newbp

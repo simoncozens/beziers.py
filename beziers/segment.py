@@ -88,3 +88,9 @@ class Segment(SampleMixin,object):
     t1 = self.translate(self.start * -1)
     t2 = t1.rotate(Point(0,0),t1.end.angle * -1)
     return t2
+
+  def lengthAtTime(self, t):
+    """Returns the length of the subset of the path from the start
+    up to the point t (0->1), where 1 is the end of the whole curve."""
+    s1,_ = self.splitAtTime(t)
+    return s1.length

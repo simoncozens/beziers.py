@@ -108,13 +108,18 @@ class Point(object):
     """Given an angle in radians, return a unit vector representing that angle."""
     return Point(math.cos(angle), math.sin(angle)).toUnitVector()
 
-  def rotate(self,around,by):
-    """Rotate a point around another point, by an angle given in radians."""
+  def rotated(self,around,by):
+    """Return a new point found by rotating this point around another point, by an angle given in radians."""
     delta = around - self
     oldangle = delta.angle
     newangle = oldangle + by
     unitvector = Point.fromAngle(newangle)
     new = around - unitvector * delta.magnitude
+    return new
+
+  def rotate(self,around,by):
+    """Mutate this point by rotating it around another point, by an angle given in radians."""
+    new = self.rotated(around, by)
     self.x = new.x
     self.y = new.y
 
