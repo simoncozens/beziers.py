@@ -1,7 +1,8 @@
 from beziers.path.representations.Segment import SegmentRepresentation
-from beziers.path.representations.Nodelist import NodelistRepresentation
+from beziers.path.representations.Nodelist import NodelistRepresentation, Node
 from beziers.point import Point
 from beziers.utils.samplemixin import SampleMixin
+from beziers.segment import Segment
 from beziers.line import Line
 from beziers.cubicbezier import CubicBezier
 
@@ -78,6 +79,38 @@ class BezierPath(SampleMixin,object):
     for a in array: assert(isinstance(a, Segment))
     self.activeRepresentation = SegmentRepresentation(self,array)
     return self
+
+  @classmethod
+  def fromFonttoolsGlyph(klass, glyph, glyphset):
+    """Returns an *array of BezierPaths* from a FontTools glyph object.
+    You must also provide the glyphset object to allow glyph decomposition."""
+
+    from fontTools.pens.recordingPen import  DecomposingRecordingPen
+    pen = DecomposingRecordingPen(glyphset)
+    glyph.draw(pen)
+    paths = []
+    path = BezierPath()
+    path.closed = False
+    nodeList = []
+    for seg in pen.value:
+      if seg[0] == "moveTo":
+        point = seg[1][0]
+        nodeList = [Node(point[0],point[1],"move")]
+      if seg[0] == "curveTo":
+        p2,p3,p4 = seg[1]
+        nodeList.append(Node(p2[0],p2[1],"offcurve"))
+        nodeList.append(Node(p3[0],p3[1],"offcurve"))
+        nodeList.append(Node(p4[0],p4[1],"curve"))
+      if seg[0] == "lineTo":
+        p2 = seg[1][0]
+        nodeList.append(Node(p2[0],p2[1],"line"))
+      if seg[0] == "closePath":
+        path.closed = True
+        ## Finish path
+        path.activeRepresentation = NodelistRepresentation(path, nodeList)
+        paths.append(path)
+        path = BezierPath()
+    return paths
 
   def asSegments(self):
     """Return the path as an array of segments (either Line, CubicBezier,
