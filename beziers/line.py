@@ -1,4 +1,5 @@
 from beziers.segment import Segment
+from beziers.point import Point
 
 import math
 import sys
@@ -19,7 +20,7 @@ class Line(Segment):
     """Returns two segments, dividing the given segment at a point t (0->1) along the line."""
     return (Line(self.start, self.pointAtTime(t)), Line(self.pointAtTime(t), self.end))
 
-  def bothPointsAreOnSameSideOfOrigin(a,b,c):
+  def bothPointsAreOnSameSideOfOrigin(self, a,b,c):
     xDiff = (a.x-c.x) * (b.x-c.x)
     yDiff = (a.y-c.y) * (b.y-c.y)
     return not (xDiff <= 0.0 and yDiff <= 0.0)
@@ -55,11 +56,11 @@ class Line(Segment):
 
     slope12 = ( b.y - a.y) / ( b.x - a.x )
     slope34 = ( d.y - c.y) / ( d.x - c.x )
-    if slope12 == slope34: return
+    if abs(slope12 - slope34) < sys.float_info.epsilon: return
     x = ( slope12 * a.x - a.y - slope34 * c.x + c.y ) / ( slope12 - slope34 )
     y = slope12 * ( x - a.x ) + a.y
     intersection = Point(x,y)
-    if bothPointsAreOnSameSideOfOrigin(intersection, b, a) and bothPointsAreOnSameSideOfOrigin(intersection, c, d):
+    if self.bothPointsAreOnSameSideOfOrigin(intersection, b, a) and self.bothPointsAreOnSameSideOfOrigin(intersection, c, d):
       return intersection
     return nil
 
