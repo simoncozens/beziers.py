@@ -24,7 +24,7 @@ class BezierPath(SampleMixin,object):
     ...
 
   But when you're doing Clever Bezier Mathematics, you generally want
-  a list of segments instead:
+  a list of segments instead::
 
     [ (255.0,20.0), (385.0,20.0), (526.0,79.0), (566.0,135.0)],
     [ (566.0,135.0), (585.0,162.0), (566.0,260.0), (484.0,281.0)],
@@ -37,6 +37,21 @@ class BezierPath(SampleMixin,object):
   def __init__(self):
     self.activeRepresentation = None
     self.closed = True
+
+
+  @classmethod
+  def fromPoints(self, points, error = 50.0, cornerTolerance = 20.0, maxSegments = 20):
+    """Fit a poly-bezier curve to the points given. This operation should be familiar
+    from 'pencil' tools in a vector drawing application: the application samples points
+    where your mouse pointer has been dragged, and then turns the sketch into a Bezier
+    path. The goodness of fit can be controlled by tuning the `error` parameter. Corner
+    detection can be controlled with `cornerTolerance`."""
+    from beziers.utils.curvefitter import CurveFit
+    segs = CurveFit.fitCurve(points, error, cornerTolerance, maxSegments)
+    path = BezierPath()
+    path.closed = False
+    path.activeRepresentation = SegmentRepresentation(path,segs)
+    return path
 
   def fromSegments(array):
     # XXX sanity check here
@@ -79,7 +94,13 @@ class BezierPath(SampleMixin,object):
     return Path(verts, codes)
 
   def plot(self,ax, drawNodes = True):
-    """Plot the path on a Matplot subplot which you supply."""
+    """Plot the path on a Matplot subplot which you supply::
+
+        import matplotlib.pyplot as plt
+        fig, ax = plt.subplots()
+        path.plot(ax)
+
+    """
     import matplotlib.pyplot as plt
     from matplotlib.path import Path
     import matplotlib.patches as patches
@@ -160,7 +181,3 @@ class BezierPath(SampleMixin,object):
     s1,s2 = seg.splitAtTime(t-math.floor(t))
     length += s1.length
     return length
-
-  @classmethod
-  def fromPoints(self, points):
-    pass
