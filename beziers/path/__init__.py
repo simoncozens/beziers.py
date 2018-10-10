@@ -257,3 +257,32 @@ class BezierPath(SampleMixin,object):
     newbp.activeRepresentation = SegmentRepresentation(newbp, newsegs)
     newbp.closed = self.closed
     return newbp
+
+  def append(self, other):
+    """Append another path to this one. If the end point of the first
+    path is not the same as the start point of the other path, a line
+    will be drawn between them."""
+    segs1 = self.asSegments()
+    segs2 = other.asSegments()
+    # Add a line between if they don't match up
+    if segs1[-1].end != segs2[0].start:
+      segs1.append(Line(segs1[-1].end,segs2[0].start))
+    segs1.extend(segs2)
+    self.activeRepresentation = SegmentRepresentation(self, segs1)
+
+  def reverse(self):
+    """Reverse this path (mutates path)."""
+    seg2 = [ x.reversed() for x in self.asSegments()]
+    self.activeRepresentation = SegmentRepresentation(self, list(reversed(seg2)))
+
+  def translate(self, vector):
+    """Translates the path by a given vector."""
+    seg2 = [ x.translate(vector) for x in self.asSegments()]
+    self.activeRepresentation = SegmentRepresentation(self, seg2)
+
+  def balance(self):
+    """Performs Tunni balancing on the path."""
+    segs = self.asSegments()
+    for x in segs:
+      if isinstance(x, CubicBezier): x.balance()
+    self.activeRepresentation = SegmentRepresentation(self, segs)

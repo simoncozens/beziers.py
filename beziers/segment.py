@@ -94,3 +94,9 @@ class Segment(SampleMixin,object):
     up to the point t (0->1), where 1 is the end of the whole curve."""
     s1,_ = self.splitAtTime(t)
     return s1.length
+
+  def reversed(self):
+    """Returns a new segment with the points reversed."""
+    klass = self.__class__
+    return klass(*list(reversed(self.points)))
+

@@ -1,4 +1,5 @@
 from beziers.segment import Segment
+from beziers.line import Line
 from beziers.point import Point
 from beziers.quadraticbezier import QuadraticBezier
 import math
@@ -106,3 +107,24 @@ class CubicBezier(Segment):
     d2 = d.derivative()
     return d.pointAtTime(t).x * d2.pointAtTime(t).y - d.pointAtTime(t).y * d2.pointAtTime(t).x
 
+  @property
+  def tunniPoint(self):
+    """Returns the Tunni point of this Bezier (the intersection of
+    the handles)."""
+    h1 = Line(self[0], self[1])
+    h2 = Line(self[2], self[3])
+    i = h1.intersection(h2)
+    if i.distanceFrom(self[0]) > 5 * self.length:
+      return
+    else:
+      return i
+
+  def balance(self):
+    """Perform Tunni balancing on this Bezier."""
+    p = self.tunniPoint
+    if not p: return
+    fraction1 = self[0].distanceFrom(self[1]) / self[0].distanceFrom(p)
+    fraction2 = self[3].distanceFrom(self[2]) / self[3].distanceFrom(p)
+    avg = (fraction2 + fraction1) / 2.0
+    self[1] = self[0].lerp(p, avg)
+    self[2] = self[3].lerp(p, avg)
