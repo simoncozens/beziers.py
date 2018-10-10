@@ -82,7 +82,7 @@ class Point(object):
 
   def lerp(self, other, t):
     """Interpolate between two points, at time t."""
-    return self * t + other * (1-t)
+    return self * (1-t) + other * (t)
 
   @property
   def squareMagnitude(self):
