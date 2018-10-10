@@ -71,9 +71,13 @@ class BezierPath(SampleMixin,object):
     path.activeRepresentation = SegmentRepresentation(path,segs)
     return path
 
-  def fromSegments(array):
-    # XXX sanity check here
+  @classmethod
+  def fromSegments(klass, array):
+    """Construct a path from an array of Segment objects."""
+    self = klass()
+    for a in array: assert(isinstance(a, Segment))
     self.activeRepresentation = SegmentRepresentation(self,array)
+    return self
 
   def asSegments(self):
     """Return the path as an array of segments (either Line, CubicBezier,
