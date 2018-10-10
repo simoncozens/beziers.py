@@ -45,7 +45,22 @@ class BezierPath(SampleMixin,object):
     from 'pencil' tools in a vector drawing application: the application samples points
     where your mouse pointer has been dragged, and then turns the sketch into a Bezier
     path. The goodness of fit can be controlled by tuning the `error` parameter. Corner
-    detection can be controlled with `cornerTolerance`."""
+    detection can be controlled with `cornerTolerance`.
+
+    Here are some points fit with `error=100.0`:
+
+..  figure:: curvefit1.png
+    :scale: 75 %
+    :alt: curvefit1
+
+
+    And with `error=10.0`:
+
+..  figure:: curvefit2.png
+    :scale: 75 %
+    :alt: curvefit1
+
+    """
     from beziers.utils.curvefitter import CurveFit
     segs = CurveFit.fitCurve(points, error, cornerTolerance, maxSegments)
     path = BezierPath()
@@ -94,14 +109,17 @@ class BezierPath(SampleMixin,object):
     return Path(verts, codes)
 
   def plot(self,ax, drawNodes = True):
-    """Plot the path on a Matplot subplot which you supply::
+    """Plot the path on a Matplot subplot which you supply
 
-        import matplotlib.pyplot as plt
-        fig, ax = plt.subplots()
-        path.plot(ax)
+    ::
+
+          import matplotlib.pyplot as plt
+          fig, ax = plt.subplots()
+          path.plot(ax)
 
     """
     import matplotlib.pyplot as plt
+    from matplotlib.lines import Line2D
     from matplotlib.path import Path
     import matplotlib.patches as patches
     path = self.asMatplot()
@@ -113,10 +131,18 @@ class BezierPath(SampleMixin,object):
     ax.set_xlim(bl.x,tr.x)
     ax.set_ylim(bl.y,tr.y)
     if drawNodes:
-      for n in self.asNodelist():
+      nl = self.asNodelist()
+      for i in range(0,len(nl)):
+        n = nl[i]
         if n.type =="offcurve":
           circle = plt.Circle((n.x, n.y), 1, fill=False)
           ax.add_artist(circle)
+          if i+1 < len(nl) and nl[i+1].type != "offcurve":
+            l = Line2D([n.x, nl[i+1].x], [n.y, nl[i+1].y])
+            ax.add_artist(l)
+          if i-0 >= 0 and nl[i-1].type != "offcurve":
+            l = Line2D([n.x, nl[i-1].x], [n.y, nl[i-1].y])
+            ax.add_artist(l)
         else:
           circle = plt.Circle((n.x, n.y), 2)
           ax.add_artist(circle)
