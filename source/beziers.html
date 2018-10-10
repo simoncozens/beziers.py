@@ -229,6 +229,12 @@ up to the point t (0-&gt;1), where 1 is the end of the whole curve.</p>
 </dd></dl>
 
 <dl class="method">
+<dt id="beziers.segment.Segment.reversed">
+<code class="descname">reversed</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#beziers.segment.Segment.reversed" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a new segment with the points reversed.</p>
+</dd></dl>
+
+<dl class="method">
 <dt id="beziers.segment.Segment.regularSample">
 <code class="descname">regularSample</code><span class="sig-paren">(</span><em>samples</em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.segment.Segment.regularSample" title="Permalink to this definition">¶</a></dt>
 <dd><p>Samples a segment or path a given number of times, returning a list of Point objects,
@@ -288,7 +294,7 @@ samples along the length of the curve.</div>
 
 <dl class="method">
 <dt id="beziers.line.Line.bothPointsAreOnSameSideOfOrigin">
-<code class="descname">bothPointsAreOnSameSideOfOrigin</code><span class="sig-paren">(</span><em>b</em>, <em>c</em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.line.Line.bothPointsAreOnSameSideOfOrigin" title="Permalink to this definition">¶</a></dt>
+<code class="descname">bothPointsAreOnSameSideOfOrigin</code><span class="sig-paren">(</span><em>a</em>, <em>b</em>, <em>c</em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.line.Line.bothPointsAreOnSameSideOfOrigin" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
@@ -352,6 +358,12 @@ of the curve. This is an expensive operation because I am a lazy programmer.</p>
 <dd><p>Sometimes you don’t want the points, you just want a set of time values (t) which
 represent regular spaced samples along the curve. Use this method to get a list of time
 values instead of Point objects.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="beziers.line.Line.reversed">
+<code class="descname">reversed</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#beziers.line.Line.reversed" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a new segment with the points reversed.</p>
 </dd></dl>
 
 <dl class="method">
@@ -469,6 +481,12 @@ of the curve. This is an expensive operation because I am a lazy programmer.</p>
 <dd><p>Sometimes you don’t want the points, you just want a set of time values (t) which
 represent regular spaced samples along the curve. Use this method to get a list of time
 values instead of Point objects.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="beziers.quadraticbezier.QuadraticBezier.reversed">
+<code class="descname">reversed</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#beziers.quadraticbezier.QuadraticBezier.reversed" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a new segment with the points reversed.</p>
 </dd></dl>
 
 <dl class="method">
@@ -592,6 +610,19 @@ this segment by the given vector. i.e.:</p>
 <dd><p>Returns the C curvature at time <cite>t</cite>..</p>
 </dd></dl>
 
+<dl class="attribute">
+<dt id="beziers.cubicbezier.CubicBezier.tunniPoint">
+<code class="descname">tunniPoint</code><a class="headerlink" href="#beziers.cubicbezier.CubicBezier.tunniPoint" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the Tunni point of this Bezier (the intersection of
+the handles).</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="beziers.cubicbezier.CubicBezier.balance">
+<code class="descname">balance</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#beziers.cubicbezier.CubicBezier.balance" title="Permalink to this definition">¶</a></dt>
+<dd><p>Perform Tunni balancing on this Bezier.</p>
+</dd></dl>
+
 <dl class="method">
 <dt id="beziers.cubicbezier.CubicBezier.align">
 <code class="descname">align</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#beziers.cubicbezier.CubicBezier.align" title="Permalink to this definition">¶</a></dt>
@@ -628,6 +659,12 @@ of the curve. This is an expensive operation because I am a lazy programmer.</p>
 <dd><p>Sometimes you don’t want the points, you just want a set of time values (t) which
 represent regular spaced samples along the curve. Use this method to get a list of time
 values instead of Point objects.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="beziers.cubicbezier.CubicBezier.reversed">
+<code class="descname">reversed</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#beziers.cubicbezier.CubicBezier.reversed" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a new segment with the points reversed.</p>
 </dd></dl>
 
 <dl class="method">

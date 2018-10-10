@@ -86,10 +86,18 @@ detection can be controlled with <cite>cornerTolerance</cite>.</p>
 </div>
 </dd></dl>
 
-<dl class="method">
+<dl class="classmethod">
 <dt id="beziers.path.BezierPath.fromSegments">
-<code class="descname">fromSegments</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.BezierPath.fromSegments" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<em class="property">classmethod </em><code class="descname">fromSegments</code><span class="sig-paren">(</span><em>array</em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.BezierPath.fromSegments" title="Permalink to this definition">¶</a></dt>
+<dd><p>Construct a path from an array of Segment objects.</p>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="beziers.path.BezierPath.fromFonttoolsGlyph">
+<em class="property">classmethod </em><code class="descname">fromFonttoolsGlyph</code><span class="sig-paren">(</span><em>glyph</em>, <em>glyphset</em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.BezierPath.fromFonttoolsGlyph" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns an <em>array of BezierPaths</em> from a FontTools glyph object.
+You must also provide the glyphset object to allow glyph decomposition.</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="beziers.path.BezierPath.asSegments">
@@ -170,6 +178,38 @@ offsetting always happens on the same ‘side’ of the curve:</dd>
 <div class="figure">
 <a class="reference internal image-reference" href="../_images/offset2.png"><img alt="offset1" src="../_images/offset2.png" style="width: 600.0px; height: 450.0px;" /></a>
 </div>
+</dd></dl>
+
+<dl class="method">
+<dt id="beziers.path.BezierPath.append">
+<code class="descname">append</code><span class="sig-paren">(</span><em>other</em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.BezierPath.append" title="Permalink to this definition">¶</a></dt>
+<dd><p>Append another path to this one. If the end point of the first
+path is not the same as the start point of the other path, a line
+will be drawn between them.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="beziers.path.BezierPath.reverse">
+<code class="descname">reverse</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.BezierPath.reverse" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reverse this path (mutates path).</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="beziers.path.BezierPath.translate">
+<code class="descname">translate</code><span class="sig-paren">(</span><em>vector</em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.BezierPath.translate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Translates the path by a given vector.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="beziers.path.BezierPath.rotate">
+<code class="descname">rotate</code><span class="sig-paren">(</span><em>about</em>, <em>angle</em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.BezierPath.rotate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Rotate the path by a given vector.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="beziers.path.BezierPath.balance">
+<code class="descname">balance</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.BezierPath.balance" title="Permalink to this definition">¶</a></dt>
+<dd><p>Performs Tunni balancing on the path.</p>
 </dd></dl>
 
 <dl class="method">
