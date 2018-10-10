@@ -35,6 +35,8 @@ class Segment(SampleMixin,object):
 
   def __getitem__(self, item):
     return self.points[item]
+  def __setitem__(self, key, item):
+      self.points[key] = item
   def __len__(self):
     return len(self.points)
 

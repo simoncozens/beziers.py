@@ -51,6 +51,9 @@ class Point(object):
     """Multiply a point by a scalar."""
     return Point(self.x * other, self.y * other)
 
+  def __div__(self, other):
+    return Point(self.x / other, self.y / other)
+
   def __truediv__(self, other):
     return Point(self.x / other, self.y / other)
 
