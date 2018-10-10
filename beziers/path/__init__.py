@@ -221,7 +221,7 @@ class BezierPath(SampleMixin,object):
     """Returns a new BezierPath which approximates offsetting the
     current Bezier path by the given vector. Note that the vector
     will be rotated around the normal of the curve so that the
-    offsetting always happens on the same 'side' of the curve::
+    offsetting always happens on the same 'side' of the curve:
 
 ..  figure:: offset1.png
     :scale: 75 %
@@ -229,7 +229,7 @@ class BezierPath(SampleMixin,object):
 
     If you don't want that and you want 'straight' offsetting instead
     (which may intersect with the original curve), pass
-    `rotateVector=False`::
+    `rotateVector=False`:
 
 ..  figure:: offset2.png
     :scale: 75 %
