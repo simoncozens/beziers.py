@@ -116,9 +116,15 @@ and compute the dot product of two vectors:</p>
 </dd></dl>
 
 <dl class="method">
+<dt id="beziers.point.Point.rotated">
+<code class="descname">rotated</code><span class="sig-paren">(</span><em>around</em>, <em>by</em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.point.Point.rotated" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a new point found by rotating this point around another point, by an angle given in radians.</p>
+</dd></dl>
+
+<dl class="method">
 <dt id="beziers.point.Point.rotate">
 <code class="descname">rotate</code><span class="sig-paren">(</span><em>around</em>, <em>by</em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.point.Point.rotate" title="Permalink to this definition">¶</a></dt>
-<dd><p>Rotate a point around another point, by an angle given in radians.</p>
+<dd><p>Mutate this point by rotating it around another point, by an angle given in radians.</p>
 </dd></dl>
 
 <dl class="method">
@@ -213,6 +219,13 @@ this segment around the given point and by the given angle. i.e.:</p>
 with the first point translated to the origin (0,0) and the
 last point with y=0. Obviously, for a <cite>Line</cite> this is a bit pointless,
 but it’s quite handy for higher-order curves.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="beziers.segment.Segment.lengthAtTime">
+<code class="descname">lengthAtTime</code><span class="sig-paren">(</span><em>t</em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.segment.Segment.lengthAtTime" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the length of the subset of the path from the start
+up to the point t (0-&gt;1), where 1 is the end of the whole curve.</p>
 </dd></dl>
 
 <dl class="method">
@@ -316,6 +329,13 @@ but it’s quite handy for higher-order curves.</p>
 <dt id="beziers.line.Line.end">
 <code class="descname">end</code><a class="headerlink" href="#beziers.line.Line.end" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns a Point object representing the end of this segment.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="beziers.line.Line.lengthAtTime">
+<code class="descname">lengthAtTime</code><span class="sig-paren">(</span><em>t</em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.line.Line.lengthAtTime" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the length of the subset of the path from the start
+up to the point t (0-&gt;1), where 1 is the end of the whole curve.</p>
 </dd></dl>
 
 <dl class="method">
@@ -426,6 +446,13 @@ but it’s quite handy for higher-order curves.</p>
 <dt id="beziers.quadraticbezier.QuadraticBezier.end">
 <code class="descname">end</code><a class="headerlink" href="#beziers.quadraticbezier.QuadraticBezier.end" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns a Point object representing the end of this segment.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="beziers.quadraticbezier.QuadraticBezier.lengthAtTime">
+<code class="descname">lengthAtTime</code><span class="sig-paren">(</span><em>t</em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.quadraticbezier.QuadraticBezier.lengthAtTime" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the length of the subset of the path from the start
+up to the point t (0-&gt;1), where 1 is the end of the whole curve.</p>
 </dd></dl>
 
 <dl class="method">
@@ -578,6 +605,13 @@ but it’s quite handy for higher-order curves.</p>
 <dt id="beziers.cubicbezier.CubicBezier.end">
 <code class="descname">end</code><a class="headerlink" href="#beziers.cubicbezier.CubicBezier.end" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns a Point object representing the end of this segment.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="beziers.cubicbezier.CubicBezier.lengthAtTime">
+<code class="descname">lengthAtTime</code><span class="sig-paren">(</span><em>t</em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.cubicbezier.CubicBezier.lengthAtTime" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the length of the subset of the path from the start
+up to the point t (0-&gt;1), where 1 is the end of the whole curve.</p>
 </dd></dl>
 
 <dl class="method">
