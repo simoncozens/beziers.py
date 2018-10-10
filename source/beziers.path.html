@@ -59,11 +59,33 @@ like so:</p>
 </div>
 <p>But when you’re doing Clever Bezier Mathematics, you generally want
 a list of segments instead:</p>
-<blockquote>
-<div>[ (255.0,20.0), (385.0,20.0), (526.0,79.0), (566.0,135.0)],
-[ (566.0,135.0), (585.0,162.0), (566.0,260.0), (484.0,281.0)],</div></blockquote>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span> <span class="p">(</span><span class="mf">255.0</span><span class="p">,</span><span class="mf">20.0</span><span class="p">),</span> <span class="p">(</span><span class="mf">385.0</span><span class="p">,</span><span class="mf">20.0</span><span class="p">),</span> <span class="p">(</span><span class="mf">526.0</span><span class="p">,</span><span class="mf">79.0</span><span class="p">),</span> <span class="p">(</span><span class="mf">566.0</span><span class="p">,</span><span class="mf">135.0</span><span class="p">)],</span>
+<span class="p">[</span> <span class="p">(</span><span class="mf">566.0</span><span class="p">,</span><span class="mf">135.0</span><span class="p">),</span> <span class="p">(</span><span class="mf">585.0</span><span class="p">,</span><span class="mf">162.0</span><span class="p">),</span> <span class="p">(</span><span class="mf">566.0</span><span class="p">,</span><span class="mf">260.0</span><span class="p">),</span> <span class="p">(</span><span class="mf">484.0</span><span class="p">,</span><span class="mf">281.0</span><span class="p">)],</span>
+</pre></div>
+</div>
 <p>The Beziers module is designed to allow you to move fluidly between these
 different representations depending on what you’re wanting to do.</p>
+<dl class="classmethod">
+<dt id="beziers.path.BezierPath.fromPoints">
+<em class="property">classmethod </em><code class="descname">fromPoints</code><span class="sig-paren">(</span><em>points</em>, <em>error=50.0</em>, <em>cornerTolerance=20.0</em>, <em>maxSegments=20</em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.BezierPath.fromPoints" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Fit a poly-bezier curve to the points given. This operation should be familiar</dt>
+<dd><p class="first">from ‘pencil’ tools in a vector drawing application: the application samples points
+where your mouse pointer has been dragged, and then turns the sketch into a Bezier
+path. The goodness of fit can be controlled by tuning the <cite>error</cite> parameter. Corner
+detection can be controlled with <cite>cornerTolerance</cite>.</p>
+<p class="last">Here are some points fit with <cite>error=100.0</cite>:</p>
+</dd>
+</dl>
+<div class="figure" id="id1">
+<a class="reference internal image-reference" href="../_images/curvefit1.png"><img alt="curvefit1" src="../_images/curvefit1.png" style="width: 600.0px; height: 450.0px;" /></a>
+<p class="caption"><span class="caption-text">And with <cite>error=10.0</cite>:</span></p>
+</div>
+<div class="figure">
+<a class="reference internal image-reference" href="../_images/curvefit2.png"><img alt="curvefit1" src="../_images/curvefit2.png" style="width: 600.0px; height: 450.0px;" /></a>
+</div>
+</dd></dl>
+
 <dl class="method">
 <dt id="beziers.path.BezierPath.fromSegments">
 <code class="descname">fromSegments</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.BezierPath.fromSegments" title="Permalink to this definition">¶</a></dt>
@@ -90,7 +112,12 @@ or, if you are exceptionally unlucky, QuadraticBezier objects).</p>
 <dl class="method">
 <dt id="beziers.path.BezierPath.plot">
 <code class="descname">plot</code><span class="sig-paren">(</span><em>ax</em>, <em>drawNodes=True</em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.BezierPath.plot" title="Permalink to this definition">¶</a></dt>
-<dd><p>Plot the path on a Matplot subplot which you supply.</p>
+<dd><p>Plot the path on a Matplot subplot which you supply</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">path</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="p">)</span>
+</pre></div>
+</div>
 </dd></dl>
 
 <dl class="method">
@@ -125,11 +152,6 @@ objects representing the lower left and upper right corners.</p>
 up to the point t (0-&gt;1), where 1 is the end of the whole curve.</p>
 </dd></dl>
 
-<dl class="classmethod">
-<dt id="beziers.path.BezierPath.fromPoints">
-<em class="property">classmethod </em><code class="descname">fromPoints</code><span class="sig-paren">(</span><em>points</em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.BezierPath.fromPoints" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
 <dl class="method">
 <dt id="beziers.path.BezierPath.regularSample">
 <code class="descname">regularSample</code><span class="sig-paren">(</span><em>samples</em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.BezierPath.regularSample" title="Permalink to this definition">¶</a></dt>
@@ -155,7 +177,7 @@ values instead of Point objects.</p>
 at regular intervals along the path. If you want to space your points regularly,
 use the <cite>regularSample</cite> method instead.</dd>
 </dl>
-<div class="figure" id="id1">
+<div class="figure" id="id2">
 <a class="reference internal image-reference" href="../_images/sampling.png"><img alt="sample versus regularSample" src="../_images/sampling.png" style="width: 400.0px; height: 300.0px;" /></a>
 <p class="caption"><span class="caption-text">In the figure, the green ticks are generated by <cite>sample</cite>. These are evenly
 distributed by curve time, but because of the curvature of the curve, there
