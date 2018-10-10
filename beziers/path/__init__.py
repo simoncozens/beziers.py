@@ -108,7 +108,7 @@ class BezierPath(SampleMixin,object):
       codes.append(Path.CLOSEPOLY)
     return Path(verts, codes)
 
-  def plot(self,ax, drawNodes = True):
+  def plot(self,ax, **kwargs):
     """Plot the path on a Matplot subplot which you supply
 
     ::
@@ -123,14 +123,16 @@ class BezierPath(SampleMixin,object):
     from matplotlib.path import Path
     import matplotlib.patches as patches
     path = self.asMatplot()
-    patch = patches.PathPatch(path, lw=2, fill = False)
+    if not "lw" in kwargs:
+      kwargs["lw"] = 2
+    patch = patches.PathPatch(path, fill = False, **kwargs)
     ax.add_patch(patch)
     (bl,tr) = self.bounds()
     bl = bl - Point(50,50)
     tr = tr + Point(50,50)
     ax.set_xlim(bl.x,tr.x)
     ax.set_ylim(bl.y,tr.y)
-    if drawNodes:
+    if not("drawNodes" in kwargs) or kwargs["drawNodes"] != False:
       nl = self.asNodelist()
       for i in range(0,len(nl)):
         n = nl[i]
