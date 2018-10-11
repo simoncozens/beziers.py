@@ -6,6 +6,8 @@ class IntersectionsMixin:
   # just putting it here to keep the code tidy.
 
   def intersections(self, other):
+    """Returns an array of `Point` objects representing the intersections
+    between this Segment and another Segment."""
     # Arrange by degree
     if len(other.points) > len(self.points): self,other = other,self
     if len(self.points) == 4 or len(self.points)==3:

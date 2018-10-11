@@ -44,3 +44,12 @@ A `CubicBezier` curve
     :members:
     :undoc-members:
     :show-inheritance:
+
+A `BoundingBox`
+---------------
+
+.. automodule:: beziers.boundingbox
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
