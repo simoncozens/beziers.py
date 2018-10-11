@@ -5,20 +5,17 @@ from beziers.point import Point
 class CubicMethods(unittest.TestCase):
   def test_extremes(self):
     q = CubicBezier(
-      Point(122,102), Point(35,200), Point(228,145), Point(190,46)
+      Point(65,59), Point(194,90), Point(220,260), Point(70,261)
     )
+    # console.log(Bezier(65,59, 194,90, 220,260, 70,261).extrema())
     r = q.findExtremes()
-    self.assertEqual(len(r), 3)
-    self.assertAlmostEqual(r[0], 0.18740457659443518)
-    self.assertAlmostEqual(r[1], 0.368678841994204)
-    self.assertAlmostEqual(r[2], 0.9084858343644688)
+    self.assertEqual(len(r), 1)
+    self.assertAlmostEqual(r[0], 0.5275787707261016)
+    r = q.findExtremes(inflections = True)
+    self.assertEqual(len(r), 2)
+    self.assertAlmostEqual(r[0], 0.4512987012987013)
+    self.assertAlmostEqual(r[1], 0.5275787707261016)
 
-  def test_extremes2(self):
-    q = CubicBezier(
-      Point(75,147), Point(147,32), Point(184,114), Point(190,46)
-    )
-    r = q.findExtremes()
-    self.assertEqual(len(r), 0)
 
   def test_length(self):
     q = CubicBezier(

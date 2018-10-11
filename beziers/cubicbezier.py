@@ -34,7 +34,6 @@ class CubicBezier(Segment):
 
   def splitAtTime(self,t):
     """Returns two segments, dividing the given segment at a point t (0->1) along the curve."""
-    t = 1-t
     p4 = self[0].lerp(self[1],t)
     p5 = self[1].lerp(self[2],t)
     p6 = self[2].lerp(self[3],t)
@@ -68,7 +67,62 @@ class CubicBezier(Segment):
     tan = self.tangentAtTime(t)
     return Point(-tan.y,tan.x)
 
-  def _findRoots(self):
+  def _findRoots(self,dimension):
+    def cuberoot(v):
+      if v<0: return -math.pow(-v,1/3.0)
+      return math.pow(v,1/3.0)
+
+    if dimension == "x":
+      pa,pb,pc,pd = self[0].x,self[1].x,self[2].x,self[3].x
+    elif dimension == "y":
+      pa,pb,pc,pd = self[0].y,self[1].y,self[2].y,self[3].y
+    else:
+      raise "Meh."
+
+    a = (3*pa - 6*pb + 3*pc)
+    b = (-3*pa + 3*pb)
+    c = pa
+    d = (-pa + 3*pb - 3*pc + pd)
+    a = a/d
+    b = b/d
+    c = c/d
+    p = (3*b - a*a)/3
+    p3 = p/3
+    q = (2*a*a*a - 9*a*b + 27*c)/27.0
+    q2 = q/2
+    discriminant = q2*q2 + p3*p3*p3
+    if discriminant < 0:
+      mp3  = -p/3
+      mp33 = mp3*mp3*mp3
+      r    = math.sqrt( mp33 )
+      t    = -q / (2*r)
+      cosphi = max(min(t,1),-1)
+      phi  = math.acos(cosphi)
+      crtr = cuberoot(r)
+      t1   = 2*crtr
+      root1 = t1 * math.cos(phi/3) - a/3
+      root2 = t1 * math.cos((phi+2*math.pi)/3) - a/3
+      root3 = t1 * math.cos((phi+4*math.pi)/3) - a/3
+      roots = [root1, root2, root3]
+      return sorted([x for x in roots if x >= 0 and x <= 1])
+
+    if discriminant == 0:
+      if q2 < 0:
+        u1 = cuberoot(-q2)
+      else:
+        u1 =-cuberoot(q2);
+      root1 = 2*u1 - a/3.0;
+      root2 = -u1 - a/3.0;
+      roots = [root1,root2]
+      return sorted([x for x in roots if x >= 0 and x <= 1])
+
+    sd = math.sqrt(discriminant);
+    u1 = cuberoot(sd - q2);
+    v1 = cuberoot(sd + q2);
+    root1 = u1 - v1 - a/3;
+    return [x for x in [root1] if x >= 0 and x <= 1]
+
+  def _findDRoots(self):
     d = self.derivative()
     roots = []
 
@@ -95,9 +149,11 @@ class CubicBezier(Segment):
 
     return roots
 
-  def findExtremes(self):
+  def findExtremes(self, inflections = False):
     """Returns a list of time `t` values for extremes of the curve."""
-    r = self._findRoots()
+    r = self._findDRoots()
+    if inflections:
+      r.extend(self.derivative()._findDRoots())
     r.sort()
     return [ root for root in r if root >= 0.01 and root <= 0.99 ]
 

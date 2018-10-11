@@ -208,19 +208,19 @@ class BezierPath(SampleMixin,object):
 
   def addExtremes(self):
     """Add extreme points to the path."""
+    def mapx(v,ds): return (v-ds)/(1-ds)
     segs = self.asSegments()
     newsegs = []
     for seg in segs:
       count = 0
-      while True:
-        ex_t = seg.findExtremes()
-        count = count + 1
-        if len(ex_t) == 0 or count > 5:
-          newsegs.append(seg)
-          break
-        seg1,seg2 = seg.splitAtTime(ex_t[0])
+      ex_t = seg.findExtremes()
+      while len(ex_t) > 0:
+        t = ex_t.pop(0)
+        seg1,seg2 = seg.splitAtTime(t)
         newsegs.append(seg1)
         seg = seg2
+        for i in range(0,len(ex_t)): ex_t[i] = mapx(ex_t[i],t)
+      newsegs.append(seg)
     self.activeRepresentation = SegmentRepresentation(self,newsegs)
 
   @property
