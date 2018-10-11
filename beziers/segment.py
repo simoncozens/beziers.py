@@ -2,6 +2,7 @@ from beziers.point import Point
 from beziers.affinetransformation import AffineTransformation
 from beziers.utils.samplemixin import SampleMixin
 from beziers.utils.intersectionsmixin import IntersectionsMixin
+from beziers.boundingbox import BoundingBox
 
 class Segment(IntersectionsMixin,SampleMixin,object):
 
@@ -111,3 +112,13 @@ class Segment(IntersectionsMixin,SampleMixin,object):
     """Returns a new segment with the points reversed."""
     klass = self.__class__
     return klass(*list(reversed(self.points)))
+
+  def bounds(self):
+    """Returns a BoundingBox object for this segment."""
+    bounds = BoundingBox()
+    ex = self.findExtremes()
+    ex.append(0)
+    ex.append(1)
+    for t in ex:
+      bounds.extend(self.pointAtTime(t))
+    return bounds

@@ -8,11 +8,11 @@ class IntersectionsMixin:
   def intersections(self, other):
     # Arrange by degree
     if len(other.points) > len(self.points): self,other = other,self
-    if len(self.points) == 4:
-      if len(other.points) == 4:
-        return self._cubic_cubic_intersections(other)
+    if len(self.points) == 4 or len(self.points)==3:
+      if len(other.points) == 4 or len(self.points)==3:
+        return self._curve_curve_intersections(other)
       if len(other.points) == 2:
-        return self._cubic_line_intersections(other)
+        return self._curve_line_intersections(other)
     elif len(self.points) == 2 and len(other.points) == 2:
         return self._line_line_intersections(other)
     raise "Don't know how to compute intersections of a %s and a %s" % (type(self), type(other))
@@ -48,7 +48,7 @@ class IntersectionsMixin:
       return [ intersection ]
     return []
 
-  def _cubic_line_intersections_t(self,line):
+  def _curve_line_intersections_t(self,line):
     t = line.alignmentTransformation()
     l1 = line.aligned()
     c1 = self.transformed(t)
@@ -56,5 +56,41 @@ class IntersectionsMixin:
     intersections.extend(c1._findRoots("y"))
     return sorted(intersections)
 
-  def _cubic_line_intersections(self,line):
-    return [self.pointAtTime(t) for t in self._cubic_line_intersections_t(line)]
+  def _curve_line_intersections(self,line):
+    return [self.pointAtTime(t) for t in self._curve_line_intersections_t(line)]
+
+  def _curve_curve_intersections_t(self,other, precision=1e-6):
+    if not (self.bounds().overlaps(other.bounds())): return []
+    if self.bounds().area < precision and other.bounds().area < precision:
+      return [ [
+      0.5*(self._range[0] + self._range[1]),
+      0.5*(other._range[0] + other._range[1]),
+     ] ]
+    def xmap(v,ts,te): return ts+(te-ts)*v
+    c11, c12 = self.splitAtTime(0.5)
+    c11._range = [ self._range[0], xmap(0.5,self._range[0],self._range[1])]
+    c12._range = [ xmap(0.5,self._range[0],self._range[1]), self._range[1]]
+    c21, c22 = other.splitAtTime(0.5)
+    c21._range = [ other._range[0], xmap(0.5,other._range[0],other._range[1])]
+    c22._range = [xmap(0.5,other._range[0],other._range[1]), other._range[1]]
+    assert(c11._range[0] < c11._range[1])
+    assert(c12._range[0] < c12._range[1])
+    assert(c21._range[0] < c21._range[1])
+    assert(c22._range[0] < c22._range[1])
+
+    found = []
+    for this in [c11,c12]:
+      for that in [c21,c22]:
+        if this.bounds().overlaps(that.bounds()):
+          found.extend(this._curve_curve_intersections_t(that, precision))
+    seen = {}
+    def filterSeen(n):
+      key = '%.5f' % n[0]
+      if key in seen: return False
+      seen[key] = 1
+      return True
+    found = filter(filterSeen, found)
+    return found
+
+  def _curve_curve_intersections(self,other):
+    return [self.pointAtTime(t[0]) for t in self._curve_curve_intersections_t(other)]

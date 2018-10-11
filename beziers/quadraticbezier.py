@@ -5,6 +5,7 @@ from beziers.point import Point
 class QuadraticBezier(Segment):
   def __init__(self, start, c1,end):
     self.points = [start,c1,end]
+    self._range = [0,1]
 
   def __repr__(self):
     return "B<%s-%s-%s>" % (self[0],self[1],self[2])
