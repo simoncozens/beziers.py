@@ -34,7 +34,25 @@ class CurveFitterMethods(unittest.TestCase):
     self.assertAlmostEqual(segs[1][1].x, 50)
     self.assertAlmostEqual(segs[1][1].y, 302.43214862720026)
     self.assertEqual(segs[1].end, Point(220.0, 50.0))
-    # import matplotlib.pyplot as plt
-    # fig, ax = plt.subplots()
-    # path.plot(ax)
-    # plt.show()
+
+  def test_cf2(self):
+    import matplotlib.pyplot as plt
+    import math
+    fig, ax = plt.subplots()
+    points = [
+      Point(100,50),
+      Point(50,150),
+      Point(150,250),
+      Point(200,220),
+      Point(250,80),
+      Point(220,50)
+    ]
+    path = BezierPath.fromPoints(points)
+    tl,br = path.bounds()
+    centroid = (tl+br)/2
+    path.rotate(centroid, math.pi/2)
+    path.balance()
+    path.plot(ax)
+    path.offset(Point(5,5)).plot(ax, color="red")
+    path.offset(Point(-5,-5)).plot(ax, color="green")
+    plt.show()

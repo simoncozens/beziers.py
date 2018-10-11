@@ -19,7 +19,4 @@ help:
 	@$(SPHINXBUILD) -M $@ "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
 
 publish: html
-	cd _build/html
-	git add .
-	git commit -m "New docs"
-	git push
+	cd _build/html && git add . && git commit -m "New docs" && git push

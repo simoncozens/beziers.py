@@ -1,6 +1,7 @@
 from beziers.path.representations.Nodelist import Node
 from beziers.line import Line
 from beziers.cubicbezier import CubicBezier
+from beziers.quadraticbezier import QuadraticBezier
 from beziers.point import Point
 
 class SegmentRepresentation(object):
@@ -27,6 +28,9 @@ class SegmentRepresentation(object):
         nodelist.append(Node(seg[1].x, seg[1].y, "offcurve"))
         nodelist.append(Node(seg[2].x, seg[2].y, "offcurve"))
         nodelist.append(Node(seg[3].x, seg[3].y, "curve"))
+      elif len(seg) == 3:
+        nodelist.append(Node(seg[1].x, seg[1].y, "offcurve"))
+        nodelist.append(Node(seg[2].x, seg[2].y, "curve"))
       else:
         nodelist.append(Node(seg[1].x, seg[1].y, "line"))
     return nodelist
@@ -35,10 +39,12 @@ class SegmentRepresentation(object):
     seg = map(lambda n:Point(n[0],n[1]), seg)
     if len(seg) == 2:
       self.segments.append(Line(*seg))
+    elif len(seg) == 3:
+      self.segments.append(QuadraticBezier(*seg))
     elif len(seg) == 4:
       self.segments.append(CubicBezier(*seg))
     else:
-      raise ValueError("Quadratic Beziers not supported yet")
+      raise "Unknown segment type"
 
   @classmethod
   def fromNodelist(cls, path, nodelist):

@@ -130,3 +130,17 @@ class Point(object):
   def distanceFrom(self,other):
     """Returns the Euclidean distance between this point and another."""
     return math.sqrt(self.squareDistanceFrom(other))
+
+  def transformed(self, transformation):
+    m = transformation.matrix
+    x, y = self.x, self.y
+    a1, a2, b1 = m[0]
+    a3, a4, b2 = m[1]
+    xPrime = a1 * x + a2 * y + b1
+    yPrime = a3 * x + a4 * y + b2
+    return Point(xPrime, yPrime)
+
+  def transform(self, transformation):
+    new = self.transformed(transformation)
+    self.x = new.x
+    self.y = new.y

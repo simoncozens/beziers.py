@@ -135,10 +135,19 @@ class BezierPath(SampleMixin,object):
     verts = [(nl[0].x,nl[0].y)]
     codes = [Path.MOVETO]
 
-    for n in nl[1::]:
+    for i in range(1,len(nl)):
+      n = nl[i]
       verts.append((n.x,n.y))
-      if n.type == "offcurve" or n.type == "curve":
-        codes.append(Path.CURVE4)
+      if n.type == "offcurve":
+        if nl[i+1].type == "offcurve" or nl[i-1].type == "offcurve":
+          codes.append(Path.CURVE4)
+        else:
+          codes.append(Path.CURVE3)
+      elif n.type == "curve":
+        if nl[i-1].type == "offcurve" and i >2 and nl[i-2].type == "offcurve":
+          codes.append(Path.CURVE4)
+        else:
+          codes.append(Path.CURVE3)
       elif n.type == "line":
         codes.append(Path.LINETO)
       else:

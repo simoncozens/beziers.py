@@ -1,7 +1,9 @@
 from beziers.point import Point
+from beziers.affinetransformation import AffineTransformation
 from beziers.utils.samplemixin import SampleMixin
+from beziers.utils.intersectionsmixin import IntersectionsMixin
 
-class Segment(SampleMixin,object):
+class Segment(IntersectionsMixin,SampleMixin,object):
 
   """A segment is part of a path. Although this package is called
   `beziers.py`, it's really for font people, and paths in the font
@@ -50,12 +52,12 @@ class Segment(SampleMixin,object):
     """Returns a Point object representing the end of this segment."""
     return self.points[-1]
 
-  def translate(self,vector):
+  def translated(self,vector):
     """Returns a *new Segment object* representing the translation of
     this segment by the given vector. i.e.::
 
       >>> l = Line(Point(0,0), Point(10,10))
-      >>> l.translate(Point(5,5))
+      >>> l.translated(Point(5,5))
       L<<5.0,5.0>--<15.0,15.0>>
       >>> l
       L<<0.0,0.0>--<10.0,10.0>>
@@ -65,12 +67,12 @@ class Segment(SampleMixin,object):
     klass = self.__class__
     return klass(*[ p+vector for p in self.points ])
 
-  def rotate(self,around, by):
+  def rotated(self,around, by):
     """Returns a *new Segment object* representing the rotation of
     this segment around the given point and by the given angle. i.e.::
 
       >>> l = Line(Point(0,0), Point(10,10))
-      >>> l.rotate(Point(5,5), math.pi/2)
+      >>> l.rotated(Point(5,5), math.pi/2)
       L<<10.0,-8.881784197e-16>--<-8.881784197e-16,10.0>>
 
     """
@@ -80,14 +82,24 @@ class Segment(SampleMixin,object):
     for p in pNew: p.rotate(around,by)
     return klass(*pNew)
 
-  def align(self):
+  def transformed(self, transformation):
+    """Returns a *new Segment object* transformed by the given AffineTransformation matrix."""
+    klass = self.__class__
+    pNew = [ p.clone() for p in self.points]
+    for p in pNew: p.transform(transformation)
+    return klass(*pNew)
+
+  def alignmentTransformation(self):
+    m = AffineTransformation.translation(self.start * -1)
+    m.rotate((self.end.transformed(m)).angle * -1)
+    return m
+
+  def aligned(self):
     """Returns a *new Segment object* aligned to the origin. i.e.
     with the first point translated to the origin (0,0) and the
     last point with y=0. Obviously, for a `Line` this is a bit pointless,
     but it's quite handy for higher-order curves."""
-    t1 = self.translate(self.start * -1)
-    t2 = t1.rotate(Point(0,0),t1.end.angle * -1)
-    return t2
+    return self.transformed(self.alignmentTransformation())
 
   def lengthAtTime(self, t):
     """Returns the length of the subset of the path from the start
@@ -99,4 +111,3 @@ class Segment(SampleMixin,object):
     """Returns a new segment with the points reversed."""
     klass = self.__class__
     return klass(*list(reversed(self.points)))
-

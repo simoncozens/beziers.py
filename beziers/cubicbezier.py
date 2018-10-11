@@ -169,11 +169,12 @@ class CubicBezier(Segment):
     the handles)."""
     h1 = Line(self[0], self[1])
     h2 = Line(self[2], self[3])
-    i = h1.intersection(h2)
-    if i.distanceFrom(self[0]) > 5 * self.length:
+    i = h1.intersections(h2)
+    if len(i)<1: return
+    if i[0].distanceFrom(self[0]) > 5 * self.length:
       return
     else:
-      return i
+      return i[0]
 
   def balance(self):
     """Perform Tunni balancing on this Bezier."""
@@ -182,5 +183,6 @@ class CubicBezier(Segment):
     fraction1 = self[0].distanceFrom(self[1]) / self[0].distanceFrom(p)
     fraction2 = self[3].distanceFrom(self[2]) / self[3].distanceFrom(p)
     avg = (fraction2 + fraction1) / 2.0
-    self[1] = self[0].lerp(p, avg)
-    self[2] = self[3].lerp(p, avg)
+    if avg > 0 and avg < 1:
+      self[1] = self[0].lerp(p, avg)
+      self[2] = self[3].lerp(p, avg)

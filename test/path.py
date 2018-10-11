@@ -44,23 +44,18 @@ class PathTests(unittest.TestCase):
 
   def test_addextremes(self):
     q = CubicBezier(
-      Point(122,102), Point(35,200), Point(228,145), Point(190,46)
+      Point(42,135), Point(129,242), Point(167,77), Point(65,59)
     )
+    ex = q.findExtremes()
+    self.assertEqual(len(ex),2)
     path = BezierPath()
     path.closed = False
     path.activeRepresentation = SegmentRepresentation(path,[q])
     path.addExtremes()
+    path.balance()
     segs = path.asSegments()
-    self.assertEqual(len(segs), 4)
-
-  def test_sample(self):
-    q = CubicBezier(
-      Point(122,102), Point(35,250), Point(268,40), Point(190,46)
-    )
-    path = BezierPath()
-    path.closed = False
-    path.activeRepresentation = SegmentRepresentation(path,[q])
-    s1 = path.regularSample(40)
-    s2 = path.sample(40)
-    self.assertAlmostEqual(s1[20].x, 152.29373852373408)
-    self.assertAlmostEqual(s2[20].x, 152.625)
+    self.assertEqual(len(segs), 3)
+    # import matplotlib.pyplot as plt
+    # fig, ax = plt.subplots()
+    # path.plot(ax)
+    # plt.show()

@@ -27,7 +27,7 @@ class CubicMethods(unittest.TestCase):
     q = CubicBezier(
       Point(120,160), Point(35,200), Point(220,260), Point(220,40)
     )
-    s = q.align()
+    s = q.aligned()
     self.assertAlmostEqual(s[0].x,0.0)
     self.assertAlmostEqual(s[0].y,0.0)
     self.assertAlmostEqual(s[1].x,-85.14452515537582)
