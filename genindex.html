@@ -64,14 +64,24 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="source/beziers.path.html#beziers.path.BezierPath.addExtremes">addExtremes() (beziers.path.BezierPath method)</a>
 </li>
-      <li><a href="source/beziers.html#beziers.cubicbezier.CubicBezier.align">align() (beziers.cubicbezier.CubicBezier method)</a>
+      <li><a href="source/beziers.html#beziers.cubicbezier.CubicBezier.aligned">aligned() (beziers.cubicbezier.CubicBezier method)</a>
 
       <ul>
-        <li><a href="source/beziers.html#beziers.line.Line.align">(beziers.line.Line method)</a>
+        <li><a href="source/beziers.html#beziers.line.Line.aligned">(beziers.line.Line method)</a>
 </li>
-        <li><a href="source/beziers.html#beziers.quadraticbezier.QuadraticBezier.align">(beziers.quadraticbezier.QuadraticBezier method)</a>
+        <li><a href="source/beziers.html#beziers.quadraticbezier.QuadraticBezier.aligned">(beziers.quadraticbezier.QuadraticBezier method)</a>
 </li>
-        <li><a href="source/beziers.html#beziers.segment.Segment.align">(beziers.segment.Segment method)</a>
+        <li><a href="source/beziers.html#beziers.segment.Segment.aligned">(beziers.segment.Segment method)</a>
+</li>
+      </ul></li>
+      <li><a href="source/beziers.html#beziers.cubicbezier.CubicBezier.alignmentTransformation">alignmentTransformation() (beziers.cubicbezier.CubicBezier method)</a>
+
+      <ul>
+        <li><a href="source/beziers.html#beziers.line.Line.alignmentTransformation">(beziers.line.Line method)</a>
+</li>
+        <li><a href="source/beziers.html#beziers.quadraticbezier.QuadraticBezier.alignmentTransformation">(beziers.quadraticbezier.QuadraticBezier method)</a>
+</li>
+        <li><a href="source/beziers.html#beziers.segment.Segment.alignmentTransformation">(beziers.segment.Segment method)</a>
 </li>
       </ul></li>
   </ul></td>
@@ -81,6 +91,8 @@
       <li><a href="source/beziers.path.html#beziers.path.BezierPath.append">append() (beziers.path.BezierPath method)</a>
 </li>
       <li><a href="source/beziers.path.representations.html#beziers.path.representations.Segment.SegmentRepresentation.appendSegment">appendSegment() (beziers.path.representations.Segment.SegmentRepresentation method)</a>
+</li>
+      <li><a href="source/beziers.html#beziers.boundingbox.BoundingBox.area">area (beziers.boundingbox.BoundingBox attribute)</a>
 </li>
       <li><a href="source/beziers.path.html#beziers.path.BezierPath.asMatplot">asMatplot() (beziers.path.BezierPath method)</a>
 </li>
@@ -102,6 +114,8 @@
       </ul></li>
       <li><a href="source/beziers.path.html#beziers.path.BezierPath">BezierPath (class in beziers.path)</a>
 </li>
+      <li><a href="source/beziers.html#module-beziers.boundingbox">beziers.boundingbox (module)</a>
+</li>
       <li><a href="source/beziers.html#module-beziers.cubicbezier">beziers.cubicbezier (module)</a>
 </li>
       <li><a href="source/beziers.html#module-beziers.line">beziers.line (module)</a>
@@ -110,12 +124,12 @@
 </li>
       <li><a href="source/beziers.path.representations.html#module-beziers.path.representations">beziers.path.representations (module)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="source/beziers.path.representations.html#module-beziers.path.representations.GSPath">beziers.path.representations.GSPath (module)</a>
 </li>
       <li><a href="source/beziers.path.representations.html#module-beziers.path.representations.Nodelist">beziers.path.representations.Nodelist (module)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="source/beziers.path.representations.html#module-beziers.path.representations.Segment">beziers.path.representations.Segment (module)</a>
 </li>
       <li><a href="source/beziers.html#module-beziers.point">beziers.point (module)</a>
@@ -124,10 +138,22 @@
 </li>
       <li><a href="source/beziers.html#module-beziers.segment">beziers.segment (module)</a>
 </li>
-      <li><a href="source/beziers.html#beziers.line.Line.bothPointsAreOnSameSideOfOrigin">bothPointsAreOnSameSideOfOrigin() (beziers.line.Line method)</a>
+      <li><a href="source/beziers.html#beziers.boundingbox.BoundingBox.bottom">bottom (beziers.boundingbox.BoundingBox attribute)</a>
 </li>
-      <li><a href="source/beziers.path.html#beziers.path.BezierPath.bounds">bounds() (beziers.path.BezierPath method)</a>
+      <li><a href="source/beziers.html#beziers.boundingbox.BoundingBox">BoundingBox (class in beziers.boundingbox)</a>
 </li>
+      <li><a href="source/beziers.html#beziers.cubicbezier.CubicBezier.bounds">bounds() (beziers.cubicbezier.CubicBezier method)</a>
+
+      <ul>
+        <li><a href="source/beziers.html#beziers.line.Line.bounds">(beziers.line.Line method)</a>
+</li>
+        <li><a href="source/beziers.path.html#beziers.path.BezierPath.bounds">(beziers.path.BezierPath method)</a>
+</li>
+        <li><a href="source/beziers.html#beziers.quadraticbezier.QuadraticBezier.bounds">(beziers.quadraticbezier.QuadraticBezier method)</a>
+</li>
+        <li><a href="source/beziers.html#beziers.segment.Segment.bounds">(beziers.segment.Segment method)</a>
+</li>
+      </ul></li>
   </ul></td>
 </tr></table>
 
@@ -181,6 +207,10 @@
 </li>
       </ul></li>
   </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="source/beziers.html#beziers.boundingbox.BoundingBox.extend">extend() (beziers.boundingbox.BoundingBox method)</a>
+</li>
+  </ul></td>
 </tr></table>
 
 <h2 id="F">F</h2>
@@ -224,12 +254,20 @@
 <h2 id="I">I</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="source/beziers.html#beziers.boundingbox.BoundingBox.includes">includes() (beziers.boundingbox.BoundingBox method)</a>
+</li>
       <li><a href="source/beziers.html#beziers.line.Line.intercept">intercept (beziers.line.Line attribute)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="source/beziers.html#beziers.line.Line.intersection">intersection() (beziers.line.Line method)</a>
+      <li><a href="source/beziers.html#beziers.cubicbezier.CubicBezier.intersections">intersections() (beziers.cubicbezier.CubicBezier method)</a>
+
+      <ul>
+        <li><a href="source/beziers.html#beziers.line.Line.intersections">(beziers.line.Line method)</a>
 </li>
+        <li><a href="source/beziers.html#beziers.quadraticbezier.QuadraticBezier.intersections">(beziers.quadraticbezier.QuadraticBezier method)</a>
+</li>
+        <li><a href="source/beziers.html#beziers.segment.Segment.intersections">(beziers.segment.Segment method)</a>
+</li>
+      </ul></li>
   </ul></td>
 </tr></table>
 
@@ -244,6 +282,8 @@
 <h2 id="L">L</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="source/beziers.html#beziers.boundingbox.BoundingBox.left">left (beziers.boundingbox.BoundingBox attribute)</a>
+</li>
       <li><a href="source/beziers.html#beziers.cubicbezier.CubicBezier.length">length (beziers.cubicbezier.CubicBezier attribute)</a>
 
       <ul>
@@ -299,6 +339,10 @@
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="source/beziers.path.html#beziers.path.BezierPath.offset">offset() (beziers.path.BezierPath method)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="source/beziers.html#beziers.boundingbox.BoundingBox.overlaps">overlaps() (beziers.boundingbox.BoundingBox method)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -372,22 +416,26 @@
         <li><a href="source/beziers.html#beziers.segment.Segment.reversed">(beziers.segment.Segment method)</a>
 </li>
       </ul></li>
-      <li><a href="source/beziers.html#beziers.cubicbezier.CubicBezier.rotate">rotate() (beziers.cubicbezier.CubicBezier method)</a>
+      <li><a href="source/beziers.html#beziers.boundingbox.BoundingBox.right">right (beziers.boundingbox.BoundingBox attribute)</a>
+</li>
+      <li><a href="source/beziers.path.html#beziers.path.BezierPath.rotate">rotate() (beziers.path.BezierPath method)</a>
 
       <ul>
-        <li><a href="source/beziers.html#beziers.line.Line.rotate">(beziers.line.Line method)</a>
-</li>
-        <li><a href="source/beziers.path.html#beziers.path.BezierPath.rotate">(beziers.path.BezierPath method)</a>
-</li>
         <li><a href="source/beziers.html#beziers.point.Point.rotate">(beziers.point.Point method)</a>
 </li>
-        <li><a href="source/beziers.html#beziers.quadraticbezier.QuadraticBezier.rotate">(beziers.quadraticbezier.QuadraticBezier method)</a>
+      </ul></li>
+      <li><a href="source/beziers.html#beziers.cubicbezier.CubicBezier.rotated">rotated() (beziers.cubicbezier.CubicBezier method)</a>
+
+      <ul>
+        <li><a href="source/beziers.html#beziers.line.Line.rotated">(beziers.line.Line method)</a>
 </li>
-        <li><a href="source/beziers.html#beziers.segment.Segment.rotate">(beziers.segment.Segment method)</a>
+        <li><a href="source/beziers.html#beziers.point.Point.rotated">(beziers.point.Point method)</a>
+</li>
+        <li><a href="source/beziers.html#beziers.quadraticbezier.QuadraticBezier.rotated">(beziers.quadraticbezier.QuadraticBezier method)</a>
+</li>
+        <li><a href="source/beziers.html#beziers.segment.Segment.rotated">(beziers.segment.Segment method)</a>
 </li>
       </ul></li>
-      <li><a href="source/beziers.html#beziers.point.Point.rotated">rotated() (beziers.point.Point method)</a>
-</li>
   </ul></td>
 </tr></table>
 
@@ -418,6 +466,8 @@
 
       <ul>
         <li><a href="source/beziers.html#beziers.line.Line.splitAtTime">(beziers.line.Line method)</a>
+</li>
+        <li><a href="source/beziers.html#beziers.quadraticbezier.QuadraticBezier.splitAtTime">(beziers.quadraticbezier.QuadraticBezier method)</a>
 </li>
       </ul></li>
       <li><a href="source/beziers.html#beziers.point.Point.squareDistanceFrom">squareDistanceFrom() (beziers.point.Point method)</a>
@@ -450,22 +500,38 @@
         <li><a href="source/beziers.path.representations.html#beziers.path.representations.Segment.SegmentRepresentation.toNodelist">(beziers.path.representations.Segment.SegmentRepresentation method)</a>
 </li>
       </ul></li>
+      <li><a href="source/beziers.html#beziers.boundingbox.BoundingBox.top">top (beziers.boundingbox.BoundingBox attribute)</a>
+</li>
       <li><a href="source/beziers.html#beziers.cubicbezier.CubicBezier.toQuadratic">toQuadratic() (beziers.cubicbezier.CubicBezier method)</a>
 </li>
       <li><a href="source/beziers.html#beziers.point.Point.toUnitVector">toUnitVector() (beziers.point.Point method)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="source/beziers.html#beziers.cubicbezier.CubicBezier.translate">translate() (beziers.cubicbezier.CubicBezier method)</a>
+      <li><a href="source/beziers.html#beziers.point.Point.transform">transform() (beziers.point.Point method)</a>
+</li>
+      <li><a href="source/beziers.html#beziers.cubicbezier.CubicBezier.transformed">transformed() (beziers.cubicbezier.CubicBezier method)</a>
 
       <ul>
-        <li><a href="source/beziers.html#beziers.line.Line.translate">(beziers.line.Line method)</a>
+        <li><a href="source/beziers.html#beziers.line.Line.transformed">(beziers.line.Line method)</a>
 </li>
-        <li><a href="source/beziers.path.html#beziers.path.BezierPath.translate">(beziers.path.BezierPath method)</a>
+        <li><a href="source/beziers.html#beziers.point.Point.transformed">(beziers.point.Point method)</a>
 </li>
-        <li><a href="source/beziers.html#beziers.quadraticbezier.QuadraticBezier.translate">(beziers.quadraticbezier.QuadraticBezier method)</a>
+        <li><a href="source/beziers.html#beziers.quadraticbezier.QuadraticBezier.transformed">(beziers.quadraticbezier.QuadraticBezier method)</a>
 </li>
-        <li><a href="source/beziers.html#beziers.segment.Segment.translate">(beziers.segment.Segment method)</a>
+        <li><a href="source/beziers.html#beziers.segment.Segment.transformed">(beziers.segment.Segment method)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="source/beziers.path.html#beziers.path.BezierPath.translate">translate() (beziers.path.BezierPath method)</a>
+</li>
+      <li><a href="source/beziers.html#beziers.cubicbezier.CubicBezier.translated">translated() (beziers.cubicbezier.CubicBezier method)</a>
+
+      <ul>
+        <li><a href="source/beziers.html#beziers.line.Line.translated">(beziers.line.Line method)</a>
+</li>
+        <li><a href="source/beziers.html#beziers.quadraticbezier.QuadraticBezier.translated">(beziers.quadraticbezier.QuadraticBezier method)</a>
+</li>
+        <li><a href="source/beziers.html#beziers.segment.Segment.translated">(beziers.segment.Segment method)</a>
 </li>
       </ul></li>
       <li><a href="source/beziers.html#beziers.cubicbezier.CubicBezier.tunniPoint">tunniPoint (beziers.cubicbezier.CubicBezier attribute)</a>
