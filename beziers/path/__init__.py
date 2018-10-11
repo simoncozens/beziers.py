@@ -327,7 +327,7 @@ class BezierPath(SampleMixin,object):
 
   def rotate(self, about, angle):
     """Rotate the path by a given vector."""
-    seg2 = [ x.rotate(about, angle) for x in self.asSegments()]
+    seg2 = [ x.rotated(about, angle) for x in self.asSegments()]
     self.activeRepresentation = SegmentRepresentation(self, seg2)
 
   def balance(self):
