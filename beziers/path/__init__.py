@@ -174,6 +174,9 @@ class BezierPath(SampleMixin,object):
     path = self.asMatplot()
     if not "lw" in kwargs:
       kwargs["lw"] = 2
+    drawNodes = (not("drawNodes" in kwargs) or kwargs["drawNodes"] != False)
+    if "drawNodes" in kwargs:
+      kwargs.pop("drawNodes")
     patch = patches.PathPatch(path, fill = False, **kwargs)
     ax.add_patch(patch)
     (bl,tr) = self.bounds()
@@ -181,7 +184,7 @@ class BezierPath(SampleMixin,object):
     tr = tr + Point(50,50)
     ax.set_xlim(bl.x,tr.x)
     ax.set_ylim(bl.y,tr.y)
-    if not("drawNodes" in kwargs) or kwargs["drawNodes"] != False:
+    if drawNodes:
       nl = self.asNodelist()
       for i in range(0,len(nl)):
         n = nl[i]
