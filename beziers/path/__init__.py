@@ -279,35 +279,55 @@ class BezierPath(SampleMixin,object):
     """
     # Method 1 - curve fit
     newsegs = []
+    points = []
+    def finishPoints(newsegs, points):
+      if len(points) > 0:
+        bp = BezierPath.fromPoints(points, error=0.1, cornerTolerance= 1)
+        newsegs.extend(bp.asSegments())
+      while len(points)>0:points.pop()
+
     for seg in self.asSegments():
-      if isinstance(seg, Line):
-        newsegs.append(Line(seg.start + vector, seg.end+vector))
-      elif isinstance(seg, CubicBezier):
+      if isinstance(seg,Line):
+        finishPoints(newsegs,points)
+        newsegs.append(seg.translated(vector))
+      else:
         t = 0.0
-        points = []
         while t <1.0:
           if rotateVector:
             points.append( seg.pointAtTime(t) + vector.rotated(Point(0,0), seg.normalAtTime(t).angle))
           else:
             points.append( seg.pointAtTime(t) + vector)
-          t = t + 0.01
-        # points = [ p + vector for p in seg.sample(seg.length) ]
-        bp = BezierPath.fromPoints(points, error=1, cornerTolerance= 1)
-        for seg2 in bp.asSegments(): newsegs.append(seg2)
-    newbp = BezierPath()
-    newbp.activeRepresentation = SegmentRepresentation(newbp, newsegs)
-    newbp.closed = self.closed
-    return newbp
+          t = t + min(seg.length / abs(seg.curvatureAtTime(t)),0.1)
+    finishPoints(newsegs,points)
+    newpath = BezierPath()
+    newpath.activeRepresentation = SegmentRepresentation(newpath, newsegs)
+    return newpath
 
-  def append(self, other):
+  def append(self, other, joinType="line"):
     """Append another path to this one. If the end point of the first
     path is not the same as the start point of the other path, a line
     will be drawn between them."""
     segs1 = self.asSegments()
     segs2 = other.asSegments()
+    if len(segs1) < 1:
+      self.activeRepresentation = SegmentRepresentation(self, segs2)
+      return
+    if len(segs2) < 1:
+      self.activeRepresentation = SegmentRepresentation(self, segs1)
+      return
+
+    # Which way around should they go?
+    dist1 = segs1[-1].end.distanceFrom(segs2[0].start)
+    dist2 = segs1[-1].end.distanceFrom(segs2[-1].end)
+    if dist2 > 2 * dist1:
+      segs2 = reversed([ x.reversed() for x in segs2])
+
     # Add a line between if they don't match up
     if segs1[-1].end != segs2[0].start:
       segs1.append(Line(segs1[-1].end,segs2[0].start))
+
+    # XXX Check for discontinuities and harmonize if needed
+
     segs1.extend(segs2)
     self.activeRepresentation = SegmentRepresentation(self, segs1)
 
