@@ -297,7 +297,8 @@ class BezierPath(SampleMixin,object):
             points.append( seg.pointAtTime(t) + vector.rotated(Point(0,0), seg.normalAtTime(t).angle))
           else:
             points.append( seg.pointAtTime(t) + vector)
-          t = t + min(seg.length / abs(seg.curvatureAtTime(t)),0.1)
+          step = max(abs(seg.curvatureAtTime(t)),0.1)
+          t = t + min(seg.length / step,0.1)
     finishPoints(newsegs,points)
     newpath = BezierPath()
     newpath.activeRepresentation = SegmentRepresentation(newpath, newsegs)
@@ -320,7 +321,7 @@ class BezierPath(SampleMixin,object):
     dist1 = segs1[-1].end.distanceFrom(segs2[0].start)
     dist2 = segs1[-1].end.distanceFrom(segs2[-1].end)
     if dist2 > 2 * dist1:
-      segs2 = reversed([ x.reversed() for x in segs2])
+      segs2 = list(reversed([ x.reversed() for x in segs2]))
 
     # Add a line between if they don't match up
     if segs1[-1].end != segs2[0].start:
