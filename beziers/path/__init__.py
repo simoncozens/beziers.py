@@ -336,3 +336,37 @@ class BezierPath(SampleMixin,object):
     for x in segs:
       if isinstance(x, CubicBezier): x.balance()
     self.activeRepresentation = SegmentRepresentation(self, segs)
+
+  def findDiscontinuities(self):
+    """Not implemented yet"""
+
+  def harmonize(self):
+    """Not implemented yet"""
+
+  def dash(self, lineLength = 50, gapLength = None):
+    """Returns a list of BezierPath objects created by chopping
+    this path into a dashed line::
+
+      paths = path.dash(lineLength = 20, gapLength = 50)
+
+..  figure:: dash.png
+    :scale: 75 %
+    :alt: path.dash(lineLength = 20, gapLength = 50)
+
+"""
+    if not gapLength:
+      gapLength = lineLength
+    granularity = self.length
+    newpaths = []
+    points = []
+    for t in self.regularSampleTValue(granularity):
+      lenSoFar = self.lengthAtTime(t) # Super inefficient. But simple!
+      lenSoFar = lenSoFar % (lineLength + gapLength)
+      if lenSoFar >= lineLength and len(points) > 0:
+        # When all you have is a hammer...
+        bp = BezierPath.fromPoints(points, error=1, cornerTolerance= 1)
+        points = []
+        if len(bp.asSegments()) > 0: newpaths.append(bp)
+      elif lenSoFar <= lineLength:
+        points.append(self.pointAtTime(t))
+    return newpaths
