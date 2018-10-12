@@ -1,6 +1,7 @@
 from beziers.path.representations.Segment import SegmentRepresentation
 from beziers.path.representations.Nodelist import NodelistRepresentation, Node
 from beziers.point import Point
+from beziers.boundingbox import BoundingBox
 from beziers.utils.samplemixin import SampleMixin
 from beziers.segment import Segment
 from beziers.line import Line
@@ -179,11 +180,15 @@ class BezierPath(SampleMixin,object):
       kwargs.pop("drawNodes")
     patch = patches.PathPatch(path, fill = False, **kwargs)
     ax.add_patch(patch)
-    (bl,tr) = self.bounds()
-    bl = bl - Point(50,50)
-    tr = tr + Point(50,50)
-    ax.set_xlim(bl.x,tr.x)
-    ax.set_ylim(bl.y,tr.y)
+    left, right = ax.get_xlim()
+    top, bottom = ax.get_ylim()
+    bounds = self.bounds()
+    bounds.addMargin(50)
+    if not (left == 0.0 and right == 1.0 and top == 0.0 and bottom == 1.0):
+      bounds.extend(Point(left,top))
+      bounds.extend(Point(right,bottom))
+    ax.set_xlim(bounds.left,bounds.right)
+    ax.set_ylim(bounds.bottom,bounds.top)
     if drawNodes:
       nl = self.asNodelist()
       for i in range(0,len(nl)):
@@ -202,21 +207,12 @@ class BezierPath(SampleMixin,object):
           ax.add_artist(circle)
 
   def bounds(self):
-    """Determine the bounding box of the path, returned as two Point
-    objects representing the lower left and upper right corners."""
-    segs = self.asSegments()
-    bl = segs[0][0].clone()
-    tr = segs[0][0].clone()
-    for seg in segs:
-      t = 0.0
-      while t <= 1.0:
-        pt = seg.pointAtTime(t)
-        if pt.x < bl.x: bl.x = pt.x
-        if pt.y < bl.y: bl.y = pt.y
-        if pt.x > tr.x: tr.x = pt.x
-        if pt.y > tr.y: tr.y = pt.y
-        t += 0.1
-    return (bl,tr)
+    """Determine the bounding box of the path, returned as a
+    `BoundingBox` object."""
+    bbox = BoundingBox()
+    for seg in self.asSegments():
+      bbox.extend(seg)
+    return bbox
 
   def addExtremes(self):
     """Add extreme points to the path."""
