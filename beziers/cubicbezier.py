@@ -62,11 +62,6 @@ class CubicBezier(Segment):
     """Returns a `Point` representing the unit vector of tangent at time `t`."""
     return self.derivative().pointAtTime(t).toUnitVector()
 
-  def normalAtTime(self,t):
-    """Returns a `Point` representing the normal (rotated tangent) at time `t`."""
-    tan = self.tangentAtTime(t)
-    return Point(-tan.y,tan.x)
-
   def _findRoots(self,dimension):
     def cuberoot(v):
       if v<0: return -math.pow(-v,1/3.0)

@@ -53,6 +53,11 @@ class Segment(IntersectionsMixin,SampleMixin,object):
     """Returns a Point object representing the end of this segment."""
     return self.points[-1]
 
+  def normalAtTime(self,t):
+    """Returns a `Point` representing the normal (rotated tangent) at time `t`."""
+    tan = self.tangentAtTime(t)
+    return Point(-tan.y,tan.x)
+
   def translated(self,vector):
     """Returns a *new Segment object* representing the translation of
     this segment by the given vector. i.e.::

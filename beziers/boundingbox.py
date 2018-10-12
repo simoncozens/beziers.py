@@ -65,3 +65,8 @@ class BoundingBox:
       return False
     return True
 
+  def addMargin(self,size):
+    """Adds a few units of margin around the edges of the bounding box."""
+    self.bl = self.bl + Point(-size,-size)
+    self.tr = self.tr + Point(size,size)
+

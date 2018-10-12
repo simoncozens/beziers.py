@@ -16,6 +16,13 @@ class Line(Segment):
     """Returns the point at time t (0->1) along the line."""
     return self.start.lerp(self.end, t)
 
+  def normalAtTime(self,t):
+    """Returns the normal at time t (0->1) along the line."""
+    return Point.fromAngle(self.slope)
+
+  def curvatureAtTime(self,t):
+    return sys.float_info.epsilon # Avoid divide-by-zero
+
   def splitAtTime(self,t):
     """Returns two segments, dividing the given segment at a point t (0->1) along the line."""
     return (Line(self.start, self.pointAtTime(t)), Line(self.pointAtTime(t), self.end))
