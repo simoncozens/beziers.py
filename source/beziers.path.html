@@ -131,8 +131,8 @@ or, if you are exceptionally unlucky, QuadraticBezier objects).</p>
 <dl class="method">
 <dt id="beziers.path.BezierPath.bounds">
 <code class="descname">bounds</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.BezierPath.bounds" title="Permalink to this definition">¶</a></dt>
-<dd><p>Determine the bounding box of the path, returned as two Point
-objects representing the lower left and upper right corners.</p>
+<dd><p>Determine the bounding box of the path, returned as a
+<cite>BoundingBox</cite> object.</p>
 </dd></dl>
 
 <dl class="method">
@@ -182,7 +182,7 @@ offsetting always happens on the same ‘side’ of the curve:</dd>
 
 <dl class="method">
 <dt id="beziers.path.BezierPath.append">
-<code class="descname">append</code><span class="sig-paren">(</span><em>other</em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.BezierPath.append" title="Permalink to this definition">¶</a></dt>
+<code class="descname">append</code><span class="sig-paren">(</span><em>other</em>, <em>joinType='line'</em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.BezierPath.append" title="Permalink to this definition">¶</a></dt>
 <dd><p>Append another path to this one. If the end point of the first
 path is not the same as the start point of the other path, a line
 will be drawn between them.</p>
@@ -210,6 +210,34 @@ will be drawn between them.</p>
 <dt id="beziers.path.BezierPath.balance">
 <code class="descname">balance</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.BezierPath.balance" title="Permalink to this definition">¶</a></dt>
 <dd><p>Performs Tunni balancing on the path.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="beziers.path.BezierPath.findDiscontinuities">
+<code class="descname">findDiscontinuities</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.BezierPath.findDiscontinuities" title="Permalink to this definition">¶</a></dt>
+<dd><p>Not implemented yet</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="beziers.path.BezierPath.harmonize">
+<code class="descname">harmonize</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.BezierPath.harmonize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Not implemented yet</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="beziers.path.BezierPath.dash">
+<code class="descname">dash</code><span class="sig-paren">(</span><em>lineLength=50</em>, <em>gapLength=None</em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.BezierPath.dash" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Returns a list of BezierPath objects created by chopping</dt>
+<dd><p class="first">this path into a dashed line:</p>
+<div class="last highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">paths</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">dash</span><span class="p">(</span><span class="n">lineLength</span> <span class="o">=</span> <span class="mi">20</span><span class="p">,</span> <span class="n">gapLength</span> <span class="o">=</span> <span class="mi">50</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+<div class="figure">
+<a class="reference internal image-reference" href="../_images/dash.png"><img alt="path.dash(lineLength = 20, gapLength = 50)" src="../_images/dash.png" style="width: 600.0px; height: 450.0px;" /></a>
+</div>
 </dd></dl>
 
 <dl class="method">

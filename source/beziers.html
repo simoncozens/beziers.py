@@ -197,6 +197,12 @@ one:</p>
 </dd></dl>
 
 <dl class="method">
+<dt id="beziers.segment.Segment.normalAtTime">
+<code class="descname">normalAtTime</code><span class="sig-paren">(</span><em>t</em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.segment.Segment.normalAtTime" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a <cite>Point</cite> representing the normal (rotated tangent) at time <cite>t</cite>.</p>
+</dd></dl>
+
+<dl class="method">
 <dt id="beziers.segment.Segment.translated">
 <code class="descname">translated</code><span class="sig-paren">(</span><em>vector</em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.segment.Segment.translated" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns a <em>new Segment object</em> representing the translation of
@@ -319,6 +325,17 @@ samples along the length of the curve.</div>
 <code class="descname">pointAtTime</code><span class="sig-paren">(</span><em>t</em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.line.Line.pointAtTime" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns the point at time t (0-&gt;1) along the line.</p>
 </dd></dl>
+
+<dl class="method">
+<dt id="beziers.line.Line.normalAtTime">
+<code class="descname">normalAtTime</code><span class="sig-paren">(</span><em>t</em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.line.Line.normalAtTime" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the normal at time t (0-&gt;1) along the line.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="beziers.line.Line.curvatureAtTime">
+<code class="descname">curvatureAtTime</code><span class="sig-paren">(</span><em>t</em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.line.Line.curvatureAtTime" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 <dl class="method">
 <dt id="beziers.line.Line.splitAtTime">
@@ -540,6 +557,12 @@ up to the point t (0-&gt;1), where 1 is the end of the whole curve.</p>
 </dd></dl>
 
 <dl class="method">
+<dt id="beziers.quadraticbezier.QuadraticBezier.normalAtTime">
+<code class="descname">normalAtTime</code><span class="sig-paren">(</span><em>t</em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.quadraticbezier.QuadraticBezier.normalAtTime" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a <cite>Point</cite> representing the normal (rotated tangent) at time <cite>t</cite>.</p>
+</dd></dl>
+
+<dl class="method">
 <dt id="beziers.quadraticbezier.QuadraticBezier.regularSample">
 <code class="descname">regularSample</code><span class="sig-paren">(</span><em>samples</em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.quadraticbezier.QuadraticBezier.regularSample" title="Permalink to this definition">¶</a></dt>
 <dd><p>Samples a segment or path a given number of times, returning a list of Point objects,
@@ -671,12 +694,6 @@ this segment by the given vector. i.e.:</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="beziers.cubicbezier.CubicBezier.normalAtTime">
-<code class="descname">normalAtTime</code><span class="sig-paren">(</span><em>t</em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.cubicbezier.CubicBezier.normalAtTime" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns a <cite>Point</cite> representing the normal (rotated tangent) at time <cite>t</cite>.</p>
-</dd></dl>
-
-<dl class="method">
 <dt id="beziers.cubicbezier.CubicBezier.findExtremes">
 <code class="descname">findExtremes</code><span class="sig-paren">(</span><em>inflections=False</em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.cubicbezier.CubicBezier.findExtremes" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns a list of time <cite>t</cite> values for extremes of the curve.</p>
@@ -739,6 +756,12 @@ between this Segment and another Segment.</p>
 <code class="descname">lengthAtTime</code><span class="sig-paren">(</span><em>t</em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.cubicbezier.CubicBezier.lengthAtTime" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns the length of the subset of the path from the start
 up to the point t (0-&gt;1), where 1 is the end of the whole curve.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="beziers.cubicbezier.CubicBezier.normalAtTime">
+<code class="descname">normalAtTime</code><span class="sig-paren">(</span><em>t</em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.cubicbezier.CubicBezier.normalAtTime" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a <cite>Point</cite> representing the normal (rotated tangent) at time <cite>t</cite>.</p>
 </dd></dl>
 
 <dl class="method">
@@ -874,6 +897,12 @@ another <cite>BoundingBox</cite>, or something which has a <cite>bounds()</cite>
 <dt id="beziers.boundingbox.BoundingBox.overlaps">
 <code class="descname">overlaps</code><span class="sig-paren">(</span><em>other</em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.boundingbox.BoundingBox.overlaps" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns True if the given bounding box overlaps with this bounding box.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="beziers.boundingbox.BoundingBox.addMargin">
+<code class="descname">addMargin</code><span class="sig-paren">(</span><em>size</em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.boundingbox.BoundingBox.addMargin" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds a few units of margin around the edges of the bounding box.</p>
 </dd></dl>
 
 </dd></dl>
