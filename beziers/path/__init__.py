@@ -387,3 +387,23 @@ class BezierPath(SampleMixin,object):
       elif lenSoFar <= lineLength:
         points.append(self.pointAtTime(t))
     return newpaths
+
+  def segpairs(self):
+    segs = self.asSegments()
+    for i in range(0,len(segs)-1):
+      yield (segs[i],segs[i+1])
+
+  def harmonize(self, seg1, seg2):
+    if seg1.end.x != seg2.start.x or seg1.end.y != seg2.start.y: return
+    a1, a2 = seg1[1], seg1[2]
+    b1, b2 = seg2[1], seg2[2]
+    intersections = Line(a1,a2).intersections(Line(b1,b2))
+    if not intersections[0]: return
+    p0 = a1.distanceFrom(a2) / a2.distanceFrom(intersections[0])
+    p1 = b1.distanceFrom(intersections[0]) / b1.distanceFrom(b2)
+    r = math.sqrt(p0 * p1)
+    t = r / (r+1)
+    newA3 = a2.lerp(b1, t)
+    fixup = seg2.start - newA3
+    seg1[2] += fixup
+    seg2[1] += fixup
