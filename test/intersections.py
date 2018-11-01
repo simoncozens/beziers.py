@@ -15,9 +15,9 @@ class IntersectionMethods(unittest.TestCase):
     path.activeRepresentation = SegmentRepresentation(path,[q])
     i = q.intersections(l)
     self.assertEqual(len(i),3)
-    self.assertEqual(i[0],q.pointAtTime(0.117517031451))
-    self.assertEqual(i[1],q.pointAtTime(0.518591792307))
-    self.assertEqual(i[2],q.pointAtTime(0.867886610031))
+    self.assertEqual(i[0].point,q.pointAtTime(0.117517031451))
+    self.assertEqual(i[1].point,q.pointAtTime(0.518591792307))
+    self.assertEqual(i[2].point,q.pointAtTime(0.867886610031))
     # print q.intersections(l)
     # import matplotlib.pyplot as plt
     # fig, ax = plt.subplots()
@@ -46,9 +46,24 @@ class IntersectionMethods(unittest.TestCase):
     )
     i = q1.intersections(q2)
     self.assertEqual(len(i),3)
-    self.assertAlmostEqual(i[0].x,81.7904225873)
-    self.assertAlmostEqual(i[0].y,109.899396337)
-    self.assertAlmostEqual(i[1].x,133.186831292)
-    self.assertAlmostEqual(i[1].y,167.148173322)
-    self.assertAlmostEqual(i[2].x,179.869157678)
-    self.assertAlmostEqual(i[2].y,199.661989162)
+    self.assertAlmostEqual(i[0].point.x,81.7904225873)
+    self.assertAlmostEqual(i[0].point.y,109.899396337)
+    self.assertAlmostEqual(i[1].point.x,133.186831292)
+    self.assertAlmostEqual(i[1].point.y,167.148173322)
+    self.assertAlmostEqual(i[2].point.x,179.869157678)
+    self.assertAlmostEqual(i[2].point.y,199.661989162)
+    import matplotlib.pyplot as plt
+    fig, ax = plt.subplots()
+
+    path = BezierPath()
+    path.closed = False
+    path.activeRepresentation = SegmentRepresentation(path,[q1])
+    path.plot(ax)
+    path.activeRepresentation = SegmentRepresentation(path,[q2])
+    path.plot(ax)
+
+    for n in i:
+      circle = plt.Circle((n.point.x, n.point.y), 2, fill=True, color="red")
+      ax.add_artist(circle)
+
+    plt.show()

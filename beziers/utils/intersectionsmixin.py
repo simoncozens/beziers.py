@@ -1,12 +1,26 @@
 import sys
 from beziers.point import Point
 
+class Intersection:
+  """An object representing an intersection between two segments.
+  The location of the intersection on the first segment is accessible
+  as `i.seg1`, `i.t1`. The location of the intersection on the second
+  segments is `i.seg2`, `i.t2` and `i.point2` respectively.
+  You can get a Point object by calling `i.point`."""
+
+  def __init__(self,seg1,t1,seg2,t2):
+    self.seg1   = seg1
+    self.t1     = t1
+    self.point  = seg1.pointAtTime(t1)
+    self.seg2   = seg2
+    self.t2     = t2
+
 class IntersectionsMixin:
   # This isn't something we mix into different classes but I'm
   # just putting it here to keep the code tidy.
 
   def intersections(self, other):
-    """Returns an array of `Point` objects representing the intersections
+    """Returns an array of `Intersection` objects representing the intersections
     between this Segment and another Segment."""
     # Arrange by degree
     if len(other.points) > len(self.points): self,other = other,self
@@ -46,8 +60,8 @@ class IntersectionsMixin:
     x = ( slope12 * a.x - a.y - slope34 * c.x + c.y ) / ( slope12 - slope34 )
     y = slope12 * ( x - a.x ) + a.y
     intersection = Point(x,y)
-    if self._bothPointsAreOnSameSideOfOrigin(intersection, b, a) and self._bothPointsAreOnSameSideOfOrigin(intersection, c, d):
-      return [ intersection ]
+    if (self._bothPointsAreOnSameSideOfOrigin(intersection, b, a) and self._bothPointsAreOnSameSideOfOrigin(intersection, c, d)):
+      return [ Intersection(self,self.tOfPoint(intersection), other, other.tOfPoint(intersection)) ]
     return []
 
   def _curve_line_intersections_t(self,line):
@@ -59,7 +73,10 @@ class IntersectionsMixin:
     return sorted(intersections)
 
   def _curve_line_intersections(self,line):
-    return [self.pointAtTime(t) for t in self._curve_line_intersections_t(line)]
+    inter = []
+    for t in self._curve_line_intersections_t(line):
+      inter.append(Intersection(self,t,line,line.tOfPoint(self.pointAtTime(t))))
+    return inter
 
   def _curve_curve_intersections_t(self,other, precision=1e-6):
     if not (self.bounds().overlaps(other.bounds())): return []
@@ -95,4 +112,4 @@ class IntersectionsMixin:
     return found
 
   def _curve_curve_intersections(self,other):
-    return [self.pointAtTime(t[0]) for t in self._curve_curve_intersections_t(other)]
+    return [Intersection(self,t[0],other,t[1]) for t in self._curve_curve_intersections_t(other)]
