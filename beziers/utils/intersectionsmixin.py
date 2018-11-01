@@ -19,7 +19,7 @@ class IntersectionsMixin:
   # This isn't something we mix into different classes but I'm
   # just putting it here to keep the code tidy.
 
-  def intersections(self, other):
+  def intersections(self, other, limited = True):
     """Returns an array of `Intersection` objects representing the intersections
     between this Segment and another Segment."""
     # Arrange by degree
@@ -30,7 +30,11 @@ class IntersectionsMixin:
       if len(other.points) == 2:
         return self._curve_line_intersections(other)
     elif len(self.points) == 2 and len(other.points) == 2:
-        return self._line_line_intersections(other)
+        inter = self._line_line_intersections(other)
+        if limited:
+          return [ i  for i in inter if (i.t1 >= 0 and i.t1 <= 1 and i.t2 >= 0 and i.t2 <= 1)]
+        else:
+          return inter
     raise "Don't know how to compute intersections of a %s and a %s" % (type(self), type(other))
 
   def _bothPointsAreOnSameSideOfOrigin(self, a,b,c):

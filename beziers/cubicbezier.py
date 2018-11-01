@@ -164,7 +164,7 @@ class CubicBezier(Segment):
     the handles)."""
     h1 = Line(self[0], self[1])
     h2 = Line(self[2], self[3])
-    i = h1.intersections(h2)
+    i = h1.intersections(h2, limited = False)
     if len(i)<1: return
     i = i[0].point
     if i.distanceFrom(self[0]) > 5 * self.length:
