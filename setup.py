@@ -6,8 +6,8 @@ config = {
     'name': 'beziers',
     'author': 'Simon Cozens',
     'author_email': 'simon@simon-cozens.org',
-    'url': '',
-    'description': '',
+    'url': 'https://github.com/simoncozens/beziers.py',
+    'description': 'Bezier curve manipulation library',
     'long_description': open('README.rst', 'r').read(),
     'license': 'MIT',
     'version': '0.0.1',
@@ -17,7 +17,8 @@ config = {
         "Programming Language :: Python :: 2",
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",
-        "Development Status :: 1 - Planning",
+        "Development Status :: 4 - Beta"
+
     ],
     'packages': find_packages(),
 }
