@@ -31,7 +31,7 @@ class Line(Segment):
     """Returns the t (0->1) value of the given point, assuming it lies on the line, or -1 if it does not."""
     # Just find x and hope y fits
     # point = self.start * (1-t) + self.end * t
-    t = (point.x - self.start.x) / (self.end.x-self.start.y)
+    t = (point.x - self.start.x) / (self.end.x-self.start.x)
     if self.pointAtTime(t) == point: return t
     return -1
 
