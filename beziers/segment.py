@@ -53,6 +53,14 @@ class Segment(IntersectionsMixin,SampleMixin,object):
     """Returns a Point object representing the end of this segment."""
     return self.points[-1]
 
+  @property
+  def startAngle(self):
+    return (self.points[1]-self.points[0]).angle
+
+  @property
+  def endAngle(self):
+    return (self.points[-1]-self.points[-2]).angle
+
   def normalAtTime(self,t):
     """Returns a `Point` representing the normal (rotated tangent) at time `t`."""
     tan = self.tangentAtTime(t)
