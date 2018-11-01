@@ -47,12 +47,16 @@ class IntersectionsMixin:
       x = a.x
       slope34 = ( d.y - c.y) / ( d.x - c.x )
       y = slope34 * ( x - c.x ) + c.y
-      return [ Point(x, y) ]
+      p = Point(x,y)
+      i = Intersection(self,self.tOfPoint(p), other, other.tOfPoint(p))
+      return [ i ]
     if abs(d.x - c.x) < sys.float_info.epsilon:
       x = c.x
       slope12 = ( b.y - a.y) / ( b.x - a.x )
       y = slope12 * ( x - a.x ) + a.y
-      return [ Point(x, y) ]
+      p = Point(x,y)
+      i = Intersection(self,self.tOfPoint(p), other, other.tOfPoint(p))
+      return [ i ]
 
     slope12 = ( b.y - a.y) / ( b.x - a.x )
     slope34 = ( d.y - c.y) / ( d.x - c.x )

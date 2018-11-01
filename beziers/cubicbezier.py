@@ -166,10 +166,11 @@ class CubicBezier(Segment):
     h2 = Line(self[2], self[3])
     i = h1.intersections(h2)
     if len(i)<1: return
-    if i[0].distanceFrom(self[0]) > 5 * self.length:
+    i = i[0].point
+    if i.distanceFrom(self[0]) > 5 * self.length:
       return
     else:
-      return i[0]
+      return i
 
   def balance(self):
     """Perform Tunni balancing on this Bezier."""
