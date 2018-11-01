@@ -59,3 +59,66 @@ class PathTests(unittest.TestCase):
     # fig, ax = plt.subplots()
     # path.plot(ax)
     # plt.show()
+
+  def test_overlap(self):
+    nodes = [ Node(698.0,413.0,"offcurve"),
+      Node(401.0,179.0,"offcurve"),
+      Node(401.0,274.0,"curve"),
+      Node(401.0,368.0,"offcurve"),
+      Node(315.0,445.0,"offcurve"),
+      Node(210.0,445.0,"curve"),
+      Node(104.0,445.0,"offcurve"),
+      Node(18.0,368.0,"offcurve"),
+      Node(18.0,274.0,"curve"),
+      Node(18.0,179.0,"offcurve"),
+      Node(439.0,400.0,"offcurve"),
+      Node(533.0,405.0,"curve")
+    ]
+    p = BezierPath.fromNodelist(nodes)
+    p.closed = True
+    i = p.getSelfIntersections()
+    self.assertEqual(len(i),1)
+    self.assertEqual(i[0].point,Point(377.714262786,355.53493137))
+
+    # import matplotlib.pyplot as plt
+    # fig, ax = plt.subplots()
+    # p.plot(ax)
+    # for n in i:
+    #   circle = plt.Circle((n.point.x, n.point.y), 2, fill=True, color="red")
+    #   ax.add_artist(circle)
+    # plt.show()
+
+    p = BezierPath.fromNodelist([
+      Node(310.0,389.0,"line"),
+      Node(453.0,222.0,"line"),
+      Node(289.0,251.0,"line"),
+      Node(447.0,367.0,"line"),
+      Node(578.0,222.0,"line"),
+      Node(210.0,-8.0,"line"),
+    ])
+
+    i = p.getSelfIntersections()
+    self.assertEqual(len(i),1)
+    self.assertEqual(i[0].point,Point(374.448829525,313.734583702))
+
+  def test_splitatpoints(self):
+    p = BezierPath.fromNodelist([
+      Node(297.0,86.0,"offcurve"),
+      Node(344.0,138.0,"offcurve"),
+      Node(344.0,203.0,"curve"),
+      Node(344.0,267.0,"offcurve"),
+      Node(297.0,319.0,"offcurve"),
+      Node(240.0,319.0,"curve"),
+      Node(183.0,319.0,"offcurve"),
+      Node(136.0,267.0,"offcurve"),
+      Node(136.0,203.0,"curve"),
+      Node(136.0,138.0,"offcurve"),
+      Node(183.0,86.0,"offcurve"),
+      Node(240.0,86.0,"curve"),
+    ])
+    splitlist = []
+    for seg in p.asSegments():
+      for t in seg.regularSampleTValue(5):
+        splitlist.append((seg,t))
+    p.splitAtPoints(splitlist)
+    self.assertEqual(len(p.asSegments()),24)

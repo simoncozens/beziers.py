@@ -82,6 +82,15 @@ class BezierPath(SampleMixin,object):
     return self
 
   @classmethod
+  def fromNodelist(klass, array):
+    """Construct a path from an array of Node objects."""
+    self = klass()
+    for a in array: assert(isinstance(a, Node))
+    self.activeRepresentation = NodelistRepresentation(self,array)
+    self.asSegments() # Resolves a few problems
+    return self
+
+  @classmethod
   def fromFonttoolsGlyph(klass, glyph, glyphset):
     """Returns an *array of BezierPaths* from a FontTools glyph object.
     You must also provide the glyphset object to allow glyph decomposition."""
@@ -206,6 +215,10 @@ class BezierPath(SampleMixin,object):
           circle = plt.Circle((n.x, n.y), 2)
           ax.add_artist(circle)
 
+  def clone(self):
+    """Return a new path which is an exact copy of this one"""
+    return BezierPath.fromSegments(self.asSegments())
+
   def bounds(self):
     """Determine the bounding box of the path, returned as a
     `BoundingBox` object."""
@@ -214,22 +227,39 @@ class BezierPath(SampleMixin,object):
       bbox.extend(seg)
     return bbox
 
+  def splitAtPoints(self,splitlist):
+    def mapx(v,ds): return (v-ds)/(1-ds)
+    segs = self.asSegments()
+    newsegs = []
+    # Cluster splitlist by seg
+    newsplitlist = {}
+    for (seg,t) in splitlist:
+      if not seg in newsplitlist: newsplitlist[seg] = []
+      newsplitlist[seg].append(t)
+    for k in newsplitlist:
+      newsplitlist[k] = sorted(newsplitlist[k])
+    # Now walk the path
+    for seg in segs:
+      tList = newsplitlist[seg]
+      while len(tList) > 0:
+        t = tList.pop(0)
+        seg1,seg2 = seg.splitAtTime(t)
+        newsegs.append(seg1)
+        seg = seg2
+        for i in range(0,len(tList)): tList[i] = mapx(tList[i],t)
+      newsegs.append(seg)
+    self.activeRepresentation = SegmentRepresentation(self,newsegs)
+
+
   def addExtremes(self):
     """Add extreme points to the path."""
     def mapx(v,ds): return (v-ds)/(1-ds)
     segs = self.asSegments()
-    newsegs = []
+    splitlist = []
     for seg in segs:
-      count = 0
-      ex_t = seg.findExtremes()
-      while len(ex_t) > 0:
-        t = ex_t.pop(0)
-        seg1,seg2 = seg.splitAtTime(t)
-        newsegs.append(seg1)
-        seg = seg2
-        for i in range(0,len(ex_t)): ex_t[i] = mapx(ex_t[i],t)
-      newsegs.append(seg)
-    self.activeRepresentation = SegmentRepresentation(self,newsegs)
+      for t in seg.findExtremes():
+        splitlist.append((seg,t))
+    self.splitAtPoints(splitlist)
 
   @property
   def length(self):
@@ -397,13 +427,17 @@ class BezierPath(SampleMixin,object):
     if seg1.end.x != seg2.start.x or seg1.end.y != seg2.start.y: return
     a1, a2 = seg1[1], seg1[2]
     b1, b2 = seg2[1], seg2[2]
-    intersections = Line(a1,a2).intersections(Line(b1,b2))
+    intersections = Line(a1,a2).intersections(Line(b1,b2),limited=False)
     if not intersections[0]: return
-    p0 = a1.distanceFrom(a2) / a2.distanceFrom(intersections[0])
-    p1 = b1.distanceFrom(intersections[0]) / b1.distanceFrom(b2)
+    p0 = a1.distanceFrom(a2) / a2.distanceFrom(intersections[0].point)
+    p1 = b1.distanceFrom(intersections[0].point) / b1.distanceFrom(b2)
     r = math.sqrt(p0 * p1)
     t = r / (r+1)
     newA3 = a2.lerp(b1, t)
     fixup = seg2.start - newA3
     seg1[2] += fixup
     seg2[1] += fixup
+
+  def flatten(self):
+    samples = self.regularSample(self.length/10)
+    return BezierPath.fromNodelist([Node(p.x,p.y,"line") for p in samples])
