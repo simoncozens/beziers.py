@@ -6,6 +6,13 @@ from beziers.path import BezierPath
 from beziers.path.representations.Segment import SegmentRepresentation
 
 class IntersectionMethods(unittest.TestCase):
+
+  def test_line_line(self):
+    l1 = Line(Point(310,389), Point(453,222))
+    l2 = Line(Point(289,251), Point(447,367))
+    # Sanity check
+    self.assertEqual(len(l1.intersections(l2)),1)
+
   def test_cubic_line(self):
     q = CubicBezier(
       Point(100,240), Point(30,60), Point(210,230), Point(160,30))
@@ -52,18 +59,18 @@ class IntersectionMethods(unittest.TestCase):
     self.assertAlmostEqual(i[1].point.y,167.148173322)
     self.assertAlmostEqual(i[2].point.x,179.869157678)
     self.assertAlmostEqual(i[2].point.y,199.661989162)
-    import matplotlib.pyplot as plt
-    fig, ax = plt.subplots()
+    # import matplotlib.pyplot as plt
+    # fig, ax = plt.subplots()
 
-    path = BezierPath()
-    path.closed = False
-    path.activeRepresentation = SegmentRepresentation(path,[q1])
-    path.plot(ax)
-    path.activeRepresentation = SegmentRepresentation(path,[q2])
-    path.plot(ax)
+    # path = BezierPath()
+    # path.closed = False
+    # path.activeRepresentation = SegmentRepresentation(path,[q1])
+    # path.plot(ax)
+    # path.activeRepresentation = SegmentRepresentation(path,[q2])
+    # path.plot(ax)
 
-    for n in i:
-      circle = plt.Circle((n.point.x, n.point.y), 2, fill=True, color="red")
-      ax.add_artist(circle)
+    # for n in i:
+    #   circle = plt.Circle((n.point.x, n.point.y), 2, fill=True, color="red")
+    #   ax.add_artist(circle)
 
-    plt.show()
+    # plt.show()
