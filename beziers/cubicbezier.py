@@ -181,3 +181,23 @@ class CubicBezier(Segment):
     if avg > 0 and avg < 1:
       self[1] = self[0].lerp(p, avg)
       self[2] = self[3].lerp(p, avg)
+
+  @property
+  def hasLoop(self):
+    a1 = self[0].x * (self[3].y - self[2].y) + self[0].y * (self[2].x - self[3].x) + self[3].x * self[2].y - self[3].y * self[2].x
+    a2 = self[1].x * (self[0].y - self[3].y) + self[1].y * (self[3].x - self[0].x) + self[0].x * self[3].y - self[0].y * self[3].x
+    a3 = self[2].x * (self[1].y - self[0].y) + self[2].y * (self[0].x - self[1].x) + self[1].x * self[0].y - self[1].y * self[0].x
+    d3 = 3 * a3
+    d2 = d3 - a2
+    d1 = d2 - a2 + a1
+    l = math.sqrt(d1 * d1 + d2 * d2 + d3 * d3)
+    s = 0
+    if l != 0: s = 1 / l
+    d1 *= s
+    d2 *= s
+    d3 *= s
+    d = 3 * d2 * d2 - 4 * d1 * d3
+    if d >= 0: return False
+    f1 = math.sqrt(-d)
+    f2 = 2 * d1
+    return ((d2 + f1) / f2, (d2 - f1) / f2)

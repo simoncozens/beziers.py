@@ -127,3 +127,9 @@ class Segment(IntersectionsMixin,SampleMixin,object):
     for t in ex:
       bounds.extend(self.pointAtTime(t))
     return bounds
+
+  @property
+  def hasLoop(self):
+    """Returns True if the segment has a loop. (Only possible for cubics.)"""
+    return False
+  

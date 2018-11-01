@@ -1,6 +1,7 @@
 import unittest
 from beziers.cubicbezier import CubicBezier
 from beziers.point import Point
+from beziers.path import BezierPath
 
 class CubicMethods(unittest.TestCase):
   def test_extremes(self):
@@ -42,3 +43,18 @@ class CubicMethods(unittest.TestCase):
       Point(122,102), Point(35,200), Point(228,145), Point(190,46)
     )
     self.assertAlmostEqual(q.curvatureAtTime(0.5),-103450.5)
+
+  def test_loop(self):
+    q = CubicBezier(
+      Point(171,272), Point(388,249), Point(167,444), Point(388,176)
+    )
+    self.assertTrue(not q.hasLoop)
+
+    q = CubicBezier(
+      Point(171,272), Point(595,249), Point(167,444), Point(388,176)
+    )
+    roots = q.hasLoop
+    p1 = q.pointAtTime(roots[0])
+    p2 = q.pointAtTime(roots[1])
+    self.assertTrue(q.hasLoop)
+    self.assertEqual(p1,p2)
