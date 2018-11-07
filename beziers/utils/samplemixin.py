@@ -20,9 +20,11 @@ class SampleMixin(object):
     step = 1.0 / float(samples)
     t = 0.0
     samples = []
-    while t < 1.0:
+    while t <= 1.0:
       samples.append(self.pointAtTime(t))
       t += step
+    if t != 1.0:
+      samples.append(self.pointAtTime(1))
     return samples
 
   def regularSample(self,samples):
@@ -41,7 +43,7 @@ class SampleMixin(object):
     length = self.length
     step = 1.0 / length
     t = 0
-    while t < 1.0:
+    while t <= 1.0:
       lut.append( (t,self.lengthAtTime(t)) ) # Inefficient algorithm but computers are getting faster
       t += step
     desiredLength = 0.0
@@ -53,4 +55,6 @@ class SampleMixin(object):
         break
       rSamples.append(lut[0][0])
       desiredLength += length / samples
+    if rSamples[-1] != 1.0:
+      rSamples.append(1.0)
     return rSamples
