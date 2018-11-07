@@ -19,6 +19,32 @@ class CubicBezier(Segment):
     y = (1 - t) * (1 - t) * (1 - t) * self[0].y + 3 * (1 - t) * (1 - t) * t * self[1].y + 3 * (1 - t) * t * t * self[2].y + t * t * t * self[3].y;
     return Point(x,y)
 
+  def tOfPoint(self,p):
+    precision = 1.0/50.0
+    bestDist = float("inf")
+    bestT = -1
+    samples = self.regularSampleTValue(50)
+    for t in samples:
+      dist = self.pointAtTime(t).distanceFrom(p)
+      if dist < bestDist:
+        bestDist = dist
+        bestT = t
+    while precision > 1e-5:
+      precision = precision / 2
+      lower = bestT - precision
+      if lower < 0: lower = 0
+      upper = bestT + precision
+      if upper > 1: upper = 1
+      ldist = self.pointAtTime(lower).distanceFrom(p)
+      rdist = self.pointAtTime(lower).distanceFrom(p)
+      if ldist < bestDist:
+        bestT = lower
+        bestDist = ldist
+      if rdist < bestDist:
+        bestT = upper
+        bestDist = rdist
+    return bestT
+
   @property
   def length(self):
     """Returns the length of the cubic Bezier using the Legendre-Gauss approximation."""
