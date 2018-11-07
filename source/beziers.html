@@ -196,6 +196,16 @@ one:</p>
 <dd><p>Returns a Point object representing the end of this segment.</p>
 </dd></dl>
 
+<dl class="attribute">
+<dt id="beziers.segment.Segment.startAngle">
+<code class="descname">startAngle</code><a class="headerlink" href="#beziers.segment.Segment.startAngle" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="beziers.segment.Segment.endAngle">
+<code class="descname">endAngle</code><a class="headerlink" href="#beziers.segment.Segment.endAngle" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 <dl class="method">
 <dt id="beziers.segment.Segment.normalAtTime">
 <code class="descname">normalAtTime</code><span class="sig-paren">(</span><em>t</em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.segment.Segment.normalAtTime" title="Permalink to this definition">¶</a></dt>
@@ -267,10 +277,16 @@ up to the point t (0-&gt;1), where 1 is the end of the whole curve.</p>
 <dd><p>Returns a BoundingBox object for this segment.</p>
 </dd></dl>
 
+<dl class="attribute">
+<dt id="beziers.segment.Segment.hasLoop">
+<code class="descname">hasLoop</code><a class="headerlink" href="#beziers.segment.Segment.hasLoop" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns True if the segment has a loop. (Only possible for cubics.)</p>
+</dd></dl>
+
 <dl class="method">
 <dt id="beziers.segment.Segment.intersections">
-<code class="descname">intersections</code><span class="sig-paren">(</span><em>other</em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.segment.Segment.intersections" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns an array of <cite>Point</cite> objects representing the intersections
+<code class="descname">intersections</code><span class="sig-paren">(</span><em>other</em>, <em>limited=True</em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.segment.Segment.intersections" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns an array of <cite>Intersection</cite> objects representing the intersections
 between this Segment and another Segment.</p>
 </dd></dl>
 
@@ -343,6 +359,12 @@ samples along the length of the curve.</div>
 <dd><p>Returns two segments, dividing the given segment at a point t (0-&gt;1) along the line.</p>
 </dd></dl>
 
+<dl class="method">
+<dt id="beziers.line.Line.tOfPoint">
+<code class="descname">tOfPoint</code><span class="sig-paren">(</span><em>point</em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.line.Line.tOfPoint" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the t (0-&gt;1) value of the given point, assuming it lies on the line, or -1 if it does not.</p>
+</dd></dl>
+
 <dl class="attribute">
 <dt id="beziers.line.Line.slope">
 <code class="descname">slope</code><a class="headerlink" href="#beziers.line.Line.slope" title="Permalink to this definition">¶</a></dt>
@@ -389,10 +411,21 @@ but it’s quite handy for higher-order curves.</p>
 <dd><p>Returns a Point object representing the end of this segment.</p>
 </dd></dl>
 
+<dl class="attribute">
+<dt id="beziers.line.Line.endAngle">
+<code class="descname">endAngle</code><a class="headerlink" href="#beziers.line.Line.endAngle" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="beziers.line.Line.hasLoop">
+<code class="descname">hasLoop</code><a class="headerlink" href="#beziers.line.Line.hasLoop" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns True if the segment has a loop. (Only possible for cubics.)</p>
+</dd></dl>
+
 <dl class="method">
 <dt id="beziers.line.Line.intersections">
-<code class="descname">intersections</code><span class="sig-paren">(</span><em>other</em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.line.Line.intersections" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns an array of <cite>Point</cite> objects representing the intersections
+<code class="descname">intersections</code><span class="sig-paren">(</span><em>other</em>, <em>limited=True</em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.line.Line.intersections" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns an array of <cite>Intersection</cite> objects representing the intersections
 between this Segment and another Segment.</p>
 </dd></dl>
 
@@ -462,6 +495,11 @@ samples along the length of the curve.</div>
 <code class="descname">start</code><a class="headerlink" href="#beziers.line.Line.start" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns a Point object representing the start of this segment.</p>
 </dd></dl>
+
+<dl class="attribute">
+<dt id="beziers.line.Line.startAngle">
+<code class="descname">startAngle</code><a class="headerlink" href="#beziers.line.Line.startAngle" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 <dl class="method">
 <dt id="beziers.line.Line.transformed">
@@ -542,10 +580,21 @@ but it’s quite handy for higher-order curves.</p>
 <dd><p>Returns a Point object representing the end of this segment.</p>
 </dd></dl>
 
+<dl class="attribute">
+<dt id="beziers.quadraticbezier.QuadraticBezier.endAngle">
+<code class="descname">endAngle</code><a class="headerlink" href="#beziers.quadraticbezier.QuadraticBezier.endAngle" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="beziers.quadraticbezier.QuadraticBezier.hasLoop">
+<code class="descname">hasLoop</code><a class="headerlink" href="#beziers.quadraticbezier.QuadraticBezier.hasLoop" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns True if the segment has a loop. (Only possible for cubics.)</p>
+</dd></dl>
+
 <dl class="method">
 <dt id="beziers.quadraticbezier.QuadraticBezier.intersections">
-<code class="descname">intersections</code><span class="sig-paren">(</span><em>other</em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.quadraticbezier.QuadraticBezier.intersections" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns an array of <cite>Point</cite> objects representing the intersections
+<code class="descname">intersections</code><span class="sig-paren">(</span><em>other</em>, <em>limited=True</em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.quadraticbezier.QuadraticBezier.intersections" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns an array of <cite>Intersection</cite> objects representing the intersections
 between this Segment and another Segment.</p>
 </dd></dl>
 
@@ -622,6 +671,11 @@ samples along the length of the curve.</div>
 <dd><p>Returns a Point object representing the start of this segment.</p>
 </dd></dl>
 
+<dl class="attribute">
+<dt id="beziers.quadraticbezier.QuadraticBezier.startAngle">
+<code class="descname">startAngle</code><a class="headerlink" href="#beziers.quadraticbezier.QuadraticBezier.startAngle" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 <dl class="method">
 <dt id="beziers.quadraticbezier.QuadraticBezier.transformed">
 <code class="descname">transformed</code><span class="sig-paren">(</span><em>transformation</em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.quadraticbezier.QuadraticBezier.transformed" title="Permalink to this definition">¶</a></dt>
@@ -656,6 +710,11 @@ this segment by the given vector. i.e.:</p>
 <code class="descname">pointAtTime</code><span class="sig-paren">(</span><em>t</em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.cubicbezier.CubicBezier.pointAtTime" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns the point at time t (0-&gt;1) along the curve.</p>
 </dd></dl>
+
+<dl class="method">
+<dt id="beziers.cubicbezier.CubicBezier.tOfPoint">
+<code class="descname">tOfPoint</code><span class="sig-paren">(</span><em>p</em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.cubicbezier.CubicBezier.tOfPoint" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 <dl class="attribute">
 <dt id="beziers.cubicbezier.CubicBezier.length">
@@ -718,6 +777,12 @@ the handles).</p>
 <dd><p>Perform Tunni balancing on this Bezier.</p>
 </dd></dl>
 
+<dl class="attribute">
+<dt id="beziers.cubicbezier.CubicBezier.hasLoop">
+<code class="descname">hasLoop</code><a class="headerlink" href="#beziers.cubicbezier.CubicBezier.hasLoop" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns True if the segment has a loop. (Only possible for cubics.)</p>
+</dd></dl>
+
 <dl class="method">
 <dt id="beziers.cubicbezier.CubicBezier.aligned">
 <code class="descname">aligned</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#beziers.cubicbezier.CubicBezier.aligned" title="Permalink to this definition">¶</a></dt>
@@ -744,10 +809,15 @@ but it’s quite handy for higher-order curves.</p>
 <dd><p>Returns a Point object representing the end of this segment.</p>
 </dd></dl>
 
+<dl class="attribute">
+<dt id="beziers.cubicbezier.CubicBezier.endAngle">
+<code class="descname">endAngle</code><a class="headerlink" href="#beziers.cubicbezier.CubicBezier.endAngle" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 <dl class="method">
 <dt id="beziers.cubicbezier.CubicBezier.intersections">
-<code class="descname">intersections</code><span class="sig-paren">(</span><em>other</em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.cubicbezier.CubicBezier.intersections" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns an array of <cite>Point</cite> objects representing the intersections
+<code class="descname">intersections</code><span class="sig-paren">(</span><em>other</em>, <em>limited=True</em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.cubicbezier.CubicBezier.intersections" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns an array of <cite>Intersection</cite> objects representing the intersections
 between this Segment and another Segment.</p>
 </dd></dl>
 
@@ -823,6 +893,11 @@ samples along the length of the curve.</div>
 <code class="descname">start</code><a class="headerlink" href="#beziers.cubicbezier.CubicBezier.start" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns a Point object representing the start of this segment.</p>
 </dd></dl>
+
+<dl class="attribute">
+<dt id="beziers.cubicbezier.CubicBezier.startAngle">
+<code class="descname">startAngle</code><a class="headerlink" href="#beziers.cubicbezier.CubicBezier.startAngle" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 <dl class="method">
 <dt id="beziers.cubicbezier.CubicBezier.transformed">

@@ -39,7 +39,7 @@
 <dl class="class">
 <dt id="beziers.path.BezierPath">
 <em class="property">class </em><code class="descclassname">beziers.path.</code><code class="descname">BezierPath</code><a class="headerlink" href="#beziers.path.BezierPath" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">beziers.utils.samplemixin.SampleMixin</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">beziers.utils.booleanoperationsmixin.BooleanOperationsMixin</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">beziers.utils.samplemixin.SampleMixin</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p><cite>BezierPath</cite> represents a collection of <cite>Segment</cite> objects - the
 curves and lines that make up a path.</p>
 <p>One of the really fiddly things about manipulating Bezier paths in
@@ -93,6 +93,12 @@ detection can be controlled with <cite>cornerTolerance</cite>.</p>
 </dd></dl>
 
 <dl class="classmethod">
+<dt id="beziers.path.BezierPath.fromNodelist">
+<em class="property">classmethod </em><code class="descname">fromNodelist</code><span class="sig-paren">(</span><em>array</em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.BezierPath.fromNodelist" title="Permalink to this definition">¶</a></dt>
+<dd><p>Construct a path from an array of Node objects.</p>
+</dd></dl>
+
+<dl class="classmethod">
 <dt id="beziers.path.BezierPath.fromFonttoolsGlyph">
 <em class="property">classmethod </em><code class="descname">fromFonttoolsGlyph</code><span class="sig-paren">(</span><em>glyph</em>, <em>glyphset</em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.BezierPath.fromFonttoolsGlyph" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns an <em>array of BezierPaths</em> from a FontTools glyph object.
@@ -129,11 +135,22 @@ or, if you are exceptionally unlucky, QuadraticBezier objects).</p>
 </dd></dl>
 
 <dl class="method">
+<dt id="beziers.path.BezierPath.clone">
+<code class="descname">clone</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.BezierPath.clone" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a new path which is an exact copy of this one</p>
+</dd></dl>
+
+<dl class="method">
 <dt id="beziers.path.BezierPath.bounds">
 <code class="descname">bounds</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.BezierPath.bounds" title="Permalink to this definition">¶</a></dt>
 <dd><p>Determine the bounding box of the path, returned as a
 <cite>BoundingBox</cite> object.</p>
 </dd></dl>
+
+<dl class="method">
+<dt id="beziers.path.BezierPath.splitAtPoints">
+<code class="descname">splitAtPoints</code><span class="sig-paren">(</span><em>splitlist</em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.BezierPath.splitAtPoints" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 <dl class="method">
 <dt id="beziers.path.BezierPath.addExtremes">
@@ -219,8 +236,8 @@ will be drawn between them.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="beziers.path.BezierPath.harmonize">
-<code class="descname">harmonize</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.BezierPath.harmonize" title="Permalink to this definition">¶</a></dt>
+<dt id="beziers.path.BezierPath.roundCorners">
+<code class="descname">roundCorners</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.BezierPath.roundCorners" title="Permalink to this definition">¶</a></dt>
 <dd><p>Not implemented yet</p>
 </dd></dl>
 
@@ -241,6 +258,31 @@ will be drawn between them.</p>
 </dd></dl>
 
 <dl class="method">
+<dt id="beziers.path.BezierPath.segpairs">
+<code class="descname">segpairs</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.BezierPath.segpairs" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="beziers.path.BezierPath.harmonize">
+<code class="descname">harmonize</code><span class="sig-paren">(</span><em>seg1</em>, <em>seg2</em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.BezierPath.harmonize" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="beziers.path.BezierPath.booleanOperators">
+<code class="descname">booleanOperators</code><em class="property"> = {'exclude': {'-1': True, '1': True}, 'intersect': {'2': True}, 'subtract': {'1': True}, 'unite': {'1': True, '2': True}}</em><a class="headerlink" href="#beziers.path.BezierPath.booleanOperators" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="beziers.path.BezierPath.flatten">
+<code class="descname">flatten</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.BezierPath.flatten" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="beziers.path.BezierPath.getSelfIntersections">
+<code class="descname">getSelfIntersections</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.BezierPath.getSelfIntersections" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
 <dt id="beziers.path.BezierPath.regularSample">
 <code class="descname">regularSample</code><span class="sig-paren">(</span><em>samples</em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.BezierPath.regularSample" title="Permalink to this definition">¶</a></dt>
 <dd><p>Samples a segment or path a given number of times, returning a list of Point objects,
@@ -255,6 +297,11 @@ of the curve. This is an expensive operation because I am a lazy programmer.</p>
 represent regular spaced samples along the curve. Use this method to get a list of time
 values instead of Point objects.</p>
 </dd></dl>
+
+<dl class="method">
+<dt id="beziers.path.BezierPath.removeOverlap">
+<code class="descname">removeOverlap</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.BezierPath.removeOverlap" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 <dl class="method">
 <dt id="beziers.path.BezierPath.sample">
