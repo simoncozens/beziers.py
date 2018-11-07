@@ -272,6 +272,8 @@ class BezierPath(SampleMixin,object):
   def pointAtTime(self,t):
     """Returns the point at time t (0->1) along the curve, where 1 is the end of the whole curve."""
     segs = self.asSegments()
+    if t == 1.0:
+      return segs[-1].pointAtTime(1)
     t *= len(segs)
     seg = segs[int(math.floor(t))]
     return seg.pointAtTime(t-math.floor(t))
