@@ -3,13 +3,14 @@ from beziers.path.representations.Nodelist import NodelistRepresentation, Node
 from beziers.point import Point
 from beziers.boundingbox import BoundingBox
 from beziers.utils.samplemixin import SampleMixin
+from beziers.utils.booleanoperationsmixin import BooleanOperationsMixin
 from beziers.segment import Segment
 from beziers.line import Line
 from beziers.cubicbezier import CubicBezier
 
 import math
 
-class BezierPath(SampleMixin,object):
+class BezierPath(BooleanOperationsMixin,SampleMixin,object):
   """`BezierPath` represents a collection of `Segment` objects - the
   curves and lines that make up a path.
 
@@ -240,13 +241,14 @@ class BezierPath(SampleMixin,object):
       newsplitlist[k] = sorted(newsplitlist[k])
     # Now walk the path
     for seg in segs:
-      tList = newsplitlist[seg]
-      while len(tList) > 0:
-        t = tList.pop(0)
-        seg1,seg2 = seg.splitAtTime(t)
-        newsegs.append(seg1)
-        seg = seg2
-        for i in range(0,len(tList)): tList[i] = mapx(tList[i],t)
+      if seg in newsplitlist:
+        tList = newsplitlist[seg]
+        while len(tList) > 0:
+          t = tList.pop(0)
+          seg1,seg2 = seg.splitAtTime(t)
+          newsegs.append(seg1)
+          seg = seg2
+          for i in range(0,len(tList)): tList[i] = mapx(tList[i],t)
       newsegs.append(seg)
     self.activeRepresentation = SegmentRepresentation(self,newsegs)
 
@@ -392,6 +394,9 @@ class BezierPath(SampleMixin,object):
   def harmonize(self):
     """Not implemented yet"""
 
+  def roundCorners(self):
+    """Not implemented yet"""
+
   def dash(self, lineLength = 50, gapLength = None):
     """Returns a list of BezierPath objects created by chopping
     this path into a dashed line::
@@ -443,3 +448,16 @@ class BezierPath(SampleMixin,object):
   def flatten(self):
     samples = self.regularSample(self.length/10)
     return BezierPath.fromNodelist([Node(p.x,p.y,"line") for p in samples])
+
+  def windingNumberOfPoint(self,pt):
+    bl = self.bounds().bl
+    ray1 = Line(bl,pt)
+    intersections = []
+    for s in self.asSegments():
+      intersections.extend(s.intersections(ray1))
+    return len(intersections)
+
+  def pointIsInside(self,pt):
+    """Returns true if the given point lies on the "inside" of the path."""
+    li = self.windingNumberOfPoint(pt)
+    return li > 0 and li % 2 == 1

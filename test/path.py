@@ -122,3 +122,20 @@ class PathTests(unittest.TestCase):
         splitlist.append((seg,t))
     p.splitAtPoints(splitlist)
     self.assertEqual(len(p.asSegments()),24)
+
+  def test_inside(self):
+    p = BezierPath.fromNodelist([
+      Node(329,320,"line"),
+      Node(564,190,"line"),
+      Node(622,332,"offcurve"),
+      Node(495,471,"offcurve"),
+      Node(329,471,"curve"),
+      Node(164,471,"offcurve"),
+      Node(34,334,"offcurve"),
+      Node(93,190,"curve")
+    ])
+    self.assertTrue(p.pointIsInside(Point(326,423)))
+    self.assertFalse(p.pointIsInside(Point(326,123)))
+    self.assertFalse(p.pointIsInside(Point(326,251)))
+    self.assertTrue(p.pointIsInside(Point(526,251)))
+    self.assertTrue(p.pointIsInside(Point(126,251)))
