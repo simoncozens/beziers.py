@@ -450,14 +450,23 @@ class BezierPath(BooleanOperationsMixin,SampleMixin,object):
     return BezierPath.fromNodelist([Node(p.x,p.y,"line") for p in samples])
 
   def windingNumberOfPoint(self,pt):
-    bl = self.bounds().bl
-    ray1 = Line(bl,pt)
+    ray1 = Line(Point(self.bounds().left,pt.y),pt)
+    ray2 = Line(Point(self.bounds().right,pt.y),pt)
     intersections = []
+    leftWinding = 0
+    rightWinding = 0
     for s in self.asSegments():
-      intersections.extend(s.intersections(ray1))
-    return len(intersections)
+      for i in s.intersections(ray1):
+        tangent = s.tangentAtTime(i.t1)
+        leftWinding += int(math.copysign(1,tangent.y))
+      for i in s.intersections(ray2):
+        tangent = s.tangentAtTime(i.t1)
+        rightWinding += int(math.copysign(1,tangent.y))
+    return max(abs(leftWinding),abs(rightWinding))
 
   def pointIsInside(self,pt):
-    """Returns true if the given point lies on the "inside" of the path."""
+    """Returns true if the given point lies on the "inside" of the path,
+    assuming an 'even-odd' winding rule where self-intersections are considered
+    outside."""
     li = self.windingNumberOfPoint(pt)
-    return li > 0 and li % 2 == 1
+    return li % 2 == 1
