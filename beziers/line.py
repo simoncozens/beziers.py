@@ -16,9 +16,14 @@ class Line(Segment):
     """Returns the point at time t (0->1) along the line."""
     return self.start.lerp(self.end, t)
 
+  # XXX One of these is wrong
+  def tangentAtTime(self,t):
+    """Returns the tangent at time t (0->1) along the line."""
+    return Point.fromAngle(math.atan2(self.end.y-self.start.y,self.end.x-self.start.x))
+
   def normalAtTime(self,t):
     """Returns the normal at time t (0->1) along the line."""
-    return Point.fromAngle(self.slope)
+    return self.tangentAtTime(t).rotated(Point(0,0),math.pi/2)
 
   def curvatureAtTime(self,t):
     return sys.float_info.epsilon # Avoid divide-by-zero
@@ -43,6 +48,7 @@ class Line(Segment):
   @property
   def slope(self):
     v = self[1]-self[0]
+    if v.x == 0: return 0
     return v.y / v.x
 
   @property
