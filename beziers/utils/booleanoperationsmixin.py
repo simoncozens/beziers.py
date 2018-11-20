@@ -49,6 +49,8 @@ class BooleanOperationsMixin:
       else:
         seg.next = segs[0]
       seg.visited = False
+      segWinding = self.windingNumberOfPoint(seg.pointAtTime(0.5))
+      seg.windingNumber = segWinding
       if roundoff(seg.end) in splitpoints:
         splitpoints[roundoff(seg.end)]["in"].append(seg)
       if roundoff(seg.start) in splitpoints:
@@ -68,10 +70,11 @@ class BooleanOperationsMixin:
         # print("Options are: ")
         # for s in splitpoints[roundoff(seg.end)]["out"]:
           # print(s.end, s.tangentAtTime(0).angle, self.windingNumberOfPoint(s.pointAtTime(0.5)))
-        # # Filter out the inside points
-        # splitpoints[roundoff(seg.end)]["out"] = [ o for o in splitpoints[roundoff(seg.end)]["out"] if self.windingNumberOfPoint(o.pointAtTime(0.5)) % 2 == 0]
+        # Filter out the inside points
+        splitpoints[roundoff(seg.end)]["out"] = [ o for o in splitpoints[roundoff(seg.end)]["out"] if o.windingNumber < 2]
         splitpoints[roundoff(seg.end)]["out"].sort(key = lambda x: x.tangentAtTime(0).angle-inAngle)
         seg = splitpoints[roundoff(seg.end)]["out"].pop(-1)
+        # seg = seg.next
         # print("I chose %s\n" % seg)
       else:
         seg = seg.next

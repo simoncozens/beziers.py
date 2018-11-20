@@ -32,7 +32,7 @@ class IntersectionsMixin:
     elif len(self.points) == 2 and len(other.points) == 2:
         inter = self._line_line_intersections(other)
     if limited:
-      return [ i  for i in inter if (i.t1 > 0.01 and i.t1 < 0.99 and i.t2 > 0.01 and i.t2 < 0.99)]
+      return [ i  for i in inter if (i.t1 >= 0 and i.t1 <= 1 and i.t2 >= 0 and i.t2 <= 1)]
     else:
       return inter
     raise "Don't know how to compute intersections of a %s and a %s" % (type(self), type(other))
