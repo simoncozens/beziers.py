@@ -291,7 +291,9 @@ will be drawn between them.</p>
 <dl class="method">
 <dt id="beziers.path.BezierPath.pointIsInside">
 <code class="descname">pointIsInside</code><span class="sig-paren">(</span><em>pt</em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.BezierPath.pointIsInside" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns true if the given point lies on the “inside” of the path.</p>
+<dd><p>Returns true if the given point lies on the “inside” of the path,
+assuming an ‘even-odd’ winding rule where self-intersections are considered
+outside.</p>
 </dd></dl>
 
 <dl class="method">
