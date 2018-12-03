@@ -450,18 +450,36 @@ class BezierPath(BooleanOperationsMixin,SampleMixin,object):
     return BezierPath.fromNodelist([Node(p.x,p.y,"line") for p in samples])
 
   def windingNumberOfPoint(self,pt):
-    ray1 = Line(Point(self.bounds().left,pt.y),pt)
-    ray2 = Line(Point(self.bounds().right,pt.y),pt)
-    intersections = []
+    # print("Point: %s" % pt)
+    bounds = self.bounds()
+    bounds.addMargin(10)
+    ray1 = Line(Point(bounds.left,pt.y),pt)
+    ray2 = Line(Point(bounds.right,pt.y),pt)
+    leftIntersections = {}
+    rightIntersections = {}
     leftWinding = 0
     rightWinding = 0
     for s in self.asSegments():
       for i in s.intersections(ray1):
-        tangent = s.tangentAtTime(i.t1)
-        leftWinding += int(math.copysign(1,tangent.y))
+        # print("Found left intersection with %s: %s" % (ray1, i.point))
+        leftIntersections[i.point] = i
+
       for i in s.intersections(ray2):
-        tangent = s.tangentAtTime(i.t1)
-        rightWinding += int(math.copysign(1,tangent.y))
+        rightIntersections[i.point] = i
+
+    for i in leftIntersections.values():
+      # XXX tangents here are all positive? Really?
+      # print(i.seg1, i.t1, i.point)
+      tangent = s.tangentAtTime(i.t1)
+      # print("Tangent at left intersection %s is %f" % (i.point,tangent.y))
+      leftWinding += int(math.copysign(1,tangent.y))
+
+    for i in rightIntersections.values():
+      tangent = s.tangentAtTime(i.t1)
+      # print("Tangent at right intersection %s is %f" % (i.point,tangent.y))
+      rightWinding += int(math.copysign(1,tangent.y))
+
+    # print("Left winding: %i right winding: %i " % (leftWinding,rightWinding))
     return max(abs(leftWinding),abs(rightWinding))
 
   def pointIsInside(self,pt):
