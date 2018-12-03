@@ -1,6 +1,8 @@
 import sys
 from beziers.point import Point
 
+my_epsilon = 2e-7
+
 class Intersection:
   """An object representing an intersection between two segments.
   The location of the intersection on the first segment is accessible
@@ -31,8 +33,14 @@ class IntersectionsMixin:
         inter = self._curve_line_intersections(other)
     elif len(self.points) == 2 and len(other.points) == 2:
         inter = self._line_line_intersections(other)
+
+    def withinRange(t):
+      if t < my_epsilon: return False
+      if t > 1.0 + my_epsilon: return False
+      return True
+
     if limited:
-      return [ i  for i in inter if (i.t1 >= 0 and i.t1 <= 1 and i.t2 >= 0 and i.t2 <= 1)]
+      return [ i  for i in inter if withinRange(i.t1) and withinRange(i.t2) ]
     else:
       return inter
     raise "Don't know how to compute intersections of a %s and a %s" % (type(self), type(other))
@@ -47,14 +55,14 @@ class IntersectionsMixin:
     b = self.end
     c = other.start
     d = other.end
-    if abs(b.x - a.x) < sys.float_info.epsilon:
+    if abs(b.x - a.x) < my_epsilon:
       x = a.x
       slope34 = ( d.y - c.y) / ( d.x - c.x )
       y = slope34 * ( x - c.x ) + c.y
       p = Point(x,y)
       i = Intersection(self,self.tOfPoint(p), other, other.tOfPoint(p))
       return [ i ]
-    if abs(d.x - c.x) < sys.float_info.epsilon:
+    if abs(d.x - c.x) < my_epsilon:
       x = c.x
       slope12 = ( b.y - a.y) / ( b.x - a.x )
       y = slope12 * ( x - a.x ) + a.y
@@ -64,7 +72,7 @@ class IntersectionsMixin:
 
     slope12 = ( b.y - a.y) / ( b.x - a.x )
     slope34 = ( d.y - c.y) / ( d.x - c.x )
-    if abs(slope12 - slope34) < sys.float_info.epsilon: return
+    if abs(slope12 - slope34) < my_epsilon: return [ ]
     x = ( slope12 * a.x - a.y - slope34 * c.x + c.y ) / ( slope12 - slope34 )
     y = slope12 * ( x - a.x ) + a.y
     intersection = Point(x,y)
@@ -74,7 +82,6 @@ class IntersectionsMixin:
 
   def _curve_line_intersections_t(self,line):
     t = line.alignmentTransformation()
-    l1 = line.aligned()
     c1 = self.transformed(t)
     intersections = c1._findRoots("x")
     intersections.extend(c1._findRoots("y"))
