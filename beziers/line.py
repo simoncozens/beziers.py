@@ -42,7 +42,7 @@ class Line(Segment):
       t = (point.y - self.start.y) / (self.end.y-self.start.y)
     else:
       raise "Line is actually a point..."
-    if self.pointAtTime(t) == point: return t
+    if self.pointAtTime(t).distanceFrom(point) < 2e-7: return t
     return -1
 
   @property
