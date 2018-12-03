@@ -43,6 +43,11 @@ class Segment(IntersectionsMixin,SampleMixin,object):
   def __len__(self):
     return len(self.points)
 
+  def clone(self):
+    """Returns a new Segment which is a copy of this segment."""
+    klass = self.__class__
+    return klass(*[ p.clone() for p in self.points ])
+
   @property
   def start(self):
     """Returns a Point object representing the start of this segment."""
