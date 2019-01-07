@@ -53,3 +53,13 @@ A `BoundingBox`
     :undoc-members:
     :show-inheritance:
 
+Helpful utility classes
+=======================
+
+Geometric shapes
+----------------
+
+.. automodule:: beziers.path.geometricshapes
+    :members:
+    :undoc-members:
+    :show-inheritance:

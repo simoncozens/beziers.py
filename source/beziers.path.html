@@ -94,13 +94,13 @@ detection can be controlled with <cite>cornerTolerance</cite>.</p>
 
 <dl class="classmethod">
 <dt id="beziers.path.BezierPath.fromNodelist">
-<em class="property">classmethod </em><code class="descname">fromNodelist</code><span class="sig-paren">(</span><em>array</em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.BezierPath.fromNodelist" title="Permalink to this definition">¶</a></dt>
+<em class="property">classmethod </em><code class="descname">fromNodelist</code><span class="sig-paren">(</span><em>array</em>, <em>closed=True</em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.BezierPath.fromNodelist" title="Permalink to this definition">¶</a></dt>
 <dd><p>Construct a path from an array of Node objects.</p>
 </dd></dl>
 
 <dl class="classmethod">
 <dt id="beziers.path.BezierPath.fromFonttoolsGlyph">
-<em class="property">classmethod </em><code class="descname">fromFonttoolsGlyph</code><span class="sig-paren">(</span><em>glyph</em>, <em>glyphset</em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.BezierPath.fromFonttoolsGlyph" title="Permalink to this definition">¶</a></dt>
+<em class="property">classmethod </em><code class="descname">fromFonttoolsGlyph</code><span class="sig-paren">(</span><em>glyph</em>, <em>glyphset</em>, <em>glyfTable</em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.BezierPath.fromFonttoolsGlyph" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns an <em>array of BezierPaths</em> from a FontTools glyph object.
 You must also provide the glyphset object to allow glyph decomposition.</p>
 </dd></dl>
@@ -224,6 +224,12 @@ will be drawn between them.</p>
 </dd></dl>
 
 <dl class="method">
+<dt id="beziers.path.BezierPath.scale">
+<code class="descname">scale</code><span class="sig-paren">(</span><em>by</em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.BezierPath.scale" title="Permalink to this definition">¶</a></dt>
+<dd><p>Scales the path by a given magnitude.</p>
+</dd></dl>
+
+<dl class="method">
 <dt id="beziers.path.BezierPath.balance">
 <code class="descname">balance</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.BezierPath.balance" title="Permalink to this definition">¶</a></dt>
 <dd><p>Performs Tunni balancing on the path.</p>
@@ -278,6 +284,25 @@ will be drawn between them.</p>
 <dd></dd></dl>
 
 <dl class="method">
+<dt id="beziers.path.BezierPath.pointIsInside">
+<code class="descname">pointIsInside</code><span class="sig-paren">(</span><em>pt</em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.BezierPath.pointIsInside" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns true if the given point lies on the “inside” of the path,
+assuming an ‘even-odd’ winding rule where self-intersections are considered
+outside.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="beziers.path.BezierPath.area">
+<code class="descname">area</code><a class="headerlink" href="#beziers.path.BezierPath.area" title="Permalink to this definition">¶</a></dt>
+<dd><p>Approximates the area under a closed path by flattening and treating as a polygon.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="beziers.path.BezierPath.centroid">
+<code class="descname">centroid</code><a class="headerlink" href="#beziers.path.BezierPath.centroid" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
 <dt id="beziers.path.BezierPath.clip">
 <code class="descname">clip</code><span class="sig-paren">(</span><em>clip</em>, <em>s_entry</em>, <em>c_entry</em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.BezierPath.clip" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
@@ -286,6 +311,14 @@ will be drawn between them.</p>
 <dt id="beziers.path.BezierPath.difference">
 <code class="descname">difference</code><span class="sig-paren">(</span><em>other</em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.BezierPath.difference" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns a list of Bezier paths representing the first input path subtracted from the second.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="beziers.path.BezierPath.drawWithBrush">
+<code class="descname">drawWithBrush</code><span class="sig-paren">(</span><em>other</em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.BezierPath.drawWithBrush" title="Permalink to this definition">¶</a></dt>
+<dd><p>Assuming that <cite>other</cite> is a closed Bezier path representing a pen or
+brush of a certain shape and that <cite>self</cite> is an open path, this method
+traces the brush along the path, returning an array of Bezier paths.</p>
 </dd></dl>
 
 <dl class="method">
@@ -298,14 +331,6 @@ will be drawn between them.</p>
 <dt id="beziers.path.BezierPath.intersection">
 <code class="descname">intersection</code><span class="sig-paren">(</span><em>other</em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.BezierPath.intersection" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns a list of Bezier paths representing the intersection of the two input paths.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="beziers.path.BezierPath.pointIsInside">
-<code class="descname">pointIsInside</code><span class="sig-paren">(</span><em>pt</em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.BezierPath.pointIsInside" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns true if the given point lies on the “inside” of the path,
-assuming an ‘even-odd’ winding rule where self-intersections are considered
-outside.</p>
 </dd></dl>
 
 <dl class="method">
@@ -395,6 +420,7 @@ samples along the length of the curve.</div>
 <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="beziers.html">Core Concepts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="beziers.html#helpful-utility-classes">Helpful utility classes</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Handling Bezier Paths (Splines)</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#subpackages">Subpackages</a></li>
 </ul>
