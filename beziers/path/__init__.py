@@ -382,6 +382,11 @@ class BezierPath(BooleanOperationsMixin,SampleMixin,object):
     seg2 = [ x.rotated(about, angle) for x in self.asSegments()]
     self.activeRepresentation = SegmentRepresentation(self, seg2)
 
+  def scale(self, by):
+    """Scales the path by a given magnitude."""
+    seg2 = [ x.scaled(by) for x in self.asSegments()]
+    self.activeRepresentation = SegmentRepresentation(self, seg2)
+
   def balance(self):
     """Performs Tunni balancing on the path."""
     segs = self.asSegments()

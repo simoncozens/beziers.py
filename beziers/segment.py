@@ -105,6 +105,20 @@ class Segment(IntersectionsMixin,SampleMixin,object):
     for p in pNew: p.rotate(around,by)
     return klass(*pNew)
 
+  def scaled(self,bx):
+    """Returns a *new Segment object* representing the scaling of
+    this segment by the given magnification. i.e.::
+
+      >>> l = Line(Point(0,0), Point(10,10))
+      >>> l.scaled(2)
+      L<<0,0>--<20,20>>
+
+    """
+
+    klass = self.__class__
+    pNew = [ p * bx for p in self.points]
+    return klass(*pNew)
+
   def transformed(self, transformation):
     """Returns a *new Segment object* transformed by the given AffineTransformation matrix."""
     klass = self.__class__
