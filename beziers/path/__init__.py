@@ -92,36 +92,36 @@ class BezierPath(BooleanOperationsMixin,SampleMixin,object):
     return self
 
   @classmethod
-  def fromFonttoolsGlyph(klass, glyph, glyphset):
+  def fromFonttoolsGlyph(klass, glyph, glyphset, glyfTable):
     """Returns an *array of BezierPaths* from a FontTools glyph object.
     You must also provide the glyphset object to allow glyph decomposition."""
 
-    from fontTools.pens.recordingPen import  DecomposingRecordingPen
-    pen = DecomposingRecordingPen(glyphset)
-    glyph.draw(pen)
-    paths = []
-    path = BezierPath()
-    path.closed = False
-    nodeList = []
-    for seg in pen.value:
-      if seg[0] == "moveTo":
-        point = seg[1][0]
-        nodeList = [Node(point[0],point[1],"move")]
-      if seg[0] == "curveTo":
-        p2,p3,p4 = seg[1]
-        nodeList.append(Node(p2[0],p2[1],"offcurve"))
-        nodeList.append(Node(p3[0],p3[1],"offcurve"))
-        nodeList.append(Node(p4[0],p4[1],"curve"))
-      if seg[0] == "lineTo":
-        p2 = seg[1][0]
-        nodeList.append(Node(p2[0],p2[1],"line"))
-      if seg[0] == "closePath":
-        path.closed = True
-        ## Finish path
-        path.activeRepresentation = NodelistRepresentation(path, nodeList)
-        paths.append(path)
-        path = BezierPath()
-    return paths
+    from fontTools.pens.basePen import BasePen
+    class MyPen(BasePen):
+      def __init__(self, glyphSet=None):
+        super(MyPen, self).__init__(glyphSet)
+        self.paths = []
+        self.path = BezierPath()
+        self.nodeList = []
+      def _moveTo(self, p):
+        self.nodeList = [Node(p[0], p[1], "move")]
+      def _lineTo(self, p):
+        self.nodeList.append(Node(p[0], p[1], "line"))
+      def _curveToOne(self, p1, p2, p3):
+        self.nodeList.append(Node(p1[0], p1[1], "offcurve"))
+        self.nodeList.append(Node(p2[0], p2[1], "offcurve"))
+        self.nodeList.append(Node(p3[0], p3[1], "curve"))
+      def _qCurveToOne(self, p1, p2):
+        self.nodeList.append(Node(p1[0], p1[1], "offcurve"))
+        self.nodeList.append(Node(p2[0], p2[1], "curve"))
+      def _closePath(self):
+        self.path.closed = True
+        self.path.activeRepresentation = NodelistRepresentation(self.path, self.nodeList)
+        self.paths.append(self.path)
+        self.path = BezierPath()
+    pen = MyPen(glyphset)
+    glyph.draw(pen, glyfTable)
+    return pen.paths
 
   def asSegments(self):
     """Return the path as an array of segments (either Line, CubicBezier,

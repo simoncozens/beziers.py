@@ -66,6 +66,10 @@ class Segment(IntersectionsMixin,SampleMixin,object):
   def endAngle(self):
     return (self.points[-1]-self.points[-2]).angle
 
+  def tangentAtTime(self,t):
+    """Returns a `Point` representing the unit vector of tangent at time `t`."""
+    return self.derivative().pointAtTime(t).toUnitVector()
+
   def normalAtTime(self,t):
     """Returns a `Point` representing the normal (rotated tangent) at time `t`."""
     tan = self.tangentAtTime(t)

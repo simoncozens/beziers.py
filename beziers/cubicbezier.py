@@ -4,6 +4,7 @@ from beziers.point import Point
 from beziers.quadraticbezier import QuadraticBezier
 import math
 from beziers.utils.legendregauss import Tvalues, Cvalues
+from beziers.utils import quadraticRoots
 
 class CubicBezier(Segment):
   def __init__(self, start, c1,c2,end):
@@ -84,10 +85,6 @@ class CubicBezier(Segment):
       (self[3]-self[2])*3
     )
 
-  def tangentAtTime(self,t):
-    """Returns a `Point` representing the unit vector of tangent at time `t`."""
-    return self.derivative().pointAtTime(t).toUnitVector()
-
   def _findRoots(self,dimension):
     def cuberoot(v):
       if v<0: return -math.pow(-v,1/3.0)
@@ -149,25 +146,8 @@ class CubicBezier(Segment):
 
     # We have f(t) = w1 (1-t)^2 + 2 w2 (1-t) t + w3 t^2
     # We want f(t) = a t^2 + b^t + c to solve with the quadratic formula
-    w1,w2,w3 = d[0].x,d[1].x,d[2].x
-    a,b,c = w1 - 2*w2 + w3, 2 * (w2-w1), w1
-    if a != 0.0 and b*b-4*a*c > 0.0:
-      t1 = (-b + math.sqrt(b*b-4*a*c)) / (2*a)
-      if t1 >= 0.0 and t1 <= 1.0:
-        roots.append(t1)
-      t2 = (-b - math.sqrt(b*b-4*a*c)) / (2*a)
-      if t2 >= 0.0 and t2 <= 1.0:
-        roots.append(t2)
-    w1,w2,w3 = d[0].y,d[1].y,d[2].y
-    a,b,c = w1 - 2*w2 + w3, 2 * (w2-w1), w1
-    if a != 0.0 and b*b-4*a*c > 0.0:
-      t1 = (-b + math.sqrt(b*b-4*a*c)) / (2*a)
-      if t1 >= 0.0 and t1 <= 1.0:
-        roots.append(t1)
-      t2 = (-b - math.sqrt(b*b-4*a*c)) / (2*a)
-      if t2 >= 0.0 and t2 <= 1.0:
-        roots.append(t2)
-
+    roots.extend(quadraticRoots(d[0].x - 2*d[1].x + d[2].x, 2 * (d[1].x-d[0].x), d[0].x))
+    roots.extend(quadraticRoots(d[0].y - 2*d[1].y + d[2].y, 2 * (d[1].y-d[0].y), d[0].y))
     return roots
 
   def findExtremes(self, inflections = False):
@@ -228,3 +208,12 @@ class CubicBezier(Segment):
     f1 = math.sqrt(-d)
     f2 = 2 * d1
     return ((d2 + f1) / f2, (d2 - f1) / f2)
+
+  @property
+  def area(self):
+    """Returns the signed rea between the curve and the y-axis"""
+    return (10 * (self[3].x*self[3].y - self[0].x*self[0].y) +
+            6 * (self[1].x*self[0].y - self[0].x*self[1].y + self[3].x*self[2].y - self[2].x*self[3].y) +
+            3 * (self[2].x*self[0].y - self[0].x*self[2].y + self[2].x*self[1].y - self[1].x*self[2].y +
+                 self[3].x*self[1].y - self[1].x*self[3].y) +
+                 self[3].x*self[0].y - self[0].x*self[3].y) / 20.
