@@ -61,3 +61,7 @@ class Line(Segment):
 
   def findExtremes(self):
     return []
+
+  @property
+  def area(self):
+    return 0.5 * (self[1].x - self[0].x)*(self[0].y + self[1].y)

@@ -36,7 +36,7 @@ class SegmentRepresentation(object):
     return nodelist
 
   def appendSegment(self, seg):
-    seg = map(lambda n:Point(n[0],n[1]), seg)
+    seg = [Point(n[0],n[1]) for n in seg]
     if len(seg) == 2:
       self.segments.append(Line(*seg))
     elif len(seg) == 3:
