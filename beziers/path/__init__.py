@@ -494,3 +494,14 @@ class BezierPath(BooleanOperationsMixin,SampleMixin,object):
     outside."""
     li = self.windingNumberOfPoint(pt)
     return li % 2 == 1
+
+  @property
+  def area(self):
+    """Approximates the area under a closed path by flattening and treating as a polygon."""
+    flat = self.flatten()
+    area = 0
+    for s in flat.asSegments():
+      area = area + (s.start.x+s.end.x) * (s.end.y - s.start.y)
+    area = area / 2.0
+    return abs(area)
+
