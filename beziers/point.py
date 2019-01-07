@@ -96,7 +96,9 @@ class Point(object):
 
   def toUnitVector(self):
     """Divides this point by its magnitude, returning a vector of length 1."""
-    return Point(self.x/self.magnitude, self.y/self.magnitude)
+    mag = self.magnitude
+    if mag == 0.0: mag = 1.0
+    return Point(self.x/mag, self.y/mag)
 
   @property
   def angle(self):
