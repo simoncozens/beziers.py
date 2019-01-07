@@ -83,10 +83,11 @@ class BezierPath(BooleanOperationsMixin,SampleMixin,object):
     return self
 
   @classmethod
-  def fromNodelist(klass, array):
+  def fromNodelist(klass, array, closed=True):
     """Construct a path from an array of Node objects."""
     self = klass()
     for a in array: assert(isinstance(a, Node))
+    self.closed = closed
     self.activeRepresentation = NodelistRepresentation(self,array)
     self.asSegments() # Resolves a few problems
     return self
