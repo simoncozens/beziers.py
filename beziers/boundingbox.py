@@ -18,8 +18,8 @@ class BoundingBox:
     return vec.x * vec.y
 
   @property
-    """Returns the X coordinate of the left edge of the box."""
   def left(self):
+    """Returns the X coordinate of the left edge of the box."""
     return self.bl.x
 
   @property
