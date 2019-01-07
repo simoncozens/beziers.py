@@ -14,6 +14,14 @@ class CubicBezier(Segment):
   def __repr__(self):
     return "B<%s-%s-%s-%s>" % (self[0],self[1],self[2],self[3])
 
+  @classmethod
+  def fromRepr(klass,text):
+    import re
+    p = re.compile("^B<(.*?)-(.*?)-(.*?)-(.*?)>$")
+    m = p.match(text)
+    points = [ Point.fromRepr(m.group(t)) for t in range(1,5) ]
+    return klass(*points)
+
   def pointAtTime(self,t):
     """Returns the point at time t (0->1) along the curve."""
     x = (1 - t) * (1 - t) * (1 - t) * self[0].x + 3 * (1 - t) * (1 - t) * t * self[1].x + 3 * (1 - t) * t * t * self[2].x + t * t * t * self[3].x;

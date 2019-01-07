@@ -39,6 +39,13 @@ class Point(object):
   def __repr__(self):
     return "<%s,%s>" % (self.x,self.y)
 
+  @classmethod
+  def fromRepr(klass,text):
+    import re
+    p = re.compile("^<([^,]+),([^>]+)>$")
+    m = p.match(text)
+    return klass(m.group(1), m.group(2))
+
   def __eq__(self, other):
     def isclose(a, b, rel_tol=1e-09, abs_tol=0.0):
       return abs(a-b) <= max(rel_tol * max(abs(a), abs(b)), abs_tol)
