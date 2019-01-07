@@ -374,7 +374,7 @@ class BezierPath(BooleanOperationsMixin,SampleMixin,object):
 
   def translate(self, vector):
     """Translates the path by a given vector."""
-    seg2 = [ x.translate(vector) for x in self.asSegments()]
+    seg2 = [ x.translated(vector) for x in self.asSegments()]
     self.activeRepresentation = SegmentRepresentation(self, seg2)
 
   def rotate(self, about, angle):
