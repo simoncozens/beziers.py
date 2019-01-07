@@ -109,6 +109,7 @@ class CubicBezier(Segment):
     b = (-3*pa + 3*pb)
     c = pa
     d = (-pa + 3*pb - 3*pc + pd)
+    if d == 0: return []
     a = a/d
     b = b/d
     c = c/d
