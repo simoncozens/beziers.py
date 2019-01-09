@@ -254,6 +254,7 @@ class BezierPath(BooleanOperationsMixin,SampleMixin,object):
         tList = newsplitlist[seg]
         while len(tList) > 0:
           t = tList.pop(0)
+          if t < 1e-8: continue
           seg1,seg2 = seg.splitAtTime(t)
           newsegs.append(seg1)
           seg = seg2
