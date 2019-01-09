@@ -44,3 +44,12 @@ class QuadraticMethods(unittest.TestCase):
     # plt.show()
 
 
+  def test_extremes4(self):
+    q = QuadraticBezier(
+      Point(664,1075),
+      Point(732,1167),
+      Point(800,1239)
+    )
+    r = q.findExtremes()
+    self.assertEqual(len(r), 0)
+

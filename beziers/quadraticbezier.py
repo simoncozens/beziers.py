@@ -63,9 +63,15 @@ class QuadraticBezier(ArcLengthMixin,Segment):
       raise "Meh"
 
   def _findDRoots(self):
-    r1 = (self[0].x-self[1].x)/(self[0].x-2*self[1].x+self[2].x)
-    r2 = (self[0].y-self[1].y)/(self[0].y-2*self[1].y+self[2].y)
-    roots = [r1,r2]
+    d1 = (self[0].x-2*self[1].x+self[2].x)
+    d2 = (self[0].y-2*self[1].y+self[2].y)
+    roots = []
+    if d1 != 0:
+      r1 = (self[0].x-self[1].x)/d1
+      roots.append(r1)
+    if d2 != 0:
+      r2 = (self[0].y-self[1].y)/d2
+      roots.append(r2)
     return [ r for r in roots if r >= 0.01 and r <= 0.99 ]
 
   def findExtremes(self):
