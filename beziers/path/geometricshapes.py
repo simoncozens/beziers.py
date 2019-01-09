@@ -4,7 +4,7 @@ from beziers.cubicbezier import CubicBezier
 from beziers.line import Line
 import math
 
-CIRCULAR_SUPERNESS = 4/3*(math.sqrt(2)-1)
+CIRCULAR_SUPERNESS = 4./3.*(math.sqrt(2)-1)
 
 west  = Point(-1,0)
 east  = Point(1,0)
@@ -14,7 +14,7 @@ south = Point(0,-1)
 def Circle(x_radius, origin=None, superness=CIRCULAR_SUPERNESS):
   """Returns a path representing a circle of given radius. You can specify the
   `origin` as a Point and the `superness` of the circle."""
-  return Ellipse(x_radius, x_radius, origin=origin, superness=CIRCULAR_SUPERNESS)
+  return Ellipse(x_radius, x_radius, origin=origin, superness=superness)
 
 def Ellipse(x_radius, y_radius, origin=None, superness=CIRCULAR_SUPERNESS):
   """Returns a path representing an ellipse of given x and y radii.
