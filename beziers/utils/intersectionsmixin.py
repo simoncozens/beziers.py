@@ -55,6 +55,7 @@ class IntersectionsMixin:
     b = self.end
     c = other.start
     d = other.end
+    if c == d or a == b: return []
     if abs(b.x - a.x) < my_epsilon:
       x = a.x
       slope34 = ( d.y - c.y) / ( d.x - c.x )
