@@ -2,11 +2,13 @@ from beziers.segment import Segment
 from beziers.line import Line
 from beziers.point import Point
 from beziers.quadraticbezier import QuadraticBezier
+from beziers.utils.arclengthmixin import ArcLengthMixin
+
 import math
 from beziers.utils.legendregauss import Tvalues, Cvalues
 from beziers.utils import quadraticRoots
 
-class CubicBezier(Segment):
+class CubicBezier(ArcLengthMixin,Segment):
   def __init__(self, start, c1,c2,end):
     self.points = [start,c1,c2,end]
     self._range = [0,1]
@@ -53,19 +55,6 @@ class CubicBezier(Segment):
         bestT = upper
         bestDist = rdist
     return bestT
-
-  @property
-  def length(self):
-    """Returns the length of the cubic Bezier using the Legendre-Gauss approximation."""
-    d = self.derivative()
-    z = 0.5
-    _sum = 0
-    for i in range(0,len(Tvalues)):
-      t = z * Tvalues[i] + z
-      p = d.pointAtTime(t)
-      arc = math.sqrt(p.x * p.x + p.y * p.y)
-      _sum += Cvalues[i] * arc
-    return _sum * z
 
   def splitAtTime(self,t):
     """Returns two segments, dividing the given segment at a point t (0->1) along the curve."""
