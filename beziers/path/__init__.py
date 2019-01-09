@@ -451,12 +451,13 @@ class BezierPath(BooleanOperationsMixin,SampleMixin,object):
     seg1[2] += fixup
     seg2[1] += fixup
 
-  def flatten(self):
-    samples = self.regularSample(self.length/10)
-    return BezierPath.fromNodelist([Node(p.x,p.y,"line") for p in samples])
+  def flatten(self,degree=8):
+    segs = []
+    for s in self.asSegments():
+      segs.extend(s.flatten(degree))
+    return BezierPath.fromSegments(segs)
 
   def windingNumberOfPoint(self,pt):
-    # print("Point: %s" % pt)
     bounds = self.bounds()
     bounds.addMargin(10)
     ray1 = Line(Point(bounds.left,pt.y),pt)
