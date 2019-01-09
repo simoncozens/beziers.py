@@ -42,6 +42,13 @@ class Segment(IntersectionsMixin,SampleMixin,object):
       self.points[key] = item
   def __len__(self):
     return len(self.points)
+  def __eq__(self,other):
+    if self.order != other.order: return False
+    for p in range(0,self.order):
+      if self[p] != other[p]: return False
+    return True
+  def __ne__(self,other):
+    return not self.__eq__(other)
 
   def clone(self):
     """Returns a new Segment which is a copy of this segment."""
