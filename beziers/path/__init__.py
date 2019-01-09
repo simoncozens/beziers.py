@@ -221,6 +221,12 @@ class BezierPath(BooleanOperationsMixin,SampleMixin,object):
     """Return a new path which is an exact copy of this one"""
     return BezierPath.fromSegments(self.asSegments())
 
+  def round(self):
+    """Rounds the points of this path to integer coordinates."""
+    segs = self.asSegments()
+    for s in segs: s.round()
+    self.activeRepresentation = SegmentRepresentation(self,segs)
+
   def bounds(self):
     """Determine the bounding box of the path, returned as a
     `BoundingBox` object."""

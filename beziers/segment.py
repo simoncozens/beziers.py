@@ -48,6 +48,14 @@ class Segment(IntersectionsMixin,SampleMixin,object):
     klass = self.__class__
     return klass(*[ p.clone() for p in self.points ])
 
+  def round(self):
+    """Rounds the points of segment to integer coordinates."""
+    self.points = [ p.rounded() for p in self.points ]
+
+  @property
+  def order(self):
+    return len(self.points)
+
   @property
   def start(self):
     """Returns a Point object representing the start of this segment."""

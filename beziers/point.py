@@ -87,6 +87,10 @@ class Point(object):
     """Clone a point, returning a new object with the same co-ordinates."""
     return Point(self.x,self.y)
 
+  def rounded(self):
+    """Return a point with the co-ordinates truncated to integers"""
+    return Point(int(self.x),int(self.y))
+
   def lerp(self, other, t):
     """Interpolate between two points, at time t."""
     return self * (1-t) + other * (t)
