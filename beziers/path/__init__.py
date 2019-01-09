@@ -186,15 +186,17 @@ class BezierPath(BooleanOperationsMixin,SampleMixin,object):
     path = self.asMatplot()
     if not "lw" in kwargs:
       kwargs["lw"] = 2
+    if not "fill" in kwargs:
+      kwargs["fill"] = False
     drawNodes = (not("drawNodes" in kwargs) or kwargs["drawNodes"] != False)
     if "drawNodes" in kwargs:
       kwargs.pop("drawNodes")
-    patch = patches.PathPatch(path, fill = False, **kwargs)
+    patch = patches.PathPatch(path, **kwargs)
     ax.add_patch(patch)
     left, right = ax.get_xlim()
     top, bottom = ax.get_ylim()
     bounds = self.bounds()
-    bounds.addMargin(50)
+    bounds.addMargin(5)
     if not (left == 0.0 and right == 1.0 and top == 0.0 and bottom == 1.0):
       bounds.extend(Point(left,top))
       bounds.extend(Point(right,bottom))
