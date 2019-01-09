@@ -45,6 +45,16 @@ class QuadraticBezier(ArcLengthMixin,Segment):
       (self[2]-self[1])*2
     )
 
+  def flatten(self, degree=8):
+    print(self, self.length/degree)
+    samples = self.regularSample(self.length/degree)
+    ss = []
+    for i in range(1,len(samples)):
+      l = Line(samples[i-1], samples[i])
+      l._orig = self
+      ss.append(l)
+    return ss
+
   def _findRoots(self,dimension):
     if dimension == "x":
       return quadraticRoots(self[0].x - 2*self[1].x + self[2].x, 2 * (self[1].x-self[0].x), self[0].x)

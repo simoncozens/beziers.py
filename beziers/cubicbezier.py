@@ -82,6 +82,15 @@ class CubicBezier(ArcLengthMixin,Segment):
       (self[3]-self[2])*3
     )
 
+  def flatten(self, degree=8):
+    samples = self.regularSample(self.length/degree)
+    ss = []
+    for i in range(1,len(samples)):
+      l = Line(samples[i-1], samples[i])
+      l._orig = self
+      ss.append(l)
+    return ss
+
   def _findRoots(self,dimension):
     def cuberoot(v):
       if v<0: return -math.pow(-v,1/3.0)

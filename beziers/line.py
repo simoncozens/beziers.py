@@ -8,6 +8,7 @@ class Line(Segment):
   """Represents a line segment within a Bezier path."""
   def __init__(self, start, end):
     self.points = [start,end]
+    self._orig = None
 
   def __repr__(self):
     return "L<%s--%s>" % (self.points[0], self.points[1])
@@ -41,9 +42,13 @@ class Line(Segment):
     elif self.end.y != self.start.y:
       t = (point.y - self.start.y) / (self.end.y-self.start.y)
     else:
-      raise "Line is actually a point..."
+      print("! Line %s is actually a point..." % self)
+      return -1
     if self.pointAtTime(t).distanceFrom(point) < 2e-7: return t
     return -1
+
+  def flatten(self,degree=8):
+    return [self]
 
   @property
   def slope(self):
