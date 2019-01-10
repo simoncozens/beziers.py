@@ -39,6 +39,13 @@ class Point(object):
   def __repr__(self):
     return "<%s,%s>" % (self.x,self.y)
 
+  @classmethod
+  def fromRepr(klass,text):
+    import re
+    p = re.compile("^<([^,]+),([^>]+)>$")
+    m = p.match(text)
+    return klass(m.group(1), m.group(2))
+
   def __eq__(self, other):
     def isclose(a, b, rel_tol=1e-09, abs_tol=0.0):
       return abs(a-b) <= max(rel_tol * max(abs(a), abs(b)), abs_tol)
@@ -80,6 +87,10 @@ class Point(object):
     """Clone a point, returning a new object with the same co-ordinates."""
     return Point(self.x,self.y)
 
+  def rounded(self):
+    """Return a point with the co-ordinates truncated to integers"""
+    return Point(int(self.x),int(self.y))
+
   def lerp(self, other, t):
     """Interpolate between two points, at time t."""
     return self * (1-t) + other * (t)
@@ -96,7 +107,9 @@ class Point(object):
 
   def toUnitVector(self):
     """Divides this point by its magnitude, returning a vector of length 1."""
-    return Point(self.x/self.magnitude, self.y/self.magnitude)
+    mag = self.magnitude
+    if mag == 0.0: mag = 1.0
+    return Point(self.x/mag, self.y/mag)
 
   @property
   def angle(self):

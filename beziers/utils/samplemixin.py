@@ -41,6 +41,7 @@ class SampleMixin(object):
     # Build LUT; could cache it *if* we knew when to invalidate
     lut = []
     length = self.length
+    if length == 0: return []
     step = 1.0 / length
     t = 0
     while t <= 1.0:

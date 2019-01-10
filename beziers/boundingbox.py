@@ -13,24 +13,34 @@ class BoundingBox:
 
   @property
   def area(self):
+    """Returns the area of the bounding box."""
     vec = self.tr-self.bl
     return vec.x * vec.y
 
   @property
   def left(self):
+    """Returns the X coordinate of the left edge of the box."""
     return self.bl.x
 
   @property
   def right(self):
+    """Returns the X coordinate of the right edge of the box."""
     return self.tr.x
 
   @property
   def top(self):
+    """Returns the Y coordinate of the top edge of the box."""
     return self.tr.y
 
   @property
   def bottom(self):
+    """Returns the Y coordinate of the bottom edge of the box."""
     return self.bl.y
+
+  @property
+  def centroid(self):
+    """Returns a `Point` representing the centroid of the box."""
+    return Point((self.left + self.right)*0.5, (self.top+self.bottom)*0.5)
 
   def extend(self,other):
     """Add an object to the bounding box. Object can be a `Point`,

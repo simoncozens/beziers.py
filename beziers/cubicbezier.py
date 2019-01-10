@@ -2,17 +2,27 @@ from beziers.segment import Segment
 from beziers.line import Line
 from beziers.point import Point
 from beziers.quadraticbezier import QuadraticBezier
+from beziers.utils.arclengthmixin import ArcLengthMixin
+
 import math
 from beziers.utils.legendregauss import Tvalues, Cvalues
 from beziers.utils import quadraticRoots
 
-class CubicBezier(Segment):
+class CubicBezier(ArcLengthMixin,Segment):
   def __init__(self, start, c1,c2,end):
     self.points = [start,c1,c2,end]
     self._range = [0,1]
 
   def __repr__(self):
     return "B<%s-%s-%s-%s>" % (self[0],self[1],self[2],self[3])
+
+  @classmethod
+  def fromRepr(klass,text):
+    import re
+    p = re.compile("^B<(.*?)-(.*?)-(.*?)-(.*?)>$")
+    m = p.match(text)
+    points = [ Point.fromRepr(m.group(t)) for t in range(1,5) ]
+    return klass(*points)
 
   def pointAtTime(self,t):
     """Returns the point at time t (0->1) along the curve."""
@@ -46,19 +56,6 @@ class CubicBezier(Segment):
         bestDist = rdist
     return bestT
 
-  @property
-  def length(self):
-    """Returns the length of the cubic Bezier using the Legendre-Gauss approximation."""
-    d = self.derivative()
-    z = 0.5
-    _sum = 0
-    for i in range(0,len(Tvalues)):
-      t = z * Tvalues[i] + z
-      p = d.pointAtTime(t)
-      arc = math.sqrt(p.x * p.x + p.y * p.y)
-      _sum += Cvalues[i] * arc
-    return _sum * z
-
   def splitAtTime(self,t):
     """Returns two segments, dividing the given segment at a point t (0->1) along the curve."""
     p4 = self[0].lerp(self[1],t)
@@ -85,6 +82,15 @@ class CubicBezier(Segment):
       (self[3]-self[2])*3
     )
 
+  def flatten(self, degree=8):
+    samples = self.regularSample(self.length/degree)
+    ss = []
+    for i in range(1,len(samples)):
+      l = Line(samples[i-1], samples[i])
+      l._orig = self
+      ss.append(l)
+    return ss
+
   def _findRoots(self,dimension):
     def cuberoot(v):
       if v<0: return -math.pow(-v,1/3.0)
@@ -101,6 +107,7 @@ class CubicBezier(Segment):
     b = (-3*pa + 3*pb)
     c = pa
     d = (-pa + 3*pb - 3*pc + pd)
+    if d == 0: return []
     a = a/d
     b = b/d
     c = c/d

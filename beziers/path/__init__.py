@@ -83,10 +83,11 @@ class BezierPath(BooleanOperationsMixin,SampleMixin,object):
     return self
 
   @classmethod
-  def fromNodelist(klass, array):
+  def fromNodelist(klass, array, closed=True):
     """Construct a path from an array of Node objects."""
     self = klass()
     for a in array: assert(isinstance(a, Node))
+    self.closed = closed
     self.activeRepresentation = NodelistRepresentation(self,array)
     self.asSegments() # Resolves a few problems
     return self
@@ -185,15 +186,17 @@ class BezierPath(BooleanOperationsMixin,SampleMixin,object):
     path = self.asMatplot()
     if not "lw" in kwargs:
       kwargs["lw"] = 2
+    if not "fill" in kwargs:
+      kwargs["fill"] = False
     drawNodes = (not("drawNodes" in kwargs) or kwargs["drawNodes"] != False)
     if "drawNodes" in kwargs:
       kwargs.pop("drawNodes")
-    patch = patches.PathPatch(path, fill = False, **kwargs)
+    patch = patches.PathPatch(path, **kwargs)
     ax.add_patch(patch)
     left, right = ax.get_xlim()
     top, bottom = ax.get_ylim()
     bounds = self.bounds()
-    bounds.addMargin(50)
+    bounds.addMargin(5)
     if not (left == 0.0 and right == 1.0 and top == 0.0 and bottom == 1.0):
       bounds.extend(Point(left,top))
       bounds.extend(Point(right,bottom))
@@ -220,6 +223,12 @@ class BezierPath(BooleanOperationsMixin,SampleMixin,object):
     """Return a new path which is an exact copy of this one"""
     return BezierPath.fromSegments(self.asSegments())
 
+  def round(self):
+    """Rounds the points of this path to integer coordinates."""
+    segs = self.asSegments()
+    for s in segs: s.round()
+    self.activeRepresentation = SegmentRepresentation(self,segs)
+
   def bounds(self):
     """Determine the bounding box of the path, returned as a
     `BoundingBox` object."""
@@ -245,6 +254,7 @@ class BezierPath(BooleanOperationsMixin,SampleMixin,object):
         tList = newsplitlist[seg]
         while len(tList) > 0:
           t = tList.pop(0)
+          if t < 1e-8: continue
           seg1,seg2 = seg.splitAtTime(t)
           newsegs.append(seg1)
           seg = seg2
@@ -373,12 +383,17 @@ class BezierPath(BooleanOperationsMixin,SampleMixin,object):
 
   def translate(self, vector):
     """Translates the path by a given vector."""
-    seg2 = [ x.translate(vector) for x in self.asSegments()]
+    seg2 = [ x.translated(vector) for x in self.asSegments()]
     self.activeRepresentation = SegmentRepresentation(self, seg2)
 
   def rotate(self, about, angle):
     """Rotate the path by a given vector."""
     seg2 = [ x.rotated(about, angle) for x in self.asSegments()]
+    self.activeRepresentation = SegmentRepresentation(self, seg2)
+
+  def scale(self, by):
+    """Scales the path by a given magnitude."""
+    seg2 = [ x.scaled(by) for x in self.asSegments()]
     self.activeRepresentation = SegmentRepresentation(self, seg2)
 
   def balance(self):
@@ -445,12 +460,13 @@ class BezierPath(BooleanOperationsMixin,SampleMixin,object):
     seg1[2] += fixup
     seg2[1] += fixup
 
-  def flatten(self):
-    samples = self.regularSample(self.length/10)
-    return BezierPath.fromNodelist([Node(p.x,p.y,"line") for p in samples])
+  def flatten(self,degree=8):
+    segs = []
+    for s in self.asSegments():
+      segs.extend(s.flatten(degree))
+    return BezierPath.fromSegments(segs)
 
   def windingNumberOfPoint(self,pt):
-    # print("Point: %s" % pt)
     bounds = self.bounds()
     bounds.addMargin(10)
     ray1 = Line(Point(bounds.left,pt.y),pt)
@@ -488,3 +504,14 @@ class BezierPath(BooleanOperationsMixin,SampleMixin,object):
     outside."""
     li = self.windingNumberOfPoint(pt)
     return li % 2 == 1
+
+  @property
+  def area(self):
+    """Approximates the area under a closed path by flattening and treating as a polygon."""
+    flat = self.flatten()
+    area = 0
+    for s in flat.asSegments():
+      area = area + (s.start.x+s.end.x) * (s.end.y - s.start.y)
+    area = area / 2.0
+    return abs(area)
+

@@ -32,3 +32,4 @@ Here is an example session::
     path.plot(ax)
     plt.show()
 
+Full documentation is available at https://simoncozens.github.io/beziers.py/index.html

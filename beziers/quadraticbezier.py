@@ -2,10 +2,11 @@ from beziers.segment import Segment
 from beziers.line import Line
 from beziers.point import Point
 from beziers.utils import quadraticRoots, isclose
+from beziers.utils.arclengthmixin import ArcLengthMixin
 
 my_epsilon = 2e-7
 
-class QuadraticBezier(Segment):
+class QuadraticBezier(ArcLengthMixin,Segment):
   def __init__(self, start, c1,end):
     self.points = [start,c1,end]
     self._range = [0,1]
@@ -31,15 +32,6 @@ class QuadraticBezier(Segment):
           return x
     return -1
 
-  @property
-  def length(self):
-    """Returns the length of the quadratic bezier"""
-    # Direct solution. There may be better ways From: https://math.stackexchange.com/questions/12186/arc-length-of-b%C3%A9zier-curves
-    c = (self[1].x - self[0].x) ** 2 + (self[1].y - self[0].y) ** 2
-    b = (self[1].x-self[0].x) * (self[2].x - 2*self[1].x + self[0].x) + (self[1].y-self[0].y) * (self[2].y - 2*self[1].y + self[0].y)
-    a = (self[2].x - 2*self[1].x + self[0].x) ** 2 + (self[2].y - 2*self[1].y + self[0].y) ** 2
-    return (1. + b / a) * sqrt(c + 2*b + a) + ((a*c - b*b)/(a * sqrt(a)))*asinh((a+b)/sqrt(a*c - b*b))
-
   def splitAtTime(self,t):
     """Returns two segments, dividing the given segment at a point t (0->1) along the curve."""
     p4 = self[0].lerp(self[1],t)
@@ -54,6 +46,15 @@ class QuadraticBezier(Segment):
       (self[2]-self[1])*2
     )
 
+  def flatten(self, degree=8):
+    samples = self.regularSample(self.length/degree)
+    ss = []
+    for i in range(1,len(samples)):
+      l = Line(samples[i-1], samples[i])
+      l._orig = self
+      ss.append(l)
+    return ss
+
   def _findRoots(self,dimension):
     if dimension == "x":
       return quadraticRoots(self[0].x - 2*self[1].x + self[2].x, 2 * (self[1].x-self[0].x), self[0].x)
@@ -63,13 +64,15 @@ class QuadraticBezier(Segment):
       raise "Meh"
 
   def _findDRoots(self):
+    d1 = (self[0].x-2*self[1].x+self[2].x)
+    d2 = (self[0].y-2*self[1].y+self[2].y)
     roots = []
-    d1 = self[0].x-2*self[1].x+self[2].x
-    if not isclose(d1, 0.):
-        roots.append((self[0].x-self[1].x)/d1)
-    d2 = self[0].y-2*self[1].y+self[2].y
-    if not isclose(d2, 0.):
-        roots.append((self[0].y-self[1].y)/d2)
+    if d1 != 0:
+      r1 = (self[0].x-self[1].x)/d1
+      roots.append(r1)
+    if d2 != 0:
+      r2 = (self[0].y-self[1].y)/d2
+      roots.append(r2)
     return [ r for r in roots if r >= 0.01 and r <= 0.99 ]
 
   def findExtremes(self):

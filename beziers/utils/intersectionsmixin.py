@@ -33,6 +33,8 @@ class IntersectionsMixin:
         inter = self._curve_line_intersections(other)
     elif len(self.points) == 2 and len(other.points) == 2:
         inter = self._line_line_intersections(other)
+    else:
+      raise ValueError("Couldn't work out which intersection function to use")
 
     def withinRange(t):
       if t < my_epsilon: return False
@@ -55,6 +57,7 @@ class IntersectionsMixin:
     b = self.end
     c = other.start
     d = other.end
+    if c == d or a == b: return []
     if abs(b.x - a.x) < my_epsilon:
       x = a.x
       slope34 = ( d.y - c.y) / ( d.x - c.x )
@@ -94,6 +97,7 @@ class IntersectionsMixin:
     return inter
 
   def _curve_curve_intersections_t(self,other, precision=1e-6):
+    assert(len(self.points) > 2 and len(other.points) > 2)
     if not (self.bounds().overlaps(other.bounds())): return []
     if self.bounds().area < precision and other.bounds().area < precision:
       return [ [
@@ -127,4 +131,5 @@ class IntersectionsMixin:
     return found
 
   def _curve_curve_intersections(self,other):
+    assert(len(self.points) > 2 and len(other.points) > 2)
     return [Intersection(self,t[0],other,t[1]) for t in self._curve_curve_intersections_t(other)]

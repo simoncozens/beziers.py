@@ -42,11 +42,26 @@ class Segment(IntersectionsMixin,SampleMixin,object):
       self.points[key] = item
   def __len__(self):
     return len(self.points)
+  def __eq__(self,other):
+    if self.order != other.order: return False
+    for p in range(0,self.order):
+      if self[p] != other[p]: return False
+    return True
+  def __ne__(self,other):
+    return not self.__eq__(other)
 
   def clone(self):
     """Returns a new Segment which is a copy of this segment."""
     klass = self.__class__
     return klass(*[ p.clone() for p in self.points ])
+
+  def round(self):
+    """Rounds the points of segment to integer coordinates."""
+    self.points = [ p.rounded() for p in self.points ]
+
+  @property
+  def order(self):
+    return len(self.points)
 
   @property
   def start(self):
@@ -103,6 +118,20 @@ class Segment(IntersectionsMixin,SampleMixin,object):
     klass = self.__class__
     pNew = [ p.clone() for p in self.points]
     for p in pNew: p.rotate(around,by)
+    return klass(*pNew)
+
+  def scaled(self,bx):
+    """Returns a *new Segment object* representing the scaling of
+    this segment by the given magnification. i.e.::
+
+      >>> l = Line(Point(0,0), Point(10,10))
+      >>> l.scaled(2)
+      L<<0,0>--<20,20>>
+
+    """
+
+    klass = self.__class__
+    pNew = [ p * bx for p in self.points]
     return klass(*pNew)
 
   def transformed(self, transformation):
