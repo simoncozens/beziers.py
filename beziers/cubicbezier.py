@@ -95,7 +95,7 @@ class CubicBezier(Segment):
     elif dimension == "y":
       pa,pb,pc,pd = self[0].y,self[1].y,self[2].y,self[3].y
     else:
-      raise "Meh."
+      raise SyntaxError("Meh.")
 
     a = (3*pa - 6*pb + 3*pc)
     b = (-3*pa + 3*pb)

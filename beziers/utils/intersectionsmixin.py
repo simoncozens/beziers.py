@@ -27,7 +27,7 @@ class IntersectionsMixin:
     # Arrange by degree
     if len(other.points) > len(self.points): self,other = other,self
     if len(self.points) == 4 or len(self.points)==3:
-      if len(other.points) == 4 or len(self.points)==3:
+      if len(other.points) == 4 or len(other.points)==3:
         inter = self._curve_curve_intersections(other)
       if len(other.points) == 2:
         inter = self._curve_line_intersections(other)

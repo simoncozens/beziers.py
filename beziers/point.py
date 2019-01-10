@@ -103,6 +103,12 @@ class Point(object):
     """Interpreting this point as a vector, returns the angle in radians of the vector."""
     return math.atan2(self.y,self.x)
 
+  @property
+  def slope(self):
+    """Returns slope y/x"""
+    if self.x == 0: return 0
+    return self.y / self.x
+
   @classmethod
   def fromAngle(self,angle):
     """Given an angle in radians, return a unit vector representing that angle."""

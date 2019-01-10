@@ -1,6 +1,7 @@
 from beziers.segment import Segment
 from beziers.line import Line
 from beziers.point import Point
+from beziers.utils import quadraticRoots, isclose
 
 my_epsilon = 2e-7
 
@@ -62,9 +63,13 @@ class QuadraticBezier(Segment):
       raise "Meh"
 
   def _findDRoots(self):
-    r1 = (self[0].x-self[1].x)/(self[0].x-2*self[1].x+self[2].x)
-    r2 = (self[0].y-self[1].y)/(self[0].y-2*self[1].y+self[2].y)
-    roots = [r1,r2]
+    roots = []
+    d1 = self[0].x-2*self[1].x+self[2].x
+    if not isclose(d1, 0.):
+        roots.append((self[0].x-self[1].x)/d1)
+    d2 = self[0].y-2*self[1].y+self[2].y
+    if not isclose(d2, 0.):
+        roots.append((self[0].y-self[1].y)/d2)
     return [ r for r in roots if r >= 0.01 and r <= 0.99 ]
 
   def findExtremes(self):

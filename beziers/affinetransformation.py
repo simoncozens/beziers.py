@@ -1,4 +1,5 @@
 import math
+from beziers.utils import isclose
 
 class AffineTransformation(object):
   def __init__(self, matrix = None):
@@ -87,4 +88,15 @@ class AffineTransformation(object):
   def rotate(self, angle):
     self.apply_backwards(type(self).rotation(angle))
 
+  def invert(self):
+    m = self.matrix
+    det = m[0][0] * (m[1][1]*m[2][2] - m[1][2]*m[2][1]) - \
+          m[0][1] * (m[1][0]*m[2][2] - m[1][2]*m[2][0]) + \
+          m[0][2] * (m[1][0]*m[2][1] - m[1][1]*m[2][0])
+    if isclose(det, 0.):
+        return None
+    adj = [[(m[1][1]*m[2][2] - m[2][1]*m[1][2])/det, (m[2][1]*m[0][2] - m[0][1]*m[2][2])/det, (m[0][1]*m[1][2] - m[1][1]*m[0][2])/det],
+           [(m[1][2]*m[2][0] - m[1][0]*m[2][2])/det, (m[0][0]*m[2][2] - m[0][2]*m[2][0])/det, (m[0][2]*m[1][0] - m[0][0]*m[1][2])/det],
+           [(m[1][0]*m[2][1] - m[1][1]*m[2][0])/det, (m[0][1]*m[2][0] - m[0][0]*m[2][1])/det, (m[0][0]*m[1][1] - m[0][1]*m[1][0])/det]]
+    self.matrix = adj
 
