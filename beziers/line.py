@@ -1,5 +1,6 @@
 from beziers.segment import Segment
 from beziers.point import Point
+from beziers.utils import isclose
 
 import math
 import sys
@@ -32,6 +33,17 @@ class Line(Segment):
   def splitAtTime(self,t):
     """Returns two segments, dividing the given segment at a point t (0->1) along the line."""
     return (Line(self.start, self.pointAtTime(t)), Line(self.pointAtTime(t), self.end))
+
+  def _findRoots(self, dimension):
+    if dimension == "x":
+        t = self[0].x / (self[0].x - self[1].x) if not isclose(self[0].x, self[1].x) else 100.
+    elif dimension == "y":
+        t = self[0].y / (self[0].y - self[1].y) if not isclose(self[0].y, self[1].y) else 100.
+    else:
+        raise SyntaxError("Meh")
+    if 0. <= t <= 1.:
+        return [t]
+    return []
 
   def tOfPoint(self, point):
     """Returns the t (0->1) value of the given point, assuming it lies on the line, or -1 if it does not."""

@@ -1,8 +1,8 @@
 from beziers.segment import Segment
 from beziers.line import Line
 from beziers.point import Point
+from beziers.utils import quadraticRoots, isclose
 from beziers.utils.arclengthmixin import ArcLengthMixin
-from beziers.utils import quadraticRoots
 
 my_epsilon = 2e-7
 

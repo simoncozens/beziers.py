@@ -3,6 +3,7 @@ from beziers.line import Line
 from beziers.cubicbezier import CubicBezier
 from beziers.quadraticbezier import QuadraticBezier
 from beziers.point import Point
+from beziers.utils import isclose
 
 class SegmentRepresentation(object):
   def __init__(self, path, segments=[]):
@@ -44,7 +45,7 @@ class SegmentRepresentation(object):
     elif len(seg) == 4:
       self.segments.append(CubicBezier(*seg))
     else:
-      raise "Unknown segment type"
+      raise ValueError("Unknown segment type")
 
   @classmethod
   def fromNodelist(cls, path, nodelist):
@@ -75,6 +76,9 @@ class SegmentRepresentation(object):
 
     # Closed?
     if self.path.closed:
-      seg.append((first.x,first.y))
-      self.appendSegment(seg)
+      if len(seg) == 1 and isclose(seg[-1][0], first.x) and isclose(seg[-1][1], first.y):
+        pass
+      else:
+        seg.append((first.x,first.y))
+        self.appendSegment(seg)
     return self
