@@ -1,5 +1,6 @@
 import sys
 from beziers.point import Point
+from beziers.utils import isclose
 
 my_epsilon = 2e-7
 
@@ -57,15 +58,17 @@ class IntersectionsMixin:
     b = self.end
     c = other.start
     d = other.end
+    if isclose(c.x, d.x) and isclose(a.x, b.x) and not isclose(c.x, a.x): return []
+    if isclose(c.y, d.y) and isclose(a.y, b.y) and not isclose(c.y, a.y): return []
     if c == d or a == b: return []
-    if abs(b.x - a.x) < my_epsilon:
+    if isclose(b.x,a.x):
       x = a.x
       slope34 = ( d.y - c.y) / ( d.x - c.x )
       y = slope34 * ( x - c.x ) + c.y
       p = Point(x,y)
       i = Intersection(self,self.tOfPoint(p), other, other.tOfPoint(p))
       return [ i ]
-    if abs(d.x - c.x) < my_epsilon:
+    if isclose(c.x,d.x):
       x = c.x
       slope12 = ( b.y - a.y) / ( b.x - a.x )
       y = slope12 * ( x - a.x ) + a.y
