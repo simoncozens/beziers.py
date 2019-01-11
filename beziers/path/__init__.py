@@ -93,9 +93,11 @@ class BezierPath(BooleanOperationsMixin,SampleMixin,object):
     return self
 
   @classmethod
-  def fromFonttoolsGlyph(klass, glyph, glyphset, glyfTable):
-    """Returns an *array of BezierPaths* from a FontTools glyph object.
-    You must also provide the glyphset and glyf table objects to allow glyph decomposition."""
+  def fromFonttoolsGlyph(klass,font,glyphname):
+    """Returns an *array of BezierPaths* from a FontTools font object and glyph name."""
+    glyphset = font.getGlyphSet()
+    glyfTable = font["glyf"]
+    glyph = glyfTable[glyphname]
 
     from fontTools.pens.basePen import BasePen
     class MyPen(BasePen):
