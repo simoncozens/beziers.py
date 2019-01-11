@@ -216,12 +216,14 @@ class BezierPath(BooleanOperationsMixin,SampleMixin,object):
             l = Line2D([n.x, nl[i-1].x], [n.y, nl[i-1].y])
             ax.add_artist(l)
         else:
-          circle = plt.Circle((n.x, n.y), 2)
+          circle = plt.Circle((n.x, n.y), 1)
           ax.add_artist(circle)
 
   def clone(self):
     """Return a new path which is an exact copy of this one"""
-    return BezierPath.fromSegments(self.asSegments())
+    p = BezierPath.fromSegments(self.asSegments())
+    p.closed = self.closed
+    return p
 
   def round(self):
     """Rounds the points of this path to integer coordinates."""
