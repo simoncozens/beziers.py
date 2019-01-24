@@ -85,6 +85,12 @@ and compute the dot product of two vectors:</p>
 </dd></dl>
 
 <dl class="method">
+<dt id="beziers.point.Point.rounded">
+<code class="descname">rounded</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#beziers.point.Point.rounded" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a point with the co-ordinates truncated to integers</p>
+</dd></dl>
+
+<dl class="method">
 <dt id="beziers.point.Point.lerp">
 <code class="descname">lerp</code><span class="sig-paren">(</span><em>other</em>, <em>t</em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.point.Point.lerp" title="Permalink to this definition">¶</a></dt>
 <dd><p>Interpolate between two points, at time t.</p>
@@ -112,6 +118,12 @@ and compute the dot product of two vectors:</p>
 <dt id="beziers.point.Point.angle">
 <code class="descname">angle</code><a class="headerlink" href="#beziers.point.Point.angle" title="Permalink to this definition">¶</a></dt>
 <dd><p>Interpreting this point as a vector, returns the angle in radians of the vector.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="beziers.point.Point.slope">
+<code class="descname">slope</code><a class="headerlink" href="#beziers.point.Point.slope" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns slope y/x</p>
 </dd></dl>
 
 <dl class="classmethod">
@@ -194,6 +206,17 @@ one:</p>
 <code class="descname">clone</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#beziers.segment.Segment.clone" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns a new Segment which is a copy of this segment.</p>
 </dd></dl>
+
+<dl class="method">
+<dt id="beziers.segment.Segment.round">
+<code class="descname">round</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#beziers.segment.Segment.round" title="Permalink to this definition">¶</a></dt>
+<dd><p>Rounds the points of segment to integer coordinates.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="beziers.segment.Segment.order">
+<code class="descname">order</code><a class="headerlink" href="#beziers.segment.Segment.order" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 <dl class="attribute">
 <dt id="beziers.segment.Segment.start">
@@ -400,6 +423,11 @@ samples along the length of the curve.</div>
 <dd><p>Returns the t (0-&gt;1) value of the given point, assuming it lies on the line, or -1 if it does not.</p>
 </dd></dl>
 
+<dl class="method">
+<dt id="beziers.line.Line.flatten">
+<code class="descname">flatten</code><span class="sig-paren">(</span><em>degree=8</em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.line.Line.flatten" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 <dl class="attribute">
 <dt id="beziers.line.Line.slope">
 <code class="descname">slope</code><a class="headerlink" href="#beziers.line.Line.slope" title="Permalink to this definition">¶</a></dt>
@@ -482,6 +510,11 @@ between this Segment and another Segment.</p>
 up to the point t (0-&gt;1), where 1 is the end of the whole curve.</p>
 </dd></dl>
 
+<dl class="attribute">
+<dt id="beziers.line.Line.order">
+<code class="descname">order</code><a class="headerlink" href="#beziers.line.Line.order" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 <dl class="method">
 <dt id="beziers.line.Line.regularSample">
 <code class="descname">regularSample</code><span class="sig-paren">(</span><em>samples</em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.line.Line.regularSample" title="Permalink to this definition">¶</a></dt>
@@ -514,6 +547,12 @@ this segment around the given point and by the given angle. i.e.:</p>
 <span class="go">L&lt;&lt;10.0,-8.881784197e-16&gt;--&lt;-8.881784197e-16,10.0&gt;&gt;</span>
 </pre></div>
 </div>
+</dd></dl>
+
+<dl class="method">
+<dt id="beziers.line.Line.round">
+<code class="descname">round</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#beziers.line.Line.round" title="Permalink to this definition">¶</a></dt>
+<dd><p>Rounds the points of segment to integer coordinates.</p>
 </dd></dl>
 
 <dl class="method">
@@ -587,7 +626,7 @@ this segment by the given vector. i.e.:</p>
 <dl class="class">
 <dt id="beziers.quadraticbezier.QuadraticBezier">
 <em class="property">class </em><code class="descclassname">beziers.quadraticbezier.</code><code class="descname">QuadraticBezier</code><span class="sig-paren">(</span><em>start</em>, <em>c1</em>, <em>end</em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.quadraticbezier.QuadraticBezier" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#beziers.segment.Segment" title="beziers.segment.Segment"><code class="xref py py-class docutils literal notranslate"><span class="pre">beziers.segment.Segment</span></code></a></p>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">beziers.utils.arclengthmixin.ArcLengthMixin</span></code>, <a class="reference internal" href="#beziers.segment.Segment" title="beziers.segment.Segment"><code class="xref py py-class docutils literal notranslate"><span class="pre">beziers.segment.Segment</span></code></a></p>
 <dl class="method">
 <dt id="beziers.quadraticbezier.QuadraticBezier.pointAtTime">
 <code class="descname">pointAtTime</code><span class="sig-paren">(</span><em>t</em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.quadraticbezier.QuadraticBezier.pointAtTime" title="Permalink to this definition">¶</a></dt>
@@ -598,12 +637,6 @@ this segment by the given vector. i.e.:</p>
 <dt id="beziers.quadraticbezier.QuadraticBezier.tOfPoint">
 <code class="descname">tOfPoint</code><span class="sig-paren">(</span><em>p</em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.quadraticbezier.QuadraticBezier.tOfPoint" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns the time t (0-&gt;1) of a point on the curve.</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="beziers.quadraticbezier.QuadraticBezier.length">
-<code class="descname">length</code><a class="headerlink" href="#beziers.quadraticbezier.QuadraticBezier.length" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns the length of the quadratic bezier</p>
 </dd></dl>
 
 <dl class="method">
@@ -617,6 +650,11 @@ this segment by the given vector. i.e.:</p>
 <code class="descname">derivative</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#beziers.quadraticbezier.QuadraticBezier.derivative" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns a <cite>Line</cite> representing the derivative of this curve.</p>
 </dd></dl>
+
+<dl class="method">
+<dt id="beziers.quadraticbezier.QuadraticBezier.flatten">
+<code class="descname">flatten</code><span class="sig-paren">(</span><em>degree=8</em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.quadraticbezier.QuadraticBezier.flatten" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 <dl class="method">
 <dt id="beziers.quadraticbezier.QuadraticBezier.findExtremes">
@@ -680,6 +718,11 @@ but it’s quite handy for higher-order curves.</p>
 between this Segment and another Segment.</p>
 </dd></dl>
 
+<dl class="attribute">
+<dt id="beziers.quadraticbezier.QuadraticBezier.length">
+<code class="descname">length</code><a class="headerlink" href="#beziers.quadraticbezier.QuadraticBezier.length" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 <dl class="method">
 <dt id="beziers.quadraticbezier.QuadraticBezier.lengthAtTime">
 <code class="descname">lengthAtTime</code><span class="sig-paren">(</span><em>t</em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.quadraticbezier.QuadraticBezier.lengthAtTime" title="Permalink to this definition">¶</a></dt>
@@ -692,6 +735,11 @@ up to the point t (0-&gt;1), where 1 is the end of the whole curve.</p>
 <code class="descname">normalAtTime</code><span class="sig-paren">(</span><em>t</em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.quadraticbezier.QuadraticBezier.normalAtTime" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns a <cite>Point</cite> representing the normal (rotated tangent) at time <cite>t</cite>.</p>
 </dd></dl>
+
+<dl class="attribute">
+<dt id="beziers.quadraticbezier.QuadraticBezier.order">
+<code class="descname">order</code><a class="headerlink" href="#beziers.quadraticbezier.QuadraticBezier.order" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 <dl class="method">
 <dt id="beziers.quadraticbezier.QuadraticBezier.regularSample">
@@ -725,6 +773,12 @@ this segment around the given point and by the given angle. i.e.:</p>
 <span class="go">L&lt;&lt;10.0,-8.881784197e-16&gt;--&lt;-8.881784197e-16,10.0&gt;&gt;</span>
 </pre></div>
 </div>
+</dd></dl>
+
+<dl class="method">
+<dt id="beziers.quadraticbezier.QuadraticBezier.round">
+<code class="descname">round</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#beziers.quadraticbezier.QuadraticBezier.round" title="Permalink to this definition">¶</a></dt>
+<dd><p>Rounds the points of segment to integer coordinates.</p>
 </dd></dl>
 
 <dl class="method">
@@ -804,7 +858,7 @@ this segment by the given vector. i.e.:</p>
 <dl class="class">
 <dt id="beziers.cubicbezier.CubicBezier">
 <em class="property">class </em><code class="descclassname">beziers.cubicbezier.</code><code class="descname">CubicBezier</code><span class="sig-paren">(</span><em>start</em>, <em>c1</em>, <em>c2</em>, <em>end</em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.cubicbezier.CubicBezier" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#beziers.segment.Segment" title="beziers.segment.Segment"><code class="xref py py-class docutils literal notranslate"><span class="pre">beziers.segment.Segment</span></code></a></p>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">beziers.utils.arclengthmixin.ArcLengthMixin</span></code>, <a class="reference internal" href="#beziers.segment.Segment" title="beziers.segment.Segment"><code class="xref py py-class docutils literal notranslate"><span class="pre">beziers.segment.Segment</span></code></a></p>
 <dl class="classmethod">
 <dt id="beziers.cubicbezier.CubicBezier.fromRepr">
 <em class="property">classmethod </em><code class="descname">fromRepr</code><span class="sig-paren">(</span><em>text</em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.cubicbezier.CubicBezier.fromRepr" title="Permalink to this definition">¶</a></dt>
@@ -820,12 +874,6 @@ this segment by the given vector. i.e.:</p>
 <dt id="beziers.cubicbezier.CubicBezier.tOfPoint">
 <code class="descname">tOfPoint</code><span class="sig-paren">(</span><em>p</em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.cubicbezier.CubicBezier.tOfPoint" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
-
-<dl class="attribute">
-<dt id="beziers.cubicbezier.CubicBezier.length">
-<code class="descname">length</code><a class="headerlink" href="#beziers.cubicbezier.CubicBezier.length" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns the length of the cubic Bezier using the Legendre-Gauss approximation.</p>
-</dd></dl>
 
 <dl class="method">
 <dt id="beziers.cubicbezier.CubicBezier.splitAtTime">
@@ -850,6 +898,11 @@ this segment by the given vector. i.e.:</p>
 <code class="descname">derivative</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#beziers.cubicbezier.CubicBezier.derivative" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns a <cite>QuadraticBezier</cite> representing the derivative of this curve.</p>
 </dd></dl>
+
+<dl class="method">
+<dt id="beziers.cubicbezier.CubicBezier.flatten">
+<code class="descname">flatten</code><span class="sig-paren">(</span><em>degree=8</em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.cubicbezier.CubicBezier.flatten" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 <dl class="method">
 <dt id="beziers.cubicbezier.CubicBezier.findExtremes">
@@ -932,6 +985,11 @@ but it’s quite handy for higher-order curves.</p>
 between this Segment and another Segment.</p>
 </dd></dl>
 
+<dl class="attribute">
+<dt id="beziers.cubicbezier.CubicBezier.length">
+<code class="descname">length</code><a class="headerlink" href="#beziers.cubicbezier.CubicBezier.length" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 <dl class="method">
 <dt id="beziers.cubicbezier.CubicBezier.lengthAtTime">
 <code class="descname">lengthAtTime</code><span class="sig-paren">(</span><em>t</em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.cubicbezier.CubicBezier.lengthAtTime" title="Permalink to this definition">¶</a></dt>
@@ -944,6 +1002,11 @@ up to the point t (0-&gt;1), where 1 is the end of the whole curve.</p>
 <code class="descname">normalAtTime</code><span class="sig-paren">(</span><em>t</em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.cubicbezier.CubicBezier.normalAtTime" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns a <cite>Point</cite> representing the normal (rotated tangent) at time <cite>t</cite>.</p>
 </dd></dl>
+
+<dl class="attribute">
+<dt id="beziers.cubicbezier.CubicBezier.order">
+<code class="descname">order</code><a class="headerlink" href="#beziers.cubicbezier.CubicBezier.order" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 <dl class="method">
 <dt id="beziers.cubicbezier.CubicBezier.regularSample">
@@ -977,6 +1040,12 @@ this segment around the given point and by the given angle. i.e.:</p>
 <span class="go">L&lt;&lt;10.0,-8.881784197e-16&gt;--&lt;-8.881784197e-16,10.0&gt;&gt;</span>
 </pre></div>
 </div>
+</dd></dl>
+
+<dl class="method">
+<dt id="beziers.cubicbezier.CubicBezier.round">
+<code class="descname">round</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#beziers.cubicbezier.CubicBezier.round" title="Permalink to this definition">¶</a></dt>
+<dd><p>Rounds the points of segment to integer coordinates.</p>
 </dd></dl>
 
 <dl class="method">
@@ -1126,36 +1195,8 @@ another <cite>BoundingBox</cite>, or something which has a <cite>bounds()</cite>
 </div>
 <div class="section" id="helpful-utility-classes">
 <h1>Helpful utility classes<a class="headerlink" href="#helpful-utility-classes" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="module-beziers.path.geometricshapes">
-<span id="geometric-shapes"></span><h2>Geometric shapes<a class="headerlink" href="#module-beziers.path.geometricshapes" title="Permalink to this headline">¶</a></h2>
-<dl class="function">
-<dt id="beziers.path.geometricshapes.Circle">
-<code class="descclassname">beziers.path.geometricshapes.</code><code class="descname">Circle</code><span class="sig-paren">(</span><em>x_radius</em>, <em>origin=None</em>, <em>superness=0.5522847498307935</em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.geometricshapes.Circle" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns a path representing a circle of given radius. You can specify the
-<cite>origin</cite> as a Point and the <cite>superness</cite> of the circle.</p>
-</dd></dl>
-
-<dl class="function">
-<dt id="beziers.path.geometricshapes.Ellipse">
-<code class="descclassname">beziers.path.geometricshapes.</code><code class="descname">Ellipse</code><span class="sig-paren">(</span><em>x_radius</em>, <em>y_radius</em>, <em>origin=None</em>, <em>superness=0.5522847498307935</em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.geometricshapes.Ellipse" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns a path representing an ellipse of given x and y radii.
-You can specify the <cite>origin</cite> as a Point and the <cite>superness</cite> of the ellipse.</p>
-</dd></dl>
-
-<dl class="function">
-<dt id="beziers.path.geometricshapes.Rectangle">
-<code class="descclassname">beziers.path.geometricshapes.</code><code class="descname">Rectangle</code><span class="sig-paren">(</span><em>width</em>, <em>height</em>, <em>origin=None</em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.geometricshapes.Rectangle" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns a path representing an rectangle of given width and height.
-You can specify the <cite>origin</cite> as a Point.</p>
-</dd></dl>
-
-<dl class="function">
-<dt id="beziers.path.geometricshapes.Square">
-<code class="descclassname">beziers.path.geometricshapes.</code><code class="descname">Square</code><span class="sig-paren">(</span><em>width</em>, <em>origin=None</em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.geometricshapes.Square" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns a path representing a square of given width.
-You can specify the <cite>origin</cite> as a Point.</p>
-</dd></dl>
-
+<div class="section" id="geometric-shapes">
+<h2>Geometric shapes<a class="headerlink" href="#geometric-shapes" title="Permalink to this headline">¶</a></h2>
 </div>
 </div>
 
@@ -1188,7 +1229,7 @@ You can specify the <cite>origin</cite> as a Point.</p>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="#helpful-utility-classes">Helpful utility classes</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#module-beziers.path.geometricshapes">Geometric shapes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#geometric-shapes">Geometric shapes</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="beziers.path.html">Handling Bezier Paths (Splines)</a></li>
