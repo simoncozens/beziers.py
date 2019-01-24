@@ -58,8 +58,8 @@ class IntersectionsMixin:
     b = self.end
     c = other.start
     d = other.end
-    if isclose(c.x, d.x) and isclose(a.x, b.x) and not isclose(c.x, a.x): return []
-    if isclose(c.y, d.y) and isclose(a.y, b.y) and not isclose(c.y, a.y): return []
+    if isclose(c.x, d.x) and isclose(a.x, b.x): return []
+    if isclose(c.y, d.y) and isclose(a.y, b.y): return []
     if c == d or a == b: return []
     if isclose(b.x,a.x):
       x = a.x

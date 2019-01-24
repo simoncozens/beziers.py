@@ -271,13 +271,13 @@ class CurveFit:
     isCorner = maxErrorRatio < 0
     if isCorner:
       if splitPoint == 0:
-        if tangent1 == None:
+        if tangent1 is None:
           splitPoint = splitPoint + 1
         else:
           return self._fitCurve( points, Point(0.0,0.0), tangent2, error, cornerTolerance, maxSegments)
 
       elif splitPoint == len(points) - 1:
-        if tangent2 == None:
+        if tangent2 is None:
           splitPoint = splitPoint - 1
         else:
           return self._fitCurve(points, tangent1, Point(0.0,0.0), error, cornerTolerance, maxSegments)
