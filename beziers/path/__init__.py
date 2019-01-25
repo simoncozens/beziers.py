@@ -519,3 +519,49 @@ class BezierPath(BooleanOperationsMixin,SampleMixin,object):
     area = area / 2.0
     return abs(area)
 
+  @property
+  def centroid(self):
+    if not self.closed: return None
+    return self.bounds().centroid # Really?
+
+  def drawWithBrush(self, other, pathSmoothness = 300, brushSmoothness = 2, alpha = 0.12):
+    """Assuming that `other` is a closed Bezier path representing a pen or
+    brush of a certain shape and that `self` is an open path, this method
+    traces the brush along the path, returning an array of Bezier paths.
+
+    `other` may also be a function which, given a time `t` (0-1), returns a closed
+    path representing the shape of the brush at the given time.
+
+    This requires the `shapely` and `scipy` libraries to be installed, and is very,
+    very slow.
+    """
+
+    samples = self.sample(pathSmoothness)
+    self.closed = False
+
+    def constantBrush(t):
+      return other
+
+    brush = other
+    if not callable(brush):
+      brush = constantBrush
+
+    c = brush(0).centroid
+
+    points = []
+    from shapely.geometry import Point as ShapelyPoint
+
+    t = 0
+    for n in samples:
+      brushHere = brush(t).clone()
+      brushHere.translate(n-c)
+      segs = brushHere.flatten(8).asSegments()
+      points.extend( [ ShapelyPoint(s[0].x, s[0].y) for s in segs] )
+      t = t + 1.0/pathSmoothness
+
+    from beziers.utils.alphashape import alpha_shape
+    concave_hull, edge_points = alpha_shape(points,
+                                        alpha=alpha)
+    points = [ Point(p[0],p[1]) for p in concave_hull.exterior.coords ]
+    path = BezierPath.fromPoints(points,error=5,maxSegments=100)
+    return path
