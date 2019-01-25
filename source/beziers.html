@@ -1195,8 +1195,36 @@ another <cite>BoundingBox</cite>, or something which has a <cite>bounds()</cite>
 </div>
 <div class="section" id="helpful-utility-classes">
 <h1>Helpful utility classes<a class="headerlink" href="#helpful-utility-classes" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="geometric-shapes">
-<h2>Geometric shapes<a class="headerlink" href="#geometric-shapes" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-beziers.path.geometricshapes">
+<span id="geometric-shapes"></span><h2>Geometric shapes<a class="headerlink" href="#module-beziers.path.geometricshapes" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="beziers.path.geometricshapes.Circle">
+<code class="descclassname">beziers.path.geometricshapes.</code><code class="descname">Circle</code><span class="sig-paren">(</span><em>x_radius</em>, <em>origin=None</em>, <em>superness=0.5522847498307935</em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.geometricshapes.Circle" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a path representing a circle of given radius. You can specify the
+<cite>origin</cite> as a Point and the <cite>superness</cite> of the circle.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="beziers.path.geometricshapes.Ellipse">
+<code class="descclassname">beziers.path.geometricshapes.</code><code class="descname">Ellipse</code><span class="sig-paren">(</span><em>x_radius</em>, <em>y_radius</em>, <em>origin=None</em>, <em>superness=0.5522847498307935</em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.geometricshapes.Ellipse" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a path representing an ellipse of given x and y radii.
+You can specify the <cite>origin</cite> as a Point and the <cite>superness</cite> of the ellipse.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="beziers.path.geometricshapes.Rectangle">
+<code class="descclassname">beziers.path.geometricshapes.</code><code class="descname">Rectangle</code><span class="sig-paren">(</span><em>width</em>, <em>height</em>, <em>origin=None</em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.geometricshapes.Rectangle" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a path representing an rectangle of given width and height.
+You can specify the <cite>origin</cite> as a Point.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="beziers.path.geometricshapes.Square">
+<code class="descclassname">beziers.path.geometricshapes.</code><code class="descname">Square</code><span class="sig-paren">(</span><em>width</em>, <em>origin=None</em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.geometricshapes.Square" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a path representing a square of given width.
+You can specify the <cite>origin</cite> as a Point.</p>
+</dd></dl>
+
 </div>
 </div>
 
@@ -1229,7 +1257,7 @@ another <cite>BoundingBox</cite>, or something which has a <cite>bounds()</cite>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="#helpful-utility-classes">Helpful utility classes</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#geometric-shapes">Geometric shapes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-beziers.path.geometricshapes">Geometric shapes</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="beziers.path.html">Handling Bezier Paths (Splines)</a></li>
