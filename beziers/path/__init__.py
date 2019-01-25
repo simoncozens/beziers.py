@@ -524,7 +524,7 @@ class BezierPath(BooleanOperationsMixin,SampleMixin,object):
     if not self.closed: return None
     return self.bounds().centroid # Really?
 
-  def drawWithBrush(self, other, pathSmoothness = 300, brushSmoothness = 2, alpha = 0.12):
+  def drawWithBrush(self, other, pathSmoothness = 50, brushSmoothness = 20, alpha = 0.15):
     """Assuming that `other` is a closed Bezier path representing a pen or
     brush of a certain shape and that `self` is an open path, this method
     traces the brush along the path, returning an array of Bezier paths.
@@ -536,7 +536,7 @@ class BezierPath(BooleanOperationsMixin,SampleMixin,object):
     very slow.
     """
 
-    samples = self.sample(pathSmoothness)
+    samples = self.sample(int(self.length*(pathSmoothness/100.0)))
     self.closed = False
 
     def constantBrush(t):
@@ -554,10 +554,10 @@ class BezierPath(BooleanOperationsMixin,SampleMixin,object):
     t = 0
     for n in samples:
       brushHere = brush(t).clone()
-      brushHere.translate(n-c)
-      segs = brushHere.flatten(8).asSegments()
-      points.extend( [ ShapelyPoint(s[0].x, s[0].y) for s in segs] )
-      t = t + 1.0/pathSmoothness
+      brushHere.translate(n-brushHere.centroid)
+      brushsamples = brushHere.sample(int(brushHere.length*(brushSmoothness/100.0)))
+      points.extend( [ ShapelyPoint(s.x, s.y) for s in brushsamples] )
+      t = t + 1.0/len(samples)
 
     from beziers.utils.alphashape import alpha_shape
     concave_hull, edge_points = alpha_shape(points,
