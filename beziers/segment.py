@@ -47,6 +47,8 @@ class Segment(IntersectionsMixin,SampleMixin,object):
     for p in range(0,self.order):
       if self[p] != other[p]: return False
     return True
+  def __hash__(self):
+    return hash(tuple(self.points))
   def __ne__(self,other):
     return not self.__eq__(other)
 
