@@ -521,7 +521,7 @@ class BezierPath(BooleanOperationsMixin,SampleMixin,object):
     flat = self.flatten()
     area = 0
     for s in flat.asSegments():
-      area = area + (s.start.x+s.end.x) * (s.end.y - s.start.y)
+      area = area + (s.start.x * s.end.y) - (s.start.y * s.end.x)
     area = area / 2.0
     return abs(area)
 
