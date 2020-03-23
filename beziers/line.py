@@ -14,6 +14,13 @@ class Line(Segment):
   def __repr__(self):
     return "L<%s--%s>" % (self.points[0], self.points[1])
 
+  @classmethod
+  def fromRepr(klass,text):
+    import re
+    p = re.compile("^L<(.*?)--(.*?)>$")
+    m = p.match(text)
+    return klass(Point.fromRepr(m.group(1)),Point.fromRepr(m.group(2)))
+
   def pointAtTime(self,t):
     """Returns the point at time t (0->1) along the line."""
     return self.start.lerp(self.end, t)

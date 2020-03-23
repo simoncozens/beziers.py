@@ -13,6 +13,14 @@ class QuadraticBezier(ArcLengthMixin,Segment):
 
   def __repr__(self):
     return "B<%s-%s-%s>" % (self[0],self[1],self[2])
+  
+  @classmethod
+  def fromRepr(klass,text):
+    import re
+    p = re.compile("^B<(.*?)-(.*?)-(.*?)>$")
+    m = p.match(text)
+    points = [ Point.fromRepr(m.group(t)) for t in range(1,4) ]
+    return klass(*points)
 
   def pointAtTime(self,t):
     """Returns the point at time t (0->1) along the curve."""
