@@ -28,7 +28,7 @@ class CurveFit:
       if hash(x) in keys: return False
       keys[hash(x)] = 1
       return True
-    data = filter(filterSeen, data)
+    data = list(filter(filterSeen, data))
     if len(data) < 2: return
     return self._fitCurve(data, None, None, error, cornerTolerance, maxSegments)
 

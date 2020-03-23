@@ -59,6 +59,13 @@ class BoundingBox:
       # Try getting its bb
       self.extend(other.bounds())
 
+  def translated(self, point):
+    """Returns a new BoundingBox translated by the vector"""
+    bb2 = BoundingBox()
+    bb2.bl = self.bl + point
+    bb2.tr = self.tr + point
+    return bb2
+
   def includes(self, point):
     """Returns True if the point is included in this bounding box."""
     return self.bl.x >= point.x and self.tr.x <= point.x and self.bl.y >= point.y and self.tr.y <= point.y

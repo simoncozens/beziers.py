@@ -198,7 +198,7 @@ class BezierPath(BooleanOperationsMixin,SampleMixin,object):
     left, right = ax.get_xlim()
     top, bottom = ax.get_ylim()
     bounds = self.bounds()
-    bounds.addMargin(5)
+    bounds.addMargin(50)
     if not (left == 0.0 and right == 1.0 and top == 0.0 and bottom == 1.0):
       bounds.extend(Point(left,top))
       bounds.extend(Point(right,bottom))
@@ -209,16 +209,16 @@ class BezierPath(BooleanOperationsMixin,SampleMixin,object):
       for i in range(0,len(nl)):
         n = nl[i]
         if n.type =="offcurve":
-          circle = plt.Circle((n.x, n.y), 1, fill=False)
+          circle = plt.Circle((n.x, n.y), 2, fill=True,color="black",alpha=0.5)
           ax.add_artist(circle)
           if i+1 < len(nl) and nl[i+1].type != "offcurve":
-            l = Line2D([n.x, nl[i+1].x], [n.y, nl[i+1].y])
+            l = Line2D([n.x, nl[i+1].x], [n.y, nl[i+1].y], linewidth=2,color="black",alpha=0.3)
             ax.add_artist(l)
           if i-0 >= 0 and nl[i-1].type != "offcurve":
-            l = Line2D([n.x, nl[i-1].x], [n.y, nl[i-1].y])
+            l = Line2D([n.x, nl[i-1].x], [n.y, nl[i-1].y], linewidth=2,color="black",alpha=0.3)
             ax.add_artist(l)
         else:
-          circle = plt.Circle((n.x, n.y), 1)
+          circle = plt.Circle((n.x, n.y), 3,color="black",alpha=0.3)
           ax.add_artist(circle)
 
   def clone(self):
@@ -379,26 +379,31 @@ class BezierPath(BooleanOperationsMixin,SampleMixin,object):
 
     segs1.extend(segs2)
     self.activeRepresentation = SegmentRepresentation(self, segs1)
+    return self
 
   def reverse(self):
     """Reverse this path (mutates path)."""
     seg2 = [ x.reversed() for x in self.asSegments()]
     self.activeRepresentation = SegmentRepresentation(self, list(reversed(seg2)))
+    return self
 
   def translate(self, vector):
     """Translates the path by a given vector."""
     seg2 = [ x.translated(vector) for x in self.asSegments()]
     self.activeRepresentation = SegmentRepresentation(self, seg2)
+    return self
 
   def rotate(self, about, angle):
     """Rotate the path by a given vector."""
     seg2 = [ x.rotated(about, angle) for x in self.asSegments()]
     self.activeRepresentation = SegmentRepresentation(self, seg2)
+    return self
 
   def scale(self, by):
     """Scales the path by a given magnitude."""
     seg2 = [ x.scaled(by) for x in self.asSegments()]
     self.activeRepresentation = SegmentRepresentation(self, seg2)
+    return self
 
   def balance(self):
     """Performs Tunni balancing on the path."""
@@ -406,6 +411,7 @@ class BezierPath(BooleanOperationsMixin,SampleMixin,object):
     for x in segs:
       if isinstance(x, CubicBezier): x.balance()
     self.activeRepresentation = SegmentRepresentation(self, segs)
+    return self
 
   def findDiscontinuities(self):
     """Not implemented yet"""

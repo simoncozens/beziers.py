@@ -10,7 +10,7 @@ config = {
     'description': 'Bezier curve manipulation library',
     'long_description': open('README.rst', 'r').read(),
     'license': 'MIT',
-    'version': '0.0.1',
+    'version': '0.0.3',
     'install_requires': [],
     'classifiers': [
         "Programming Language :: Python",
