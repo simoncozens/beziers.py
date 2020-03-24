@@ -93,3 +93,10 @@ class QuadraticBezier(ArcLengthMixin,Segment):
     return (2*(self[1].x*self[0].y - self[0].x*self[1].y - self[1].x*self[2].y + self[2].x*self[1].y) +
             3*(self[2].x*self[2].y - self[0].x*self[0].y) +
                self[2].x*self[0].y - self[0].x*self[2].y) / 6.
+
+  def toCubicBezier(self):
+    """Converts the quadratic bezier to a CubicBezier"""
+    from beziers.cubicbezier import CubicBezier
+    return CubicBezier(
+      self[0], self[0]*(1/3.) + self[1]*(2/3.), self[1]*(2/3.) + self[2]*(1/3.), self[2]
+    )

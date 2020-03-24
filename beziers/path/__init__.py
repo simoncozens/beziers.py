@@ -571,3 +571,11 @@ class BezierPath(BooleanOperationsMixin,SampleMixin,object):
     points = [ Point(p[0],p[1]) for p in concave_hull.exterior.coords ]
     path = BezierPath.fromPoints(points,error=5,maxSegments=100)
     return path
+
+  def quadraticsToCubics(self):
+    """Converts all quadratic segments in the path to cubic Beziers."""
+    segs = self.asSegments()
+    for i,s in enumerate(segs):
+      if len(s) == 3:
+        segs[i] = s.toCubicBezier()
+    return self
