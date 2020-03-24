@@ -79,7 +79,7 @@ class BooleanOperationsMixin:
 
     self.activeRepresentation = SegmentRepresentation(self,newsegs)
 
-  def clip(self,clip,cliptype):
+  def clip(self,clip,cliptype, flat=False):
     splitlist1 = []
     splitlist2 = []
     intersections = {}
@@ -157,7 +157,7 @@ class BooleanOperationsMixin:
       newpath = []
       for scaledstart,scaledend in pairwise(p):
         key = (Point(*scaledstart), Point(*scaledend))
-        if key in reconstructionLUT:
+        if key in reconstructionLUT and not flat:
           orig = reconstructionLUT[key]
           if len(newpath) == 0 or newpath[-1] != orig:
             newpath.append(orig)
@@ -166,14 +166,14 @@ class BooleanOperationsMixin:
       outpaths.append(BezierPath.fromSegments(newpath))
     return outpaths
 
-  def union(self,other):
+  def union(self,other, flat=False):
     """Returns a list of Bezier paths representing the union of the two input paths."""
-    return self.clip(other, pyclipper.CT_UNION)
+    return self.clip(other, pyclipper.CT_UNION, flat)
 
-  def intersection(self,other):
+  def intersection(self,other, flat=False):
     """Returns a list of Bezier paths representing the intersection of the two input paths."""
-    return self.clip(other, pyclipper.CT_INTERSECTION)
+    return self.clip(other, pyclipper.CT_INTERSECTION, flat)
 
-  def difference(self,other):
+  def difference(self,other, flat=False):
     """Returns a list of Bezier paths representing the first input path subtracted from the second."""
-    return self.clip(other, pyclipper.CT_DIFFERENCE)
+    return self.clip(other, pyclipper.CT_DIFFERENCE, flat)
