@@ -118,6 +118,12 @@ or, if you are exceptionally unlucky, QuadraticBezier objects).</p>
 </dd></dl>
 
 <dl class="method">
+<dt id="beziers.path.BezierPath.asSVGPath">
+<code class="descname">asSVGPath</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.BezierPath.asSVGPath" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the path as a string suitable for a SVG &lt;path d=”…”? element.</p>
+</dd></dl>
+
+<dl class="method">
 <dt id="beziers.path.BezierPath.asMatplot">
 <code class="descname">asMatplot</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.BezierPath.asMatplot" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
@@ -308,19 +314,8 @@ outside.</p>
 <dd></dd></dl>
 
 <dl class="method">
-<dt id="beziers.path.BezierPath.clip">
-<code class="descname">clip</code><span class="sig-paren">(</span><em>clip</em>, <em>cliptype</em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.BezierPath.clip" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="beziers.path.BezierPath.difference">
-<code class="descname">difference</code><span class="sig-paren">(</span><em>other</em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.BezierPath.difference" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns a list of Bezier paths representing the first input path subtracted from the second.</p>
-</dd></dl>
-
-<dl class="method">
 <dt id="beziers.path.BezierPath.drawWithBrush">
-<code class="descname">drawWithBrush</code><span class="sig-paren">(</span><em>other</em>, <em>pathSmoothness=300</em>, <em>brushSmoothness=2</em>, <em>alpha=0.12</em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.BezierPath.drawWithBrush" title="Permalink to this definition">¶</a></dt>
+<code class="descname">drawWithBrush</code><span class="sig-paren">(</span><em>other</em>, <em>pathSmoothness=50</em>, <em>brushSmoothness=20</em>, <em>alpha=0.15</em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.BezierPath.drawWithBrush" title="Permalink to this definition">¶</a></dt>
 <dd><p>Assuming that <cite>other</cite> is a closed Bezier path representing a pen or
 brush of a certain shape and that <cite>self</cite> is an open path, this method
 traces the brush along the path, returning an array of Bezier paths.</p>
@@ -331,6 +326,17 @@ very slow.</p>
 </dd></dl>
 
 <dl class="method">
+<dt id="beziers.path.BezierPath.clip">
+<code class="descname">clip</code><span class="sig-paren">(</span><em>clip</em>, <em>cliptype</em>, <em>flat=False</em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.BezierPath.clip" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="beziers.path.BezierPath.difference">
+<code class="descname">difference</code><span class="sig-paren">(</span><em>other</em>, <em>flat=False</em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.BezierPath.difference" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a list of Bezier paths representing the first input path subtracted from the second.</p>
+</dd></dl>
+
+<dl class="method">
 <dt id="beziers.path.BezierPath.getSelfIntersections">
 <code class="descname">getSelfIntersections</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.BezierPath.getSelfIntersections" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns a list of a path’s self-intersections as Intersection objects.</p>
@@ -338,8 +344,14 @@ very slow.</p>
 
 <dl class="method">
 <dt id="beziers.path.BezierPath.intersection">
-<code class="descname">intersection</code><span class="sig-paren">(</span><em>other</em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.BezierPath.intersection" title="Permalink to this definition">¶</a></dt>
+<code class="descname">intersection</code><span class="sig-paren">(</span><em>other</em>, <em>flat=False</em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.BezierPath.intersection" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns a list of Bezier paths representing the intersection of the two input paths.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="beziers.path.BezierPath.quadraticsToCubics">
+<code class="descname">quadraticsToCubics</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.BezierPath.quadraticsToCubics" title="Permalink to this definition">¶</a></dt>
+<dd><p>Converts all quadratic segments in the path to cubic Beziers.</p>
 </dd></dl>
 
 <dl class="method">
@@ -386,7 +398,7 @@ samples along the length of the curve.</div>
 
 <dl class="method">
 <dt id="beziers.path.BezierPath.union">
-<code class="descname">union</code><span class="sig-paren">(</span><em>other</em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.BezierPath.union" title="Permalink to this definition">¶</a></dt>
+<code class="descname">union</code><span class="sig-paren">(</span><em>other</em>, <em>flat=False</em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.BezierPath.union" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns a list of Bezier paths representing the union of the two input paths.</p>
 </dd></dl>
 

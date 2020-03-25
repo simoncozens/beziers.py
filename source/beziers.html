@@ -388,6 +388,11 @@ samples along the length of the curve.</div>
 <em class="property">class </em><code class="descclassname">beziers.line.</code><code class="descname">Line</code><span class="sig-paren">(</span><em>start</em>, <em>end</em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.line.Line" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#beziers.segment.Segment" title="beziers.segment.Segment"><code class="xref py py-class docutils literal notranslate"><span class="pre">beziers.segment.Segment</span></code></a></p>
 <p>Represents a line segment within a Bezier path.</p>
+<dl class="classmethod">
+<dt id="beziers.line.Line.fromRepr">
+<em class="property">classmethod </em><code class="descname">fromRepr</code><span class="sig-paren">(</span><em>text</em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.line.Line.fromRepr" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 <dl class="method">
 <dt id="beziers.line.Line.pointAtTime">
 <code class="descname">pointAtTime</code><span class="sig-paren">(</span><em>t</em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.line.Line.pointAtTime" title="Permalink to this definition">¶</a></dt>
@@ -627,6 +632,11 @@ this segment by the given vector. i.e.:</p>
 <dt id="beziers.quadraticbezier.QuadraticBezier">
 <em class="property">class </em><code class="descclassname">beziers.quadraticbezier.</code><code class="descname">QuadraticBezier</code><span class="sig-paren">(</span><em>start</em>, <em>c1</em>, <em>end</em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.quadraticbezier.QuadraticBezier" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">beziers.utils.arclengthmixin.ArcLengthMixin</span></code>, <a class="reference internal" href="#beziers.segment.Segment" title="beziers.segment.Segment"><code class="xref py py-class docutils literal notranslate"><span class="pre">beziers.segment.Segment</span></code></a></p>
+<dl class="classmethod">
+<dt id="beziers.quadraticbezier.QuadraticBezier.fromRepr">
+<em class="property">classmethod </em><code class="descname">fromRepr</code><span class="sig-paren">(</span><em>text</em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.quadraticbezier.QuadraticBezier.fromRepr" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 <dl class="method">
 <dt id="beziers.quadraticbezier.QuadraticBezier.pointAtTime">
 <code class="descname">pointAtTime</code><span class="sig-paren">(</span><em>t</em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.quadraticbezier.QuadraticBezier.pointAtTime" title="Permalink to this definition">¶</a></dt>
@@ -666,6 +676,12 @@ this segment by the given vector. i.e.:</p>
 <dt id="beziers.quadraticbezier.QuadraticBezier.area">
 <code class="descname">area</code><a class="headerlink" href="#beziers.quadraticbezier.QuadraticBezier.area" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns the signed area between the curve and the y-axis</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="beziers.quadraticbezier.QuadraticBezier.toCubicBezier">
+<code class="descname">toCubicBezier</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#beziers.quadraticbezier.QuadraticBezier.toCubicBezier" title="Permalink to this definition">¶</a></dt>
+<dd><p>Converts the quadratic bezier to a CubicBezier</p>
 </dd></dl>
 
 <dl class="method">
@@ -1169,6 +1185,12 @@ used to store bounding boxes.</p>
 <code class="descname">extend</code><span class="sig-paren">(</span><em>other</em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.boundingbox.BoundingBox.extend" title="Permalink to this definition">¶</a></dt>
 <dd><p>Add an object to the bounding box. Object can be a <cite>Point</cite>,
 another <cite>BoundingBox</cite>, or something which has a <cite>bounds()</cite> method.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="beziers.boundingbox.BoundingBox.translated">
+<code class="descname">translated</code><span class="sig-paren">(</span><em>point</em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.boundingbox.BoundingBox.translated" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a new BoundingBox translated by the vector</p>
 </dd></dl>
 
 <dl class="method">
