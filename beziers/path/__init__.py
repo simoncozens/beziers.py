@@ -143,6 +143,22 @@ class BezierPath(BooleanOperationsMixin,SampleMixin,object):
       self.activeRepresentation = NodelistRepresentation(self,nl)
     return self.activeRepresentation.data()
 
+  def asSVGPath(self):
+    """Return the path as a string suitable for a SVG <path d="..."? element."""
+    segs = self.asSegments()
+    pathParts = ["M %f %f" % (segs[0][0].x, segs[0][0].y)]
+
+    operators = "xxLQC"
+    for s in segs:
+      op = operators[len(s)] + " "
+      for pt in s[1:]:
+        op = op + "%f %f " % (pt.x, pt.y)
+      pathParts.append(op)
+    if self.closed:
+      pathParts.append("Z")
+
+    return " ".join(pathParts)
+
   def asMatplot(self):
     from matplotlib.path import Path
     nl = self.asNodelist()
