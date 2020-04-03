@@ -38,6 +38,16 @@ class BoundingBox:
     return self.bl.y
 
   @property
+  def width(self):
+    """Returns the width of the box."""
+    return self.tr.x - self.bl.x
+
+  @property
+  def height(self):
+    """Returns the height of the box."""
+    return self.tr.y - self.bl.y
+
+  @property
   def centroid(self):
     """Returns a `Point` representing the centroid of the box."""
     return Point((self.left + self.right)*0.5, (self.top+self.bottom)*0.5)
