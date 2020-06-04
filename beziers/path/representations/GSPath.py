@@ -11,4 +11,4 @@ class GSPathRepresentation(object):
       path.closed = gspath.closed
 
   def toNodelist(self):
-    return map( lambda n: Node(n.x,n.y,n.type), self.nodes)
+    return list(map( lambda n: Node(n.x,n.y,n.type), self.nodes))
