@@ -599,19 +599,24 @@ class BezierPath(BooleanOperationsMixin,SampleMixin,object):
         segs[i] = s.toCubicBezier()
     return self
 
-  def distanceToPath(self, other):
+  def distanceToPath(self, other, samples = 10):
     """Finds the distance to the other curve at its closest point,
-    along with the t values for the closest point at each segment."""
+    along with the t values for the closest point at each segment
+    and the relevant segments.
+
+    Returns: ``distance, t1, t2, seg1, seg2``."""
     from beziers.utils.curvedistance import curveDistance
-    segs1 = self.clone().addExtremes().asSegments()
-    segs2 = other.clone().addExtremes().asSegments()
+    segs1 = self.asSegments()
+    segs2 = other.asSegments()
     minDistance = None
     # Find closest segment pair.
     for s1 in segs1:
+      samples1 = s1.regularSample(samples)
       for s2 in segs2:
-        d = s1[0].squareDistanceFrom(s2[0]) + s1[-1].squareDistanceFrom(s2[-1])
+        samples2 = s2.regularSample(samples)
+        d = min([ p1.squareDistanceFrom(p2) for p1 in samples1 for p2 in samples2])
         if not minDistance or d < minDistance:
-          d = minDistance
+          minDistance = d
           closestPair = (s1,s2)
     c = curveDistance(closestPair[0], closestPair[1])
-    return (*c, s1, s2)
+    return (*c, closestPair[0], closestPair[1])
