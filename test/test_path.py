@@ -8,8 +8,6 @@ from beziers.line import Line
 from beziers.path import BezierPath
 from dotmap import DotMap
 
-import matplotlib.pyplot as plt
-
 class PathTests(unittest.TestCase):
   def test_representations(self):
     b = DotMap({ "closed": True,
