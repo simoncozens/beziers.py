@@ -81,6 +81,9 @@ class Point(object):
     return self
 
   def __matmul__(self,other): # Dot product. Abusing overloading. Sue me.
+    return self.dot(other)
+
+  def dot(self, other):
     return self.x * other.x + self.y * other.y
 
   def clone(self):
