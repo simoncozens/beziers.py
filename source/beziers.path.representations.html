@@ -1,19 +1,17 @@
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
   <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
     <title>beziers.path.representations package &#8212; beziers  documentation</title>
     <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-    <script type="text/javascript" src="../_static/jquery.js"></script>
-    <script type="text/javascript" src="../_static/underscore.js"></script>
-    <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/language_data.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="prev" title="Handling Bezier Paths (Splines)" href="beziers.path.html" />
@@ -40,13 +38,13 @@
 </div>
 <div class="section" id="module-beziers.path.representations.GSPath">
 <span id="beziers-path-representations-gspath-module"></span><h2>beziers.path.representations.GSPath module<a class="headerlink" href="#module-beziers.path.representations.GSPath" title="Permalink to this headline">¶</a></h2>
-<dl class="class">
+<dl class="py class">
 <dt id="beziers.path.representations.GSPath.GSPathRepresentation">
-<em class="property">class </em><code class="descclassname">beziers.path.representations.GSPath.</code><code class="descname">GSPathRepresentation</code><span class="sig-paren">(</span><em>path</em>, <em>gspath=None</em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.representations.GSPath.GSPathRepresentation" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">beziers.path.representations.GSPath.</code><code class="sig-name descname">GSPathRepresentation</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">path</span></em>, <em class="sig-param"><span class="n">gspath</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.representations.GSPath.GSPathRepresentation" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<dl class="method">
+<dl class="py method">
 <dt id="beziers.path.representations.GSPath.GSPathRepresentation.toNodelist">
-<code class="descname">toNodelist</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.representations.GSPath.GSPathRepresentation.toNodelist" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">toNodelist</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.representations.GSPath.GSPathRepresentation.toNodelist" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -54,39 +52,39 @@
 </div>
 <div class="section" id="module-beziers.path.representations.Nodelist">
 <span id="beziers-path-representations-nodelist-module"></span><h2>beziers.path.representations.Nodelist module<a class="headerlink" href="#module-beziers.path.representations.Nodelist" title="Permalink to this headline">¶</a></h2>
-<dl class="class">
+<dl class="py class">
 <dt id="beziers.path.representations.Nodelist.Node">
-<em class="property">class </em><code class="descclassname">beziers.path.representations.Nodelist.</code><code class="descname">Node</code><span class="sig-paren">(</span><em>x</em>, <em>y</em>, <em>type</em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.representations.Nodelist.Node" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">beziers.path.representations.Nodelist.</code><code class="sig-name descname">Node</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span></em>, <em class="sig-param"><span class="n">y</span></em>, <em class="sig-param"><span class="n">type</span></em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.representations.Nodelist.Node" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<dl class="attribute">
+<dl class="py method">
 <dt id="beziers.path.representations.Nodelist.Node.x">
-<code class="descname">x</code><a class="headerlink" href="#beziers.path.representations.Nodelist.Node.x" title="Permalink to this definition">¶</a></dt>
+<em class="property">property </em><code class="sig-name descname">x</code><a class="headerlink" href="#beziers.path.representations.Nodelist.Node.x" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
+<dl class="py method">
 <dt id="beziers.path.representations.Nodelist.Node.y">
-<code class="descname">y</code><a class="headerlink" href="#beziers.path.representations.Nodelist.Node.y" title="Permalink to this definition">¶</a></dt>
+<em class="property">property </em><code class="sig-name descname">y</code><a class="headerlink" href="#beziers.path.representations.Nodelist.Node.y" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
-<dl class="class">
+<dl class="py class">
 <dt id="beziers.path.representations.Nodelist.NodelistRepresentation">
-<em class="property">class </em><code class="descclassname">beziers.path.representations.Nodelist.</code><code class="descname">NodelistRepresentation</code><span class="sig-paren">(</span><em>path</em>, <em>nl=None</em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.representations.Nodelist.NodelistRepresentation" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">beziers.path.representations.Nodelist.</code><code class="sig-name descname">NodelistRepresentation</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">path</span></em>, <em class="sig-param"><span class="n">nl</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.representations.Nodelist.NodelistRepresentation" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<dl class="method">
+<dl class="py method">
 <dt id="beziers.path.representations.Nodelist.NodelistRepresentation.data">
-<code class="descname">data</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.representations.Nodelist.NodelistRepresentation.data" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">data</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.representations.Nodelist.NodelistRepresentation.data" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="beziers.path.representations.Nodelist.NodelistRepresentation.toNodelist">
-<code class="descname">toNodelist</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.representations.Nodelist.NodelistRepresentation.toNodelist" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">toNodelist</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.representations.Nodelist.NodelistRepresentation.toNodelist" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="beziers.path.representations.Nodelist.NodelistRepresentation.fromNodelist">
-<code class="descname">fromNodelist</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.representations.Nodelist.NodelistRepresentation.fromNodelist" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">fromNodelist</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.representations.Nodelist.NodelistRepresentation.fromNodelist" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -94,28 +92,28 @@
 </div>
 <div class="section" id="module-beziers.path.representations.Segment">
 <span id="beziers-path-representations-segment-module"></span><h2>beziers.path.representations.Segment module<a class="headerlink" href="#module-beziers.path.representations.Segment" title="Permalink to this headline">¶</a></h2>
-<dl class="class">
+<dl class="py class">
 <dt id="beziers.path.representations.Segment.SegmentRepresentation">
-<em class="property">class </em><code class="descclassname">beziers.path.representations.Segment.</code><code class="descname">SegmentRepresentation</code><span class="sig-paren">(</span><em>path</em>, <em>segments=[]</em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.representations.Segment.SegmentRepresentation" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">beziers.path.representations.Segment.</code><code class="sig-name descname">SegmentRepresentation</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">path</span></em>, <em class="sig-param"><span class="n">segments</span><span class="o">=</span><span class="default_value">[]</span></em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.representations.Segment.SegmentRepresentation" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<dl class="method">
+<dl class="py method">
 <dt id="beziers.path.representations.Segment.SegmentRepresentation.data">
-<code class="descname">data</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.representations.Segment.SegmentRepresentation.data" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">data</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.representations.Segment.SegmentRepresentation.data" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="beziers.path.representations.Segment.SegmentRepresentation.toNodelist">
-<code class="descname">toNodelist</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.representations.Segment.SegmentRepresentation.toNodelist" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">toNodelist</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.representations.Segment.SegmentRepresentation.toNodelist" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="beziers.path.representations.Segment.SegmentRepresentation.appendSegment">
-<code class="descname">appendSegment</code><span class="sig-paren">(</span><em>seg</em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.representations.Segment.SegmentRepresentation.appendSegment" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">appendSegment</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">seg</span></em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.representations.Segment.SegmentRepresentation.appendSegment" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="classmethod">
+<dl class="py method">
 <dt id="beziers.path.representations.Segment.SegmentRepresentation.fromNodelist">
-<em class="property">classmethod </em><code class="descname">fromNodelist</code><span class="sig-paren">(</span><em>path</em>, <em>nodelist</em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.representations.Segment.SegmentRepresentation.fromNodelist" title="Permalink to this definition">¶</a></dt>
+<em class="property">classmethod </em><code class="sig-name descname">fromNodelist</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">path</span></em>, <em class="sig-param"><span class="n">nodelist</span></em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.representations.Segment.SegmentRepresentation.fromNodelist" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -164,17 +162,15 @@
 </ul>
 </div>
 <div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
+  <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" />
+      <input type="text" name="q" aria-labelledby="searchlabel" />
       <input type="submit" value="Go" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
     </form>
     </div>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+<script>$('#searchbox').show(0);</script>
 
 
 
@@ -191,7 +187,7 @@
       &copy;2018, Simon Cozens.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.1</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.0.3</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |

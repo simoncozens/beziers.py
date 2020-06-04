@@ -1,19 +1,17 @@
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
   <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
     <title>Handling Bezier Paths (Splines) &#8212; beziers  documentation</title>
     <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-    <script type="text/javascript" src="../_static/jquery.js"></script>
-    <script type="text/javascript" src="../_static/underscore.js"></script>
-    <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/language_data.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="beziers.path.representations package" href="beziers.path.representations.html" />
@@ -36,9 +34,9 @@
             
   <div class="section" id="module-beziers.path">
 <span id="handling-bezier-paths-splines"></span><h1>Handling Bezier Paths (Splines)<a class="headerlink" href="#module-beziers.path" title="Permalink to this headline">¶</a></h1>
-<dl class="class">
+<dl class="py class">
 <dt id="beziers.path.BezierPath">
-<em class="property">class </em><code class="descclassname">beziers.path.</code><code class="descname">BezierPath</code><a class="headerlink" href="#beziers.path.BezierPath" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">beziers.path.</code><code class="sig-name descname">BezierPath</code><a class="headerlink" href="#beziers.path.BezierPath" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">beziers.utils.booleanoperationsmixin.BooleanOperationsMixin</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">beziers.utils.samplemixin.SampleMixin</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p><cite>BezierPath</cite> represents a collection of <cite>Segment</cite> objects - the
 curves and lines that make up a path.</p>
@@ -65,72 +63,71 @@ a list of segments instead:</p>
 </div>
 <p>The Beziers module is designed to allow you to move fluidly between these
 different representations depending on what you’re wanting to do.</p>
-<dl class="classmethod">
+<dl class="py method">
 <dt id="beziers.path.BezierPath.fromPoints">
-<em class="property">classmethod </em><code class="descname">fromPoints</code><span class="sig-paren">(</span><em>points</em>, <em>error=50.0</em>, <em>cornerTolerance=20.0</em>, <em>maxSegments=20</em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.BezierPath.fromPoints" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="docutils">
-<dt>Fit a poly-bezier curve to the points given. This operation should be familiar</dt>
-<dd><p class="first">from ‘pencil’ tools in a vector drawing application: the application samples points
+<em class="property">classmethod </em><code class="sig-name descname">fromPoints</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">points</span></em>, <em class="sig-param"><span class="n">error</span><span class="o">=</span><span class="default_value">50.0</span></em>, <em class="sig-param"><span class="n">cornerTolerance</span><span class="o">=</span><span class="default_value">20.0</span></em>, <em class="sig-param"><span class="n">maxSegments</span><span class="o">=</span><span class="default_value">20</span></em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.BezierPath.fromPoints" title="Permalink to this definition">¶</a></dt>
+<dd><dl>
+<dt>Fit a poly-bezier curve to the points given. This operation should be familiar</dt><dd><p>from ‘pencil’ tools in a vector drawing application: the application samples points
 where your mouse pointer has been dragged, and then turns the sketch into a Bezier
 path. The goodness of fit can be controlled by tuning the <cite>error</cite> parameter. Corner
 detection can be controlled with <cite>cornerTolerance</cite>.</p>
-<p class="last">Here are some points fit with <cite>error=100.0</cite>:</p>
+<p>Here are some points fit with <cite>error=100.0</cite>:</p>
 </dd>
 </dl>
-<div class="figure" id="id1">
+<div class="figure align-default" id="id1">
 <a class="reference internal image-reference" href="../_images/curvefit1.png"><img alt="curvefit1" src="../_images/curvefit1.png" style="width: 600.0px; height: 450.0px;" /></a>
-<p class="caption"><span class="caption-text">And with <cite>error=10.0</cite>:</span></p>
+<p class="caption"><span class="caption-text">And with <cite>error=10.0</cite>:</span><a class="headerlink" href="#id1" title="Permalink to this image">¶</a></p>
 </div>
-<div class="figure">
+<div class="figure align-default">
 <a class="reference internal image-reference" href="../_images/curvefit2.png"><img alt="curvefit1" src="../_images/curvefit2.png" style="width: 600.0px; height: 450.0px;" /></a>
 </div>
 </dd></dl>
 
-<dl class="classmethod">
+<dl class="py method">
 <dt id="beziers.path.BezierPath.fromSegments">
-<em class="property">classmethod </em><code class="descname">fromSegments</code><span class="sig-paren">(</span><em>array</em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.BezierPath.fromSegments" title="Permalink to this definition">¶</a></dt>
+<em class="property">classmethod </em><code class="sig-name descname">fromSegments</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">array</span></em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.BezierPath.fromSegments" title="Permalink to this definition">¶</a></dt>
 <dd><p>Construct a path from an array of Segment objects.</p>
 </dd></dl>
 
-<dl class="classmethod">
+<dl class="py method">
 <dt id="beziers.path.BezierPath.fromNodelist">
-<em class="property">classmethod </em><code class="descname">fromNodelist</code><span class="sig-paren">(</span><em>array</em>, <em>closed=True</em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.BezierPath.fromNodelist" title="Permalink to this definition">¶</a></dt>
+<em class="property">classmethod </em><code class="sig-name descname">fromNodelist</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">array</span></em>, <em class="sig-param"><span class="n">closed</span><span class="o">=</span><span class="default_value">True</span></em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.BezierPath.fromNodelist" title="Permalink to this definition">¶</a></dt>
 <dd><p>Construct a path from an array of Node objects.</p>
 </dd></dl>
 
-<dl class="classmethod">
+<dl class="py method">
 <dt id="beziers.path.BezierPath.fromFonttoolsGlyph">
-<em class="property">classmethod </em><code class="descname">fromFonttoolsGlyph</code><span class="sig-paren">(</span><em>font</em>, <em>glyphname</em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.BezierPath.fromFonttoolsGlyph" title="Permalink to this definition">¶</a></dt>
+<em class="property">classmethod </em><code class="sig-name descname">fromFonttoolsGlyph</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">font</span></em>, <em class="sig-param"><span class="n">glyphname</span></em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.BezierPath.fromFonttoolsGlyph" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns an <em>array of BezierPaths</em> from a FontTools font object and glyph name.</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="beziers.path.BezierPath.asSegments">
-<code class="descname">asSegments</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.BezierPath.asSegments" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">asSegments</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.BezierPath.asSegments" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the path as an array of segments (either Line, CubicBezier,
 or, if you are exceptionally unlucky, QuadraticBezier objects).</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="beziers.path.BezierPath.asNodelist">
-<code class="descname">asNodelist</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.BezierPath.asNodelist" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">asNodelist</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.BezierPath.asNodelist" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the path as an array of Node objects.</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="beziers.path.BezierPath.asSVGPath">
-<code class="descname">asSVGPath</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.BezierPath.asSVGPath" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">asSVGPath</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.BezierPath.asSVGPath" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the path as a string suitable for a SVG &lt;path d=”…”? element.</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="beziers.path.BezierPath.asMatplot">
-<code class="descname">asMatplot</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.BezierPath.asMatplot" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">asMatplot</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.BezierPath.asMatplot" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="beziers.path.BezierPath.plot">
-<code class="descname">plot</code><span class="sig-paren">(</span><em>ax</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.BezierPath.plot" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">plot</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">ax</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.BezierPath.plot" title="Permalink to this definition">¶</a></dt>
 <dd><p>Plot the path on a Matplot subplot which you supply</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
@@ -139,183 +136,182 @@ or, if you are exceptionally unlucky, QuadraticBezier objects).</p>
 </div>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="beziers.path.BezierPath.clone">
-<code class="descname">clone</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.BezierPath.clone" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">clone</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.BezierPath.clone" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return a new path which is an exact copy of this one</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="beziers.path.BezierPath.round">
-<code class="descname">round</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.BezierPath.round" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">round</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.BezierPath.round" title="Permalink to this definition">¶</a></dt>
 <dd><p>Rounds the points of this path to integer coordinates.</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="beziers.path.BezierPath.bounds">
-<code class="descname">bounds</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.BezierPath.bounds" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">bounds</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.BezierPath.bounds" title="Permalink to this definition">¶</a></dt>
 <dd><p>Determine the bounding box of the path, returned as a
 <cite>BoundingBox</cite> object.</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="beziers.path.BezierPath.splitAtPoints">
-<code class="descname">splitAtPoints</code><span class="sig-paren">(</span><em>splitlist</em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.BezierPath.splitAtPoints" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">splitAtPoints</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">splitlist</span></em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.BezierPath.splitAtPoints" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="beziers.path.BezierPath.addExtremes">
-<code class="descname">addExtremes</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.BezierPath.addExtremes" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">addExtremes</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.BezierPath.addExtremes" title="Permalink to this definition">¶</a></dt>
 <dd><p>Add extreme points to the path.</p>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py method">
 <dt id="beziers.path.BezierPath.length">
-<code class="descname">length</code><a class="headerlink" href="#beziers.path.BezierPath.length" title="Permalink to this definition">¶</a></dt>
+<em class="property">property </em><code class="sig-name descname">length</code><a class="headerlink" href="#beziers.path.BezierPath.length" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns the length of the whole path.</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="beziers.path.BezierPath.pointAtTime">
-<code class="descname">pointAtTime</code><span class="sig-paren">(</span><em>t</em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.BezierPath.pointAtTime" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">pointAtTime</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">t</span></em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.BezierPath.pointAtTime" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns the point at time t (0-&gt;1) along the curve, where 1 is the end of the whole curve.</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="beziers.path.BezierPath.lengthAtTime">
-<code class="descname">lengthAtTime</code><span class="sig-paren">(</span><em>t</em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.BezierPath.lengthAtTime" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">lengthAtTime</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">t</span></em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.BezierPath.lengthAtTime" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns the length of the subset of the path from the start
 up to the point t (0-&gt;1), where 1 is the end of the whole curve.</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="beziers.path.BezierPath.offset">
-<code class="descname">offset</code><span class="sig-paren">(</span><em>vector</em>, <em>rotateVector=True</em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.BezierPath.offset" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="docutils">
-<dt>Returns a new BezierPath which approximates offsetting the</dt>
-<dd>current Bezier path by the given vector. Note that the vector
+<code class="sig-name descname">offset</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">vector</span></em>, <em class="sig-param"><span class="n">rotateVector</span><span class="o">=</span><span class="default_value">True</span></em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.BezierPath.offset" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Returns a new BezierPath which approximates offsetting the</dt><dd><p>current Bezier path by the given vector. Note that the vector
 will be rotated around the normal of the curve so that the
-offsetting always happens on the same ‘side’ of the curve:</dd>
+offsetting always happens on the same ‘side’ of the curve:</p>
+</dd>
 </dl>
-<div class="figure" id="id2">
+<div class="figure align-default" id="id2">
 <a class="reference internal image-reference" href="../_images/offset1.png"><img alt="offset1" src="../_images/offset1.png" style="width: 600.0px; height: 450.0px;" /></a>
 <p class="caption"><span class="caption-text">If you don’t want that and you want ‘straight’ offsetting instead
 (which may intersect with the original curve), pass
-<cite>rotateVector=False</cite>:</span></p>
+<cite>rotateVector=False</cite>:</span><a class="headerlink" href="#id2" title="Permalink to this image">¶</a></p>
 </div>
-<div class="figure">
+<div class="figure align-default">
 <a class="reference internal image-reference" href="../_images/offset2.png"><img alt="offset1" src="../_images/offset2.png" style="width: 600.0px; height: 450.0px;" /></a>
 </div>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="beziers.path.BezierPath.append">
-<code class="descname">append</code><span class="sig-paren">(</span><em>other</em>, <em>joinType='line'</em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.BezierPath.append" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">append</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">other</span></em>, <em class="sig-param"><span class="n">joinType</span><span class="o">=</span><span class="default_value">'line'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.BezierPath.append" title="Permalink to this definition">¶</a></dt>
 <dd><p>Append another path to this one. If the end point of the first
 path is not the same as the start point of the other path, a line
 will be drawn between them.</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="beziers.path.BezierPath.reverse">
-<code class="descname">reverse</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.BezierPath.reverse" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">reverse</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.BezierPath.reverse" title="Permalink to this definition">¶</a></dt>
 <dd><p>Reverse this path (mutates path).</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="beziers.path.BezierPath.translate">
-<code class="descname">translate</code><span class="sig-paren">(</span><em>vector</em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.BezierPath.translate" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">translate</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">vector</span></em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.BezierPath.translate" title="Permalink to this definition">¶</a></dt>
 <dd><p>Translates the path by a given vector.</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="beziers.path.BezierPath.rotate">
-<code class="descname">rotate</code><span class="sig-paren">(</span><em>about</em>, <em>angle</em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.BezierPath.rotate" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">rotate</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">about</span></em>, <em class="sig-param"><span class="n">angle</span></em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.BezierPath.rotate" title="Permalink to this definition">¶</a></dt>
 <dd><p>Rotate the path by a given vector.</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="beziers.path.BezierPath.scale">
-<code class="descname">scale</code><span class="sig-paren">(</span><em>by</em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.BezierPath.scale" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">scale</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">by</span></em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.BezierPath.scale" title="Permalink to this definition">¶</a></dt>
 <dd><p>Scales the path by a given magnitude.</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="beziers.path.BezierPath.balance">
-<code class="descname">balance</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.BezierPath.balance" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">balance</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.BezierPath.balance" title="Permalink to this definition">¶</a></dt>
 <dd><p>Performs Tunni balancing on the path.</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="beziers.path.BezierPath.findDiscontinuities">
-<code class="descname">findDiscontinuities</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.BezierPath.findDiscontinuities" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">findDiscontinuities</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.BezierPath.findDiscontinuities" title="Permalink to this definition">¶</a></dt>
 <dd><p>Not implemented yet</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="beziers.path.BezierPath.roundCorners">
-<code class="descname">roundCorners</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.BezierPath.roundCorners" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">roundCorners</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.BezierPath.roundCorners" title="Permalink to this definition">¶</a></dt>
 <dd><p>Not implemented yet</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="beziers.path.BezierPath.dash">
-<code class="descname">dash</code><span class="sig-paren">(</span><em>lineLength=50</em>, <em>gapLength=None</em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.BezierPath.dash" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="docutils">
-<dt>Returns a list of BezierPath objects created by chopping</dt>
-<dd><p class="first">this path into a dashed line:</p>
-<div class="last highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">paths</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">dash</span><span class="p">(</span><span class="n">lineLength</span> <span class="o">=</span> <span class="mi">20</span><span class="p">,</span> <span class="n">gapLength</span> <span class="o">=</span> <span class="mi">50</span><span class="p">)</span>
+<code class="sig-name descname">dash</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">lineLength</span><span class="o">=</span><span class="default_value">50</span></em>, <em class="sig-param"><span class="n">gapLength</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.BezierPath.dash" title="Permalink to this definition">¶</a></dt>
+<dd><dl>
+<dt>Returns a list of BezierPath objects created by chopping</dt><dd><p>this path into a dashed line:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">paths</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">dash</span><span class="p">(</span><span class="n">lineLength</span> <span class="o">=</span> <span class="mi">20</span><span class="p">,</span> <span class="n">gapLength</span> <span class="o">=</span> <span class="mi">50</span><span class="p">)</span>
 </pre></div>
 </div>
 </dd>
 </dl>
-<div class="figure">
+<div class="figure align-default">
 <a class="reference internal image-reference" href="../_images/dash.png"><img alt="path.dash(lineLength = 20, gapLength = 50)" src="../_images/dash.png" style="width: 600.0px; height: 450.0px;" /></a>
 </div>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="beziers.path.BezierPath.segpairs">
-<code class="descname">segpairs</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.BezierPath.segpairs" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">segpairs</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.BezierPath.segpairs" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="beziers.path.BezierPath.harmonize">
-<code class="descname">harmonize</code><span class="sig-paren">(</span><em>seg1</em>, <em>seg2</em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.BezierPath.harmonize" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">harmonize</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">seg1</span></em>, <em class="sig-param"><span class="n">seg2</span></em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.BezierPath.harmonize" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="beziers.path.BezierPath.flatten">
-<code class="descname">flatten</code><span class="sig-paren">(</span><em>degree=8</em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.BezierPath.flatten" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">flatten</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">degree</span><span class="o">=</span><span class="default_value">8</span></em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.BezierPath.flatten" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="beziers.path.BezierPath.windingNumberOfPoint">
-<code class="descname">windingNumberOfPoint</code><span class="sig-paren">(</span><em>pt</em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.BezierPath.windingNumberOfPoint" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">windingNumberOfPoint</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">pt</span></em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.BezierPath.windingNumberOfPoint" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="beziers.path.BezierPath.pointIsInside">
-<code class="descname">pointIsInside</code><span class="sig-paren">(</span><em>pt</em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.BezierPath.pointIsInside" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">pointIsInside</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">pt</span></em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.BezierPath.pointIsInside" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns true if the given point lies on the “inside” of the path,
 assuming an ‘even-odd’ winding rule where self-intersections are considered
 outside.</p>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py method">
 <dt id="beziers.path.BezierPath.area">
-<code class="descname">area</code><a class="headerlink" href="#beziers.path.BezierPath.area" title="Permalink to this definition">¶</a></dt>
+<em class="property">property </em><code class="sig-name descname">area</code><a class="headerlink" href="#beziers.path.BezierPath.area" title="Permalink to this definition">¶</a></dt>
 <dd><p>Approximates the area under a closed path by flattening and treating as a polygon.</p>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py method">
 <dt id="beziers.path.BezierPath.centroid">
-<code class="descname">centroid</code><a class="headerlink" href="#beziers.path.BezierPath.centroid" title="Permalink to this definition">¶</a></dt>
+<em class="property">property </em><code class="sig-name descname">centroid</code><a class="headerlink" href="#beziers.path.BezierPath.centroid" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="beziers.path.BezierPath.drawWithBrush">
-<code class="descname">drawWithBrush</code><span class="sig-paren">(</span><em>other</em>, <em>pathSmoothness=50</em>, <em>brushSmoothness=20</em>, <em>alpha=0.15</em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.BezierPath.drawWithBrush" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">drawWithBrush</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">other</span></em>, <em class="sig-param"><span class="n">pathSmoothness</span><span class="o">=</span><span class="default_value">50</span></em>, <em class="sig-param"><span class="n">brushSmoothness</span><span class="o">=</span><span class="default_value">20</span></em>, <em class="sig-param"><span class="n">alpha</span><span class="o">=</span><span class="default_value">0.15</span></em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.BezierPath.drawWithBrush" title="Permalink to this definition">¶</a></dt>
 <dd><p>Assuming that <cite>other</cite> is a closed Bezier path representing a pen or
 brush of a certain shape and that <cite>self</cite> is an open path, this method
 traces the brush along the path, returning an array of Bezier paths.</p>
@@ -325,81 +321,19 @@ path representing the shape of the brush at the given time.</p>
 very slow.</p>
 </dd></dl>
 
-<dl class="method">
-<dt id="beziers.path.BezierPath.clip">
-<code class="descname">clip</code><span class="sig-paren">(</span><em>clip</em>, <em>cliptype</em>, <em>flat=False</em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.BezierPath.clip" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="beziers.path.BezierPath.difference">
-<code class="descname">difference</code><span class="sig-paren">(</span><em>other</em>, <em>flat=False</em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.BezierPath.difference" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns a list of Bezier paths representing the first input path subtracted from the second.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="beziers.path.BezierPath.getSelfIntersections">
-<code class="descname">getSelfIntersections</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.BezierPath.getSelfIntersections" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns a list of a path’s self-intersections as Intersection objects.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="beziers.path.BezierPath.intersection">
-<code class="descname">intersection</code><span class="sig-paren">(</span><em>other</em>, <em>flat=False</em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.BezierPath.intersection" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns a list of Bezier paths representing the intersection of the two input paths.</p>
-</dd></dl>
-
-<dl class="method">
+<dl class="py method">
 <dt id="beziers.path.BezierPath.quadraticsToCubics">
-<code class="descname">quadraticsToCubics</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.BezierPath.quadraticsToCubics" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">quadraticsToCubics</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.BezierPath.quadraticsToCubics" title="Permalink to this definition">¶</a></dt>
 <dd><p>Converts all quadratic segments in the path to cubic Beziers.</p>
 </dd></dl>
 
-<dl class="method">
-<dt id="beziers.path.BezierPath.regularSample">
-<code class="descname">regularSample</code><span class="sig-paren">(</span><em>samples</em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.BezierPath.regularSample" title="Permalink to this definition">¶</a></dt>
-<dd><p>Samples a segment or path a given number of times, returning a list of Point objects,
-but ensuring that the points are regularly distributed along the length
-of the curve. This is an expensive operation because I am a lazy programmer.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="beziers.path.BezierPath.regularSampleTValue">
-<code class="descname">regularSampleTValue</code><span class="sig-paren">(</span><em>samples</em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.BezierPath.regularSampleTValue" title="Permalink to this definition">¶</a></dt>
-<dd><p>Sometimes you don’t want the points, you just want a set of time values (t) which
-represent regular spaced samples along the curve. Use this method to get a list of time
-values instead of Point objects.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="beziers.path.BezierPath.removeOverlap">
-<code class="descname">removeOverlap</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.BezierPath.removeOverlap" title="Permalink to this definition">¶</a></dt>
-<dd><p>Resolves a path’s self-intersections by ‘walking around the outside’.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="beziers.path.BezierPath.sample">
-<code class="descname">sample</code><span class="sig-paren">(</span><em>samples</em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.BezierPath.sample" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="docutils">
-<dt>Samples a segment or path a given number of times, returning a list of Point objects.</dt>
-<dd>Remember that for a Bezier path, the points are not guaranteed to be distributed
-at regular intervals along the path. If you want to space your points regularly,
-use the <cite>regularSample</cite> method instead.</dd>
-</dl>
-<div class="figure" id="id3">
-<a class="reference internal image-reference" href="../_images/sampling.png"><img alt="sample versus regularSample" src="../_images/sampling.png" style="width: 400.0px; height: 300.0px;" /></a>
-<p class="caption"><span class="caption-text">In the figure, the green ticks are generated by <cite>sample</cite>. These are evenly
-distributed by curve time, but because of the curvature of the curve, there
-are concentrations of samples around the tighter parts of the curve.</span></p>
-<div class="legend">
-The red ticks are generated by <cite>regularSample</cite>, which evenly spaces the
-samples along the length of the curve.</div>
-</div>
-</dd></dl>
-
-<dl class="method">
-<dt id="beziers.path.BezierPath.union">
-<code class="descname">union</code><span class="sig-paren">(</span><em>other</em>, <em>flat=False</em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.BezierPath.union" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns a list of Bezier paths representing the union of the two input paths.</p>
+<dl class="py method">
+<dt id="beziers.path.BezierPath.distanceToPath">
+<code class="sig-name descname">distanceToPath</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">other</span></em>, <em class="sig-param"><span class="n">samples</span><span class="o">=</span><span class="default_value">10</span></em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.BezierPath.distanceToPath" title="Permalink to this definition">¶</a></dt>
+<dd><p>Finds the distance to the other curve at its closest point,
+along with the t values for the closest point at each segment
+and the relevant segments.</p>
+<p>Returns: <code class="docutils literal notranslate"><span class="pre">distance,</span> <span class="pre">t1,</span> <span class="pre">t2,</span> <span class="pre">seg1,</span> <span class="pre">seg2</span></code>.</p>
 </dd></dl>
 
 </dd></dl>
@@ -458,17 +392,15 @@ samples along the length of the curve.</div>
 </ul>
 </div>
 <div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
+  <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" />
+      <input type="text" name="q" aria-labelledby="searchlabel" />
       <input type="submit" value="Go" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
     </form>
     </div>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+<script>$('#searchbox').show(0);</script>
 
 
 
@@ -485,7 +417,7 @@ samples along the length of the curve.</div>
       &copy;2018, Simon Cozens.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.1</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.0.3</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |
