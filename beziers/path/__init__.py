@@ -611,12 +611,12 @@ class BezierPath(BooleanOperationsMixin,SampleMixin,object):
     minDistance = None
     # Find closest segment pair.
     for s1 in segs1:
-      samples1 = s1.regularSample(samples)
+      samples1 = s1.sample(samples)
       for s2 in segs2:
-        samples2 = s2.regularSample(samples)
+        samples2 = s2.sample(samples)
         d = min([ p1.squareDistanceFrom(p2) for p1 in samples1 for p2 in samples2])
         if not minDistance or d < minDistance:
           minDistance = d
           closestPair = (s1,s2)
     c = curveDistance(closestPair[0], closestPair[1])
-    return (*c, closestPair[0], closestPair[1])
+    return (c[0],c[1],c[2], closestPair[0], closestPair[1])
