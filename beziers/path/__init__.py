@@ -93,6 +93,18 @@ class BezierPath(BooleanOperationsMixin,SampleMixin,object):
     return self
 
   @classmethod
+  def fromGlyphsLayer(klass, layer):
+    """Returns an *array of BezierPaths* from a Glyphs GSLayer object."""
+    from beziers.path.representations.GSPath import GSPathRepresentation
+
+    bezpaths = []
+    for p in layer.paths:
+      path = BezierPath()
+      path.activeRepresentation = GSPathRepresentation(path,p)
+      bezpaths.append(path)
+    return bezpaths
+
+  @classmethod
   def fromFonttoolsGlyph(klass,font,glyphname):
     """Returns an *array of BezierPaths* from a FontTools font object and glyph name."""
     glyphset = font.getGlyphSet()
