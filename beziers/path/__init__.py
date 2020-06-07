@@ -561,7 +561,7 @@ class BezierPath(BooleanOperationsMixin,SampleMixin,object):
     if not self.closed: return None
     return self.bounds().centroid # Really?
 
-  def drawWithBrush(self, other, pathSmoothness = 50, brushSmoothness = 20, alpha = 0.15):
+  def drawWithBrush(self, other):
     """Assuming that `other` is a closed Bezier path representing a pen or
     brush of a certain shape and that `self` is an open path, this method
     traces the brush along the path, returning an array of Bezier paths.
@@ -572,10 +572,11 @@ class BezierPath(BooleanOperationsMixin,SampleMixin,object):
     This requires the `shapely` and `scipy` libraries to be installed, and is very,
     very slow.
     """
-
-    samples = self.sample(int(self.length*(pathSmoothness/100.0)))
-    self.closed = False
-
+    from shapely.geometry import Polygon
+    from shapely.ops import unary_union
+    polys = []
+    samples = self.sample(self.length/2)
+    other = other.flatten()
     def constantBrush(t):
       return other
 
@@ -585,23 +586,36 @@ class BezierPath(BooleanOperationsMixin,SampleMixin,object):
 
     c = brush(0).centroid
 
-    points = []
-    from shapely.geometry import Point as ShapelyPoint
+    from itertools import tee
+    def pairwise(iterable):
+        "s -> (s0,s1), (s1,s2), (s2, s3), ..."
+        a, b = tee(iterable)
+        next(b, None)
+        return zip(a, b)
 
     t = 0
     for n in samples:
       brushHere = brush(t).clone()
       brushHere.translate(n-brushHere.centroid)
-      brushsamples = brushHere.sample(int(brushHere.length*(brushSmoothness/100.0)))
-      points.extend( [ ShapelyPoint(s.x, s.y) for s in brushsamples] )
+      polys.append( Polygon([ (x[0].x, x[0].y) for x in brushHere.asSegments() ]) )
       t = t + 1.0/len(samples)
+    concave_hull = unary_union(polys)
+    ll = []
+    for x,y in pairwise(concave_hull.exterior.coords):
+      l = Line(Point(x[0],x[1]),Point(y[0],y[1]))
+      ll.append(l)
+    paths = [ BezierPath.fromSegments(ll) ]
 
-    from beziers.utils.alphashape import alpha_shape
-    concave_hull, edge_points = alpha_shape(points,
-                                        alpha=alpha)
-    points = [ Point(p[0],p[1]) for p in concave_hull.exterior.coords ]
-    path = BezierPath.fromPoints(points,error=5,maxSegments=100)
-    return path
+    for interior in concave_hull.interiors:
+      ll = []
+      for x,y in pairwise(interior.coords):
+        l = Line(Point(x[0],x[1]),Point(y[0],y[1]))
+        ll.append(l)
+      paths.append( BezierPath.fromSegments(ll) )
+
+    for p in paths:
+      p.tidyUp()
+    return paths
 
   def quadraticsToCubics(self):
     """Converts all quadratic segments in the path to cubic Beziers."""
@@ -632,3 +646,19 @@ class BezierPath(BooleanOperationsMixin,SampleMixin,object):
           closestPair = (s1,s2)
     c = curveDistance(closestPair[0], closestPair[1])
     return (c[0],c[1],c[2], closestPair[0], closestPair[1])
+
+  def tidyUp(self):
+    # Remote collinear vectors
+    segs = self.asSegments()
+    newsegs = [segs[0]]
+    for i in range(1,len(segs)):
+      prev = newsegs[-1]
+      this = segs[i]
+      if this.length < 1: continue
+      if len(prev) == 2 and len(this) == 2:
+        if math.isclose(prev.tangentAtTime(0).angle, this.tangentAtTime(0).angle):
+          newsegs[-1] = this
+          continue
+      newsegs.append(this)
+    self.activeRepresentation = SegmentRepresentation(self, newsegs)
+    return self
