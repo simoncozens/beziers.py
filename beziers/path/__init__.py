@@ -575,7 +575,6 @@ class BezierPath(BooleanOperationsMixin,SampleMixin,object):
     from shapely.ops import unary_union
     polys = []
     samples = self.sample(self.length/2)
-    other = other.flatten()
     def constantBrush(t):
       return other
 
@@ -594,7 +593,7 @@ class BezierPath(BooleanOperationsMixin,SampleMixin,object):
 
     t = 0
     for n in samples:
-      brushHere = brush(t).clone()
+      brushHere = brush(t).clone().flatten()
       brushHere.translate(n-brushHere.centroid)
       polys.append( Polygon([ (x[0].x, x[0].y) for x in brushHere.asSegments() ]) )
       t = t + 1.0/len(samples)
@@ -650,10 +649,11 @@ class BezierPath(BooleanOperationsMixin,SampleMixin,object):
     # Remote collinear vectors
     segs = self.asSegments()
     newsegs = [segs[0]]
+    totalLength = self.length
     for i in range(1,len(segs)):
       prev = newsegs[-1]
       this = segs[i]
-      if this.length < 1: continue
+      if this.length < 1/50_000 * totalLength: continue
       if len(prev) == 2 and len(this) == 2:
         if math.isclose(prev.tangentAtTime(0).angle, this.tangentAtTime(0).angle):
           newsegs[-1] = this
