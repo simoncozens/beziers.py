@@ -569,8 +569,7 @@ class BezierPath(BooleanOperationsMixin,SampleMixin,object):
     `other` may also be a function which, given a time `t` (0-1), returns a closed
     path representing the shape of the brush at the given time.
 
-    This requires the `shapely` and `scipy` libraries to be installed, and is very,
-    very slow.
+    This requires the `shapely` library to be installed.
     """
     from shapely.geometry import Polygon
     from shapely.ops import unary_union
