@@ -10,6 +10,11 @@ from beziers.cubicbezier import CubicBezier
 
 import math
 
+if not hasattr(math, "isclose"):
+  def isclose(a, b, rel_tol=1e-9, abs_tol=0.0):
+    return abs(a-b) <= max(rel_tol * max(abs(a), abs(b)), abs_tol)
+  math.isclose = isclose
+
 class BezierPath(BooleanOperationsMixin,SampleMixin,object):
   """`BezierPath` represents a collection of `Segment` objects - the
   curves and lines that make up a path.
@@ -611,8 +616,6 @@ class BezierPath(BooleanOperationsMixin,SampleMixin,object):
         ll.append(l)
       paths.append( BezierPath.fromSegments(ll) )
 
-    for p in paths:
-      p.tidyUp()
     return paths
 
   def quadraticsToCubics(self):
@@ -645,19 +648,76 @@ class BezierPath(BooleanOperationsMixin,SampleMixin,object):
     c = curveDistance(closestPair[0], closestPair[1])
     return (c[0],c[1],c[2], closestPair[0], closestPair[1])
 
-  def tidyUp(self):
-    # Remote collinear vectors
+  def tidy(self, **kwargs):
+    """Tidies a curve by adding extremes, and then running
+    ``removeIrrelevantSegments`` and ``smooth``. ``relLength``,
+    ``absLength``, ``maxCollectionSize``, ``lengthLimit`` and
+    ``cornerTolerance`` parameters are passed to the relevant routine."""
+    self.addExtremes()
+    self.removeIrrelevantSegments(**{k:v for k,v in kwargs.items()
+      if k in ["relLength", "absLength"] })
+    self.smooth(**{k:v for k,v in kwargs.items()
+      if k in ["maxCollectionSize", "lengthLimit", "cornerTolerance"] })
+
+  def removeIrrelevantSegments(self, relLength=1/50000, absLength=0):
+    """Removes small and collinear line segments. Collinear line
+    segments are adjacent line segments which are heading in the same
+    direction, and hence can be collapsed into a single segment.
+    Small segments (those less than ``absLength`` units, or less than
+    ``relLength`` as a fraction of the path's total length) are
+    removed entirely."""
     segs = self.asSegments()
     newsegs = [segs[0]]
-    totalLength = self.length
+    smallLength = self.length * relLength
     for i in range(1,len(segs)):
       prev = newsegs[-1]
       this = segs[i]
-      if this.length < 1/50_000 * totalLength: continue
+      if this.length < smallLength or this.length < absLength:
+        this[0] = prev[0]
+        newsegs[-1] = this
+        continue
       if len(prev) == 2 and len(this) == 2:
         if math.isclose(prev.tangentAtTime(0).angle, this.tangentAtTime(0).angle):
+          this[0] = prev[0]
           newsegs[-1] = this
           continue
       newsegs.append(this)
     self.activeRepresentation = SegmentRepresentation(self, newsegs)
+    return self
+
+  def smooth(self, maxCollectionSize = 30, lengthLimit = 20, cornerTolerance = 10):
+    """Smooths a curve, by collating lists of small (at most ``lengthLimit``
+    units long) segments at most ``maxCollectionSize`` segments at a time,
+    and running them through a curve fitting algorithm. The list collation
+    also stops when one segment turns more than ``cornerTolerance`` degrees
+    away from the previous one, so that corners are not smoothed."""
+    smallLineLength = lengthLimit
+    segs = self.asSegments()
+    i = 0
+    collection = []
+    while i < len(segs):
+        s = segs[i]
+        if s.length < smallLineLength and len(collection) <= maxCollectionSize:
+          collection.append(s)
+        else:
+          corner = False
+          if len(collection) > 1:
+            last = collection[-1]
+            if abs(last.tangentAtTime(1).angle - s.tangentAtTime(0).angle) > math.radians(cornerTolerance):
+              corner = True
+          if len(collection) > maxCollectionSize or corner or i == len(segs)-2:
+            points = [x.start for x in collection]
+            bp = BezierPath.fromPoints(points)
+            if len(bp.asSegments()) > 0:
+              segs[i-len(collection):i] = bp.asSegments()
+              i -= len(collection)
+            collection = []
+        i += 1
+    if len(collection) > 0:
+      points = [x.start for x in collection]
+      bp = BezierPath.fromPoints(points)
+      if len(bp.asSegments()) > 0:
+        segs[i-(1+len(collection)):i-1] = bp.asSegments()
+
+    self.activeRepresentation = SegmentRepresentation(self, segs)
     return self
