@@ -317,14 +317,13 @@ outside.</p>
 
 <dl class="py method">
 <dt id="beziers.path.BezierPath.drawWithBrush">
-<code class="sig-name descname">drawWithBrush</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">other</span></em>, <em class="sig-param"><span class="n">pathSmoothness</span><span class="o">=</span><span class="default_value">50</span></em>, <em class="sig-param"><span class="n">brushSmoothness</span><span class="o">=</span><span class="default_value">20</span></em>, <em class="sig-param"><span class="n">alpha</span><span class="o">=</span><span class="default_value">0.15</span></em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.BezierPath.drawWithBrush" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">drawWithBrush</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">other</span></em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.BezierPath.drawWithBrush" title="Permalink to this definition">¶</a></dt>
 <dd><p>Assuming that <cite>other</cite> is a closed Bezier path representing a pen or
 brush of a certain shape and that <cite>self</cite> is an open path, this method
 traces the brush along the path, returning an array of Bezier paths.</p>
 <p><cite>other</cite> may also be a function which, given a time <cite>t</cite> (0-1), returns a closed
 path representing the shape of the brush at the given time.</p>
-<p>This requires the <cite>shapely</cite> and <cite>scipy</cite> libraries to be installed, and is very,
-very slow.</p>
+<p>This requires the <cite>shapely</cite> library to be installed.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -334,12 +333,48 @@ very slow.</p>
 </dd></dl>
 
 <dl class="py method">
+<dt id="beziers.path.BezierPath.thicknessAtX">
+<code class="sig-name descname">thicknessAtX</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span></em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.BezierPath.thicknessAtX" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the thickness of the path at x-coordinate <code class="docutils literal notranslate"><span class="pre">x</span></code>.</p>
+</dd></dl>
+
+<dl class="py method">
 <dt id="beziers.path.BezierPath.distanceToPath">
 <code class="sig-name descname">distanceToPath</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">other</span></em>, <em class="sig-param"><span class="n">samples</span><span class="o">=</span><span class="default_value">10</span></em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.BezierPath.distanceToPath" title="Permalink to this definition">¶</a></dt>
 <dd><p>Finds the distance to the other curve at its closest point,
 along with the t values for the closest point at each segment
 and the relevant segments.</p>
 <p>Returns: <code class="docutils literal notranslate"><span class="pre">distance,</span> <span class="pre">t1,</span> <span class="pre">t2,</span> <span class="pre">seg1,</span> <span class="pre">seg2</span></code>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="beziers.path.BezierPath.tidy">
+<code class="sig-name descname">tidy</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.BezierPath.tidy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tidies a curve by adding extremes, and then running
+<code class="docutils literal notranslate"><span class="pre">removeIrrelevantSegments</span></code> and <code class="docutils literal notranslate"><span class="pre">smooth</span></code>. <code class="docutils literal notranslate"><span class="pre">relLength</span></code>,
+<code class="docutils literal notranslate"><span class="pre">absLength</span></code>, <code class="docutils literal notranslate"><span class="pre">maxCollectionSize</span></code>, <code class="docutils literal notranslate"><span class="pre">lengthLimit</span></code> and
+<code class="docutils literal notranslate"><span class="pre">cornerTolerance</span></code> parameters are passed to the relevant routine.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="beziers.path.BezierPath.removeIrrelevantSegments">
+<code class="sig-name descname">removeIrrelevantSegments</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">relLength</span><span class="o">=</span><span class="default_value">2e-05</span></em>, <em class="sig-param"><span class="n">absLength</span><span class="o">=</span><span class="default_value">0</span></em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.BezierPath.removeIrrelevantSegments" title="Permalink to this definition">¶</a></dt>
+<dd><p>Removes small and collinear line segments. Collinear line
+segments are adjacent line segments which are heading in the same
+direction, and hence can be collapsed into a single segment.
+Small segments (those less than <code class="docutils literal notranslate"><span class="pre">absLength</span></code> units, or less than
+<code class="docutils literal notranslate"><span class="pre">relLength</span></code> as a fraction of the path’s total length) are
+removed entirely.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="beziers.path.BezierPath.smooth">
+<code class="sig-name descname">smooth</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">maxCollectionSize</span><span class="o">=</span><span class="default_value">30</span></em>, <em class="sig-param"><span class="n">lengthLimit</span><span class="o">=</span><span class="default_value">20</span></em>, <em class="sig-param"><span class="n">cornerTolerance</span><span class="o">=</span><span class="default_value">10</span></em><span class="sig-paren">)</span><a class="headerlink" href="#beziers.path.BezierPath.smooth" title="Permalink to this definition">¶</a></dt>
+<dd><p>Smooths a curve, by collating lists of small (at most <code class="docutils literal notranslate"><span class="pre">lengthLimit</span></code>
+units long) segments at most <code class="docutils literal notranslate"><span class="pre">maxCollectionSize</span></code> segments at a time,
+and running them through a curve fitting algorithm. The list collation
+also stops when one segment turns more than <code class="docutils literal notranslate"><span class="pre">cornerTolerance</span></code> degrees
+away from the previous one, so that corners are not smoothed.</p>
 </dd></dl>
 
 </dd></dl>
