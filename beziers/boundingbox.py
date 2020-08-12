@@ -11,6 +11,10 @@ class BoundingBox:
   def __str__(self):
     return "BB[%s -> %s]" % (self.bl,self.tr)
 
+  """Determine the bounding box - returns the bounding box itself."""
+  def bounds(self):
+    return self
+
   @property
   def area(self):
     """Returns the area of the bounding box."""
