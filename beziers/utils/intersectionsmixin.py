@@ -99,7 +99,7 @@ class IntersectionsMixin:
       inter.append(Intersection(self,t,line,line.tOfPoint(self.pointAtTime(t))))
     return inter
 
-  def _curve_curve_intersections_t(self,other, precision=1e-6):
+  def _curve_curve_intersections_t(self,other, precision=1e-3):
     assert(len(self.points) > 2 and len(other.points) > 2)
     if not (self.bounds().overlaps(other.bounds())): return []
     if self.bounds().area < precision and other.bounds().area < precision:
