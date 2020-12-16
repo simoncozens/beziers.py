@@ -17,7 +17,7 @@ class Line(Segment):
   @classmethod
   def fromRepr(klass,text):
     import re
-    p = re.compile("^L<(.*?)--(.*?)>$")
+    p = re.compile("^L<(<.*?>)--(<.*?>)>$")
     m = p.match(text)
     return klass(Point.fromRepr(m.group(1)),Point.fromRepr(m.group(2)))
 
