@@ -19,7 +19,7 @@ class CubicBezier(ArcLengthMixin,Segment):
   @classmethod
   def fromRepr(klass,text):
     import re
-    p = re.compile("^B<(.*?)-(.*?)-(.*?)-(.*?)>$")
+    p = re.compile("^B<(<.*?>)-(<.*?>)-(<.*?>)-(<.*?>)>$")
     m = p.match(text)
     points = [ Point.fromRepr(m.group(t)) for t in range(1,5) ]
     return klass(*points)
