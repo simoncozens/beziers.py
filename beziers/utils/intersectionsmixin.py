@@ -1,6 +1,7 @@
 import sys
 from beziers.point import Point
 from beziers.utils import isclose
+from decimal import Decimal
 
 my_epsilon = 2e-7
 
@@ -125,8 +126,13 @@ class IntersectionsMixin:
         if this.bounds().overlaps(that.bounds()):
           found.extend(this._curve_curve_intersections_t(that, precision))
     seen = {}
+    numPrecisionDigits = abs(Decimal(str(precision)).as_tuple().exponent)
+
     def filterSeen(n):
-      key = '%.5f' % n[0]
+      # use (precision - 1) digits to check whether we have already
+      # seen this value
+      key = f"%.{numPrecisionDigits - 1}f" % n[0]
+
       if key in seen: return False
       seen[key] = 1
       return True
