@@ -8,12 +8,24 @@ class FontParts:
   def fromFontpartsGlyph(klass, glyph):
     """Returns an *array of BezierPaths* from a FontParts glyph object."""
     paths = []
-    for c in glyph.contours:
+    if hasattr(glyph, "contours"):
+      contouriterator = glyph.contours
+    else:
+      contouriterator = glyph
+    for c in contouriterator:
       path = BezierPath()
       path.closed = False
       nodeList = []
-      for p in c.points:
-        nodeList.append(Node(p.x,p.y,p.type))
+      if hasattr(c, "points"):
+        pointiterator = c.points
+      else:
+        pointiterator = c
+      for p in pointiterator:
+        if hasattr(p, "segmentType"):
+          t = p.segmentType
+        else:
+          t = p.type
+        nodeList.append(Node(p.x,p.y,t))
       path.activeRepresentation = NodelistRepresentation(path, nodeList)
       if nodeList[0].point == nodeList[-1].point:
         path.closed = True
