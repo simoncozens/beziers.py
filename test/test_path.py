@@ -7,6 +7,8 @@ from beziers.cubicbezier import CubicBezier
 from beziers.line import Line
 from beziers.path import BezierPath
 from dotmap import DotMap
+from beziers.path.geometricshapes import Rectangle
+
 
 class PathTests(unittest.TestCase):
   # def test_representations(self):
@@ -136,3 +138,13 @@ class PathTests(unittest.TestCase):
     self.assertFalse(p.pointIsInside(Point(326,251)))
     self.assertTrue(p.pointIsInside(Point(526,251)))
     self.assertTrue(p.pointIsInside(Point(126,251)))
+
+  def test_area(self):
+    p = Rectangle(200, 100)
+    self.assertEqual(p.area, 200 * 100)
+    self.assertEqual(p.signed_area, -200 * 100)
+    self.assertEqual(p.direction, -1)
+    p.reverse()
+    self.assertEqual(p.signed_area, 200 * 100)
+    self.assertEqual(p.direction, 1)
+

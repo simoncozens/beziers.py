@@ -552,14 +552,28 @@ class BezierPath(BooleanOperationsMixin,SampleMixin,object):
     return li % 2 == 1
 
   @property
-  def area(self):
-    """Approximates the area under a closed path by flattening and treating as a polygon."""
+  def signed_area(self):
+    """Approximates the area under a closed path by flattening and treating as a polygon.
+    Returns the signed area; positive means the path is counter-clockwise,
+    negative means it is clockwise."""
     flat = self.flatten()
     area = 0
     for s in flat.asSegments():
       area = area + (s.start.x * s.end.y) - (s.start.y * s.end.x)
     area = area / 2.0
-    return abs(area)
+    return area
+
+  @property
+  def area(self):
+    """Approximates the area under a closed path by flattening and treating as a
+    polygon. Returns the unsigned area. Use :py:meth:`signed_area` if you want
+    the signed area."""
+    return abs(self.signed_area)
+
+  @property
+  def direction(self):
+    """Returns the direction of the path: -1 for clockwise and 1 for counterclockwise."""
+    return math.copysign(1, self.signed_area)
 
   @property
   def centroid(self):
