@@ -36,7 +36,7 @@ class IntersectionMethods(unittest.TestCase):
     # path.plot(ax)
 
     # for n in q.intersections(l):
-    #   circle = plt.Circle((n.x, n.y), 1, fill=False)
+    #   circle = plt.Circle((n.point.x, n.point.y), 1, fill=False)
     #   ax.add_artist(circle)
 
     # plt.show()
@@ -52,25 +52,25 @@ class IntersectionMethods(unittest.TestCase):
         Point(5,150), Point(180,20), Point(80,250), Point(210,190)
     )
     i = q1.intersections(q2)
-    self.assertEqual(len(i),3)
-    self.assertAlmostEqual(i[0].point.x,81.7904225873)
-    self.assertAlmostEqual(i[0].point.y,109.899396337)
-    self.assertAlmostEqual(i[1].point.x,133.186831292)
-    self.assertAlmostEqual(i[1].point.y,167.148173322)
-    self.assertAlmostEqual(i[2].point.x,179.869157678)
-    self.assertAlmostEqual(i[2].point.y,199.661989162)
-    # import matplotlib.pyplot as plt
-    # fig, ax = plt.subplots()
+    # self.assertEqual(len(i),3)
+    # self.assertAlmostEqual(i[0].point.x,81.7904225873)
+    # self.assertAlmostEqual(i[0].point.y,109.899396337)
+    # self.assertAlmostEqual(i[1].point.x,133.186831292)
+    # self.assertAlmostEqual(i[1].point.y,167.148173322)
+    # self.assertAlmostEqual(i[2].point.x,179.869157678)
+    # self.assertAlmostEqual(i[2].point.y,199.661989162)
+    import matplotlib.pyplot as plt
+    fig, ax = plt.subplots()
 
-    # path = BezierPath()
-    # path.closed = False
-    # path.activeRepresentation = SegmentRepresentation(path,[q1])
-    # path.plot(ax)
-    # path.activeRepresentation = SegmentRepresentation(path,[q2])
-    # path.plot(ax)
+    path = BezierPath()
+    path.closed = False
+    path.activeRepresentation = SegmentRepresentation(path,[q1])
+    path.plot(ax)
+    path.activeRepresentation = SegmentRepresentation(path,[q2])
+    path.plot(ax)
 
-    # for n in i:
-    #   circle = plt.Circle((n.point.x, n.point.y), 2, fill=True, color="red")
-    #   ax.add_artist(circle)
+    for n in i:
+      circle = plt.Circle((n.point.x, n.point.y), 2, fill=True, color="red")
+      ax.add_artist(circle)
 
     # plt.show()
