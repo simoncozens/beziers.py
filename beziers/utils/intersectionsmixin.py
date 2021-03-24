@@ -84,7 +84,7 @@ class IntersectionsMixin:
     y = slope12 * ( x - a.x ) + a.y
     intersection = Point(x,y)
     if (self._bothPointsAreOnSameSideOfOrigin(intersection, b, a) and self._bothPointsAreOnSameSideOfOrigin(intersection, c, d)):
-      return [ Intersection(self,self.tOfPoint(intersection), other, other.tOfPoint(intersection)) ]
+      return [ Intersection(self,self.tOfPoint(intersection, its_on_the_line_i_swear=True), other, other.tOfPoint(intersection, its_on_the_line_i_swear=True)) ]
     return []
 
   def _curve_line_intersections_t(self,line):
@@ -97,7 +97,7 @@ class IntersectionsMixin:
   def _curve_line_intersections(self,line):
     inter = []
     for t in self._curve_line_intersections_t(line):
-      inter.append(Intersection(self,t,line,line.tOfPoint(self.pointAtTime(t))))
+      inter.append(Intersection(self,t,line,line.tOfPoint(self.pointAtTime(t), its_on_the_line_i_swear=True)))
     return inter
 
   def _curve_curve_intersections_t(self,other, precision=1e-3):

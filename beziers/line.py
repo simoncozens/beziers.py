@@ -52,7 +52,7 @@ class Line(Segment):
         return [t]
     return []
 
-  def tOfPoint(self, point):
+  def tOfPoint(self, point, its_on_the_line_i_swear=False):
     """Returns the t (0->1) value of the given point, assuming it lies on the line, or -1 if it does not."""
     # Just find one and hope the other fits
     # point = self.start * (1-t) + self.end * t
@@ -63,7 +63,7 @@ class Line(Segment):
     else:
       print("! Line %s is actually a point..." % self)
       return -1
-    if self.pointAtTime(t).distanceFrom(point) < 2e-7: return t
+    if its_on_the_line_i_swear or self.pointAtTime(t).distanceFrom(point) < 2e-7: return t
     return -1
 
   def flatten(self,degree=8):
