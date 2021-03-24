@@ -90,8 +90,7 @@ class IntersectionsMixin:
   def _curve_line_intersections_t(self,line):
     t = line.alignmentTransformation()
     c1 = self.transformed(t)
-    intersections = c1._findRoots("x")
-    intersections.extend(c1._findRoots("y"))
+    intersections = c1._findRoots("y")
     return sorted(intersections)
 
   def _curve_line_intersections(self,line):
