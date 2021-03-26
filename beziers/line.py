@@ -56,9 +56,9 @@ class Line(Segment):
     """Returns the t (0->1) value of the given point, assuming it lies on the line, or -1 if it does not."""
     # Just find one and hope the other fits
     # point = self.start * (1-t) + self.end * t
-    if self.end.x != self.start.x:
+    if not isclose(self.end.x, self.start.x):
       t = (point.x - self.start.x) / (self.end.x-self.start.x)
-    elif self.end.y != self.start.y:
+    elif not isclose(self.end.y, self.start.y):
       t = (point.y - self.start.y) / (self.end.y-self.start.y)
     else:
       print("! Line %s is actually a point..." % self)
