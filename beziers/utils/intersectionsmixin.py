@@ -19,6 +19,9 @@ class Intersection:
     self.seg2   = seg2
     self.t2     = t2
 
+  def __repr__(self):
+    return "I<%s t1=%f t2=%f>" % (self.point, self.t1, self.t2)
+
 class IntersectionsMixin:
   # This isn't something we mix into different classes but I'm
   # just putting it here to keep the code tidy.
