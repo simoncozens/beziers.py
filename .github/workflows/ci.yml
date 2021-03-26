@@ -24,6 +24,7 @@ jobs:
         pip install scipy
         pip install numpy
         pip install pyclipper
+        pip install matplotlib
     - name: Test with pytest
       run: |
         pip install pytest
