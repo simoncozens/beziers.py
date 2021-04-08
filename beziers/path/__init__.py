@@ -110,34 +110,19 @@ class BezierPath(BooleanOperationsMixin,SampleMixin,object):
     return bezpaths
 
   @classmethod
+  def fromDrawable(klass, layer, *penArgs, **penKwargs):
+    """Returns an *array of BezierPaths* from any object conforming to the pen protocol."""
+    from beziers.utils.pens import BezierPathCreatingPen
+    pen = BezierPathCreatingPen(*penArgs, **penKwargs)
+    layer.draw(pen)
+    return pen.paths
+
+  @classmethod
   def fromFonttoolsGlyph(klass,font,glyphname):
     """Returns an *array of BezierPaths* from a FontTools font object and glyph name."""
     glyphset = font.getGlyphSet()
-
-    from fontTools.pens.basePen import BasePen
-    class MyPen(BasePen):
-      def __init__(self, glyphSet=None):
-        super(MyPen, self).__init__(glyphSet)
-        self.paths = []
-        self.path = BezierPath()
-        self.nodeList = []
-      def _moveTo(self, p):
-        self.nodeList = [Node(p[0], p[1], "move")]
-      def _lineTo(self, p):
-        self.nodeList.append(Node(p[0], p[1], "line"))
-      def _curveToOne(self, p1, p2, p3):
-        self.nodeList.append(Node(p1[0], p1[1], "offcurve"))
-        self.nodeList.append(Node(p2[0], p2[1], "offcurve"))
-        self.nodeList.append(Node(p3[0], p3[1], "curve"))
-      def _qCurveToOne(self, p1, p2):
-        self.nodeList.append(Node(p1[0], p1[1], "offcurve"))
-        self.nodeList.append(Node(p2[0], p2[1], "curve"))
-      def _closePath(self):
-        self.path.closed = True
-        self.path.activeRepresentation = NodelistRepresentation(self.path, self.nodeList)
-        self.paths.append(self.path)
-        self.path = BezierPath()
-    pen = MyPen(glyphset)
+    from beziers.utils.pens import BezierPathCreatingPen
+    pen = BezierPathCreatingPen(glyphset)
     _glyph = font.getGlyphSet()[glyphname]._glyph
     if "glyf" in font:
       _glyph.draw(pen, font["glyf"])
