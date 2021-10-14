@@ -73,7 +73,7 @@ class IntersectionMethods(unittest.TestCase):
       circle = plt.Circle((n.point.x, n.point.y), 2, fill=True, color="red")
       ax.add_artist(circle)
 
-    # plt.show()
+    #plt.show()
 
   def test_cubic_line_2(self):
     s1 = CubicBezier.fromRepr("B<<584.0,126.03783241124995>-<402.0,163.0378324112499>-<220.00000000000003,200.03783241124995>-<38.0,237.03783241124995>>"),
@@ -83,4 +83,10 @@ class IntersectionMethods(unittest.TestCase):
   def test_cubic_line_3(self):
     seg = CubicBezier.fromRepr("B<<320.0,454.0>-<277.0,454.0>-<230.0,439.0>-<189.0,417.0>>")
     ray = Line.fromRepr("L<<254.5,221.5>--<254.5000000000001,887.6681469418963>>")
+    assert seg.intersections(ray)
+
+
+  def test_cubic_line_4(self):
+    seg = CubicBezier.fromRepr("B<<315.0,296.0>-<404.0,296.0>-<468.0,251.0>-<468.0,183.0>>")
+    ray = Line.fromRepr("L<<330.0000432054082,365.6789020602332>--<330,286>>")
     assert seg.intersections(ray)
