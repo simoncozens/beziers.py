@@ -189,8 +189,14 @@ class CubicBezier(ArcLengthMixin,Segment):
     """Perform Tunni balancing on this Bezier."""
     p = self.tunniPoint
     if not p: return
-    fraction1 = self[0].distanceFrom(self[1]) / self[0].distanceFrom(p)
-    fraction2 = self[3].distanceFrom(self[2]) / self[3].distanceFrom(p)
+    if self[0].distanceFrom(p) == 0.0:
+      fraction1 = 0.43
+    else:
+      fraction1 = self[0].distanceFrom(self[1]) / self[0].distanceFrom(p)
+    if self[3].distanceFrom(p) == 0.0:
+      fraction2 = 0.73
+    else:
+      fraction2 = self[3].distanceFrom(self[2]) / self[3].distanceFrom(p)
     avg = (fraction2 + fraction1) / 2.0
     if avg > 0 and avg < 1:
       self[1] = self[0].lerp(p, avg)
