@@ -123,11 +123,8 @@ class BezierPath(BooleanOperationsMixin,SampleMixin,object):
     glyphset = font.getGlyphSet()
     from beziers.utils.pens import BezierPathCreatingPen
     pen = BezierPathCreatingPen(glyphset)
-    _glyph = font.getGlyphSet()[glyphname]._glyph
-    if "glyf" in font:
-      _glyph.draw(pen, font["glyf"])
-    else:
-      _glyph.draw(pen)
+    glyph = font.getGlyphSet()[glyphname]
+    glyph.draw(pen)
     return pen.paths
 
   def asSegments(self):
