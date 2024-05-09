@@ -1,8 +1,8 @@
-from beziers.path.representations.Nodelist import Node
-from beziers.line import Line
 from beziers.cubicbezier import CubicBezier
-from beziers.quadraticbezier import QuadraticBezier
+from beziers.line import Line
+from beziers.path.representations.Nodelist import Node
 from beziers.point import Point
+from beziers.quadraticbezier import QuadraticBezier
 from beziers.utils import isclose
 
 

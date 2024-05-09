@@ -1,14 +1,15 @@
-from beziers.path.representations.Segment import SegmentRepresentation
-from beziers.path.representations.Nodelist import NodelistRepresentation, Node
-from beziers.point import Point
-from beziers.boundingbox import BoundingBox
-from beziers.utils.samplemixin import SampleMixin
-from beziers.utils.booleanoperationsmixin import BooleanOperationsMixin
-from beziers.segment import Segment
-from beziers.line import Line
-from beziers.cubicbezier import CubicBezier
-
 import math
+from typing import Iterator, List, Optional, Tuple
+
+from beziers.boundingbox import BoundingBox
+from beziers.cubicbezier import CubicBezier
+from beziers.line import Line
+from beziers.path.representations.Nodelist import Node, NodelistRepresentation
+from beziers.path.representations.Segment import SegmentRepresentation
+from beziers.point import Point
+from beziers.segment import Segment
+from beziers.utils.booleanoperationsmixin import BooleanOperationsMixin
+from beziers.utils.samplemixin import SampleMixin
 
 if not hasattr(math, "isclose"):
 
@@ -83,7 +84,7 @@ class BezierPath(BooleanOperationsMixin, SampleMixin, object):
         return path
 
     @classmethod
-    def fromSegments(klass, array):
+    def fromSegments(klass, array: List[Segment]):
         """Construct a path from an array of Segment objects."""
         self = klass()
         for a in array:
@@ -92,7 +93,7 @@ class BezierPath(BooleanOperationsMixin, SampleMixin, object):
         return self
 
     @classmethod
-    def fromNodelist(klass, array, closed=True):
+    def fromNodelist(klass, array: List[Node], closed=True):
         """Construct a path from an array of Node objects."""
         self = klass()
         for a in array:
@@ -103,7 +104,7 @@ class BezierPath(BooleanOperationsMixin, SampleMixin, object):
         return self
 
     @classmethod
-    def fromGlyphsLayer(klass, layer):
+    def fromGlyphsLayer(klass, layer: "GSLayer"):
         """Returns an *array of BezierPaths* from a Glyphs GSLayer object."""
         from beziers.path.representations.GSPath import GSPathRepresentation
 
@@ -134,8 +135,8 @@ class BezierPath(BooleanOperationsMixin, SampleMixin, object):
         glyph.draw(pen)
         return pen.paths
 
-    def asSegments(self):
-        """Return the path as an array of segments (either Line, CubicBezier,
+    def asSegments(self) -> List[Segment]:
+        """Return the path as a list of segments (either Line, CubicBezier,
         or, if you are exceptionally unlucky, QuadraticBezier objects)."""
         if not isinstance(self.activeRepresentation, SegmentRepresentation):
             nl = self.activeRepresentation.toNodelist()
@@ -143,15 +144,15 @@ class BezierPath(BooleanOperationsMixin, SampleMixin, object):
             self.activeRepresentation = SegmentRepresentation.fromNodelist(self, nl)
         return self.activeRepresentation.data()
 
-    def asNodelist(self):
-        """Return the path as an array of Node objects."""
+    def asNodelist(self) -> List[Node]:
+        """Return the path as a list of Node objects."""
         if not isinstance(self.activeRepresentation, NodelistRepresentation):
             nl = self.activeRepresentation.toNodelist()
             assert isinstance(nl, list)
             self.activeRepresentation = NodelistRepresentation(self, nl)
         return self.activeRepresentation.data()
 
-    def asSVGPath(self):
+    def asSVGPath(self) -> str:
         """Return the path as a string suitable for a SVG <path d="..."? element."""
         segs = self.asSegments()
         pathParts = ["M %f %f" % (segs[0][0].x, segs[0][0].y)]
@@ -210,17 +211,16 @@ class BezierPath(BooleanOperationsMixin, SampleMixin, object):
               path.plot(ax)
 
         """
+        import matplotlib.patches as patches
         import matplotlib.pyplot as plt
         from matplotlib.lines import Line2D
-        from matplotlib.path import Path
-        import matplotlib.patches as patches
 
         path = self.asMatplot()
-        if not "lw" in kwargs:
+        if "lw" not in kwargs:
             kwargs["lw"] = 2
-        if not "fill" in kwargs:
+        if "fill" not in kwargs:
             kwargs["fill"] = False
-        drawNodes = not ("drawNodes" in kwargs) or kwargs["drawNodes"] != False
+        drawNodes = "drawNodes" not in kwargs or kwargs["drawNodes"] != False
         if "drawNodes" in kwargs:
             kwargs.pop("drawNodes")
         patch = patches.PathPatch(path, **kwargs)
@@ -265,20 +265,20 @@ class BezierPath(BooleanOperationsMixin, SampleMixin, object):
                     circle = plt.Circle((n.x, n.y), 3, color="black", alpha=0.3)
                     ax.add_artist(circle)
 
-    def clone(self):
+    def clone(self) -> "BezierPath":
         """Return a new path which is an exact copy of this one"""
         p = BezierPath.fromSegments(self.asSegments())
         p.closed = self.closed
         return p
 
-    def round(self):
+    def round(self) -> None:
         """Rounds the points of this path to integer coordinates."""
         segs = self.asSegments()
         for s in segs:
             s.round()
         self.activeRepresentation = SegmentRepresentation(self, segs)
 
-    def bounds(self):
+    def bounds(self) -> BoundingBox:
         """Determine the bounding box of the path, returned as a
         `BoundingBox` object."""
         bbox = BoundingBox()
@@ -286,7 +286,16 @@ class BezierPath(BooleanOperationsMixin, SampleMixin, object):
             bbox.extend(seg)
         return bbox
 
-    def splitAtPoints(self, splitlist):
+    def splitAtPoints(self, splitlist: List[Tuple[Segment, float]]):
+        """Split the path at the given points. The splitlist is a list of
+        tuples, each containing a segment and a time (0->1) along that
+        segment. For instance, to split a path at the midpoint of the first
+        segment, you would do::
+
+            path.splitAtPoints([(path.asSegments()[0], 0.5)])
+
+        """
+
         def mapx(v, ds):
             return (v - ds) / (1 - ds)
 
@@ -295,7 +304,7 @@ class BezierPath(BooleanOperationsMixin, SampleMixin, object):
         # Cluster splitlist by seg
         newsplitlist = {}
         for seg, t in splitlist:
-            if not seg in newsplitlist:
+            if seg not in newsplitlist:
                 newsplitlist[seg] = []
             newsplitlist[seg].append(t)
         for k in newsplitlist:
@@ -316,12 +325,8 @@ class BezierPath(BooleanOperationsMixin, SampleMixin, object):
             newsegs.append(seg)
         self.activeRepresentation = SegmentRepresentation(self, newsegs)
 
-    def addExtremes(self):
+    def addExtremes(self) -> "BezierPath":
         """Add extreme points to the path."""
-
-        def mapx(v, ds):
-            return (v - ds) / (1 - ds)
-
         segs = self.asSegments()
         splitlist = []
         for seg in segs:
@@ -331,7 +336,7 @@ class BezierPath(BooleanOperationsMixin, SampleMixin, object):
         return self
 
     @property
-    def length(self):
+    def length(self) -> float:
         """Returns the length of the whole path."""
         segs = self.asSegments()
         length = 0
@@ -339,7 +344,7 @@ class BezierPath(BooleanOperationsMixin, SampleMixin, object):
             length += s.length
         return length
 
-    def pointAtTime(self, t):
+    def pointAtTime(self, t: float) -> Point:
         """Returns the point at time t (0->1) along the curve, where 1 is the end of the whole curve."""
         segs = self.asSegments()
         if t == 1.0:
@@ -348,7 +353,7 @@ class BezierPath(BooleanOperationsMixin, SampleMixin, object):
         seg = segs[int(math.floor(t))]
         return seg.pointAtTime(t - math.floor(t))
 
-    def lengthAtTime(self, t):
+    def lengthAtTime(self, t: float) -> float:
         """Returns the length of the subset of the path from the start
         up to the point t (0->1), where 1 is the end of the whole curve."""
         segs = self.asSegments()
@@ -361,7 +366,7 @@ class BezierPath(BooleanOperationsMixin, SampleMixin, object):
         length += s1.length
         return length
 
-    def offset(self, vector, rotateVector=True):
+    def offset(self, vector: Point, rotateVector=True) -> "BezierPath":
         """Returns a new BezierPath which approximates offsetting the
             current Bezier path by the given vector. Note that the vector
             will be rotated around the normal of the curve so that the
@@ -412,7 +417,7 @@ class BezierPath(BooleanOperationsMixin, SampleMixin, object):
         newpath.activeRepresentation = SegmentRepresentation(newpath, newsegs)
         return newpath
 
-    def append(self, other, joinType="line"):
+    def append(self, other: "BezierPath", joinType="line") -> "BezierPath":
         """Append another path to this one. If the end point of the first
         path is not the same as the start point of the other path, a line
         will be drawn between them."""
@@ -441,31 +446,31 @@ class BezierPath(BooleanOperationsMixin, SampleMixin, object):
         self.activeRepresentation = SegmentRepresentation(self, segs1)
         return self
 
-    def reverse(self):
+    def reverse(self) -> "BezierPath":
         """Reverse this path (mutates path)."""
         seg2 = [x.reversed() for x in self.asSegments()]
         self.activeRepresentation = SegmentRepresentation(self, list(reversed(seg2)))
         return self
 
-    def translate(self, vector):
+    def translate(self, vector: Point) -> "BezierPath":
         """Translates the path by a given vector."""
         seg2 = [x.translated(vector) for x in self.asSegments()]
         self.activeRepresentation = SegmentRepresentation(self, seg2)
         return self
 
-    def rotate(self, about, angle):
+    def rotate(self, about: Point, angle: float) -> "BezierPath":
         """Rotate the path by a given vector."""
         seg2 = [x.rotated(about, angle) for x in self.asSegments()]
         self.activeRepresentation = SegmentRepresentation(self, seg2)
         return self
 
-    def scale(self, by):
+    def scale(self, by: float) -> "BezierPath":
         """Scales the path by a given magnitude."""
         seg2 = [x.scaled(by) for x in self.asSegments()]
         self.activeRepresentation = SegmentRepresentation(self, seg2)
         return self
 
-    def balance(self):
+    def balance(self) -> None:
         """Performs Tunni balancing on the path."""
         segs = self.asSegments()
         for x in segs:
@@ -476,14 +481,13 @@ class BezierPath(BooleanOperationsMixin, SampleMixin, object):
 
     def findDiscontinuities(self):
         """Not implemented yet"""
-
-    def harmonize(self):
-        """Not implemented yet"""
+        raise NotImplementedError
 
     def roundCorners(self):
         """Not implemented yet"""
+        raise NotImplementedError
 
-    def dash(self, lineLength=50, gapLength=None):
+    def dash(self, lineLength=50, gapLength=None) -> List["BezierPath"]:
         """Returns a list of BezierPath objects created by chopping
             this path into a dashed line::
 
@@ -511,7 +515,8 @@ class BezierPath(BooleanOperationsMixin, SampleMixin, object):
                 points.append(self.pointAtTime(t))
         return newpaths
 
-    def segpairs(self):
+    def segpairs(self) -> Iterator[Tuple[Segment, Segment]]:
+        """Returns an iterator of pairs of segments."""
         segs = self.asSegments()
         for i in range(0, len(segs) - 1):
             yield (segs[i], segs[i + 1])
@@ -533,13 +538,15 @@ class BezierPath(BooleanOperationsMixin, SampleMixin, object):
         seg1[2] += fixup
         seg2[1] += fixup
 
-    def flatten(self, degree=8):
+    def flatten(self, degree=8) -> "BezierPath":
+        """Returns a Path made up of line segments that approximate the path."""
         segs = []
         for s in self.asSegments():
             segs.extend(s.flatten(degree))
         return BezierPath.fromSegments(segs)
 
-    def windingNumberOfPoint(self, pt):
+    def windingNumberOfPoint(self, pt: Point) -> int:
+        """Returns the winding number of a point with respect to the path."""
         bounds = self.bounds()
         bounds.addMargin(10)
         ray1 = Line(Point(bounds.left, pt.y), pt)
@@ -571,7 +578,7 @@ class BezierPath(BooleanOperationsMixin, SampleMixin, object):
         # print("Left winding: %i right winding: %i " % (leftWinding,rightWinding))
         return max(abs(leftWinding), abs(rightWinding))
 
-    def pointIsInside(self, pt):
+    def pointIsInside(self, pt: Point) -> bool:
         """Returns true if the given point lies on the "inside" of the path,
         assuming an 'even-odd' winding rule where self-intersections are considered
         outside."""
@@ -579,7 +586,7 @@ class BezierPath(BooleanOperationsMixin, SampleMixin, object):
         return li % 2 == 1
 
     @property
-    def signed_area(self):
+    def signed_area(self) -> float:
         """Approximates the area under a closed path by flattening and treating as a polygon.
         Returns the signed area; positive means the path is counter-clockwise,
         negative means it is clockwise."""
@@ -591,24 +598,27 @@ class BezierPath(BooleanOperationsMixin, SampleMixin, object):
         return area
 
     @property
-    def area(self):
+    def area(self) -> float:
         """Approximates the area under a closed path by flattening and treating as a
         polygon. Returns the unsigned area. Use :py:meth:`signed_area` if you want
         the signed area."""
         return abs(self.signed_area)
 
     @property
-    def direction(self):
+    def direction(self) -> int:
         """Returns the direction of the path: -1 for clockwise and 1 for counterclockwise."""
         return math.copysign(1, self.signed_area)
 
     @property
-    def centroid(self):
+    def centroid(self) -> Optional[Point]:
+        """Returns the centroid of the path's bounding box, or
+        None if the path is open.
+        """
         if not self.closed:
             return None
         return self.bounds().centroid  # Really?
 
-    def drawWithBrush(self, other):
+    def drawWithBrush(self, other: "BezierPath") -> List["BezierPath"]:
         """Assuming that `other` is a closed Bezier path representing a pen or
         brush of a certain shape and that `self` is an open path, this method
         traces the brush along the path, returning an array of Bezier paths.
@@ -663,7 +673,7 @@ class BezierPath(BooleanOperationsMixin, SampleMixin, object):
 
         return paths
 
-    def quadraticsToCubics(self):
+    def quadraticsToCubics(self) -> None:
         """Converts all quadratic segments in the path to cubic Beziers."""
         segs = self.asSegments()
         for i, s in enumerate(segs):
@@ -671,7 +681,7 @@ class BezierPath(BooleanOperationsMixin, SampleMixin, object):
                 segs[i] = s.toCubicBezier()
         return self
 
-    def thicknessAtX(path, x):
+    def thicknessAtX(path, x: float) -> Optional[float]:
         """Returns the thickness of the path at x-coordinate ``x``."""
         bounds = path.bounds()
         bounds.addMargin(10)
@@ -706,7 +716,7 @@ class BezierPath(BooleanOperationsMixin, SampleMixin, object):
         # # Find the tangent at that time
         # inorm2 = i2.seg1.normalAtTime(i2.t1)
 
-    def distanceToPath(self, other, samples=10):
+    def distanceToPath(self, other: "BezierPath", samples=10) -> float:
         """Finds the distance to the other curve at its closest point,
         along with the t values for the closest point at each segment
         and the relevant segments.
@@ -731,7 +741,7 @@ class BezierPath(BooleanOperationsMixin, SampleMixin, object):
         c = curveDistance(closestPair[0], closestPair[1])
         return (c[0], c[1], c[2], closestPair[0], closestPair[1])
 
-    def tidy(self, **kwargs):
+    def tidy(self, **kwargs) -> None:
         """Tidies a curve by adding extremes, and then running
         ``removeIrrelevantSegments`` and ``smooth``. ``relLength``,
         ``absLength``, ``maxCollectionSize``, ``lengthLimit`` and

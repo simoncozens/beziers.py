@@ -1,5 +1,6 @@
-from beziers.utils.legendregauss import Tvalues, Cvalues
 import math
+
+from beziers.utils.legendregauss import Cvalues, Tvalues
 
 
 class ArcLengthMixin:

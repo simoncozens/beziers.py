@@ -1,8 +1,9 @@
-from beziers.point import Point
-from beziers.path import BezierPath
+import math
+
 from beziers.cubicbezier import CubicBezier
 from beziers.line import Line
-import math
+from beziers.path import BezierPath
+from beziers.point import Point
 
 CIRCULAR_SUPERNESS = 4.0 / 3.0 * (math.sqrt(2) - 1)
 

@@ -1,16 +1,26 @@
-from beziers.segment import Segment
+import math
+from typing import List, Tuple
+
 from beziers.line import Line
 from beziers.point import Point
 from beziers.quadraticbezier import QuadraticBezier
-from beziers.utils.arclengthmixin import ArcLengthMixin
-
-import math
-from beziers.utils.legendregauss import Tvalues, Cvalues
+from beziers.segment import Segment
 from beziers.utils import quadraticRoots
+from beziers.utils.arclengthmixin import ArcLengthMixin
 
 
 class CubicBezier(ArcLengthMixin, Segment):
-    def __init__(self, start, c1, c2, end):
+    """A representation of a cubic bezier curve."""
+
+    def __init__(self, start: Point, c1: Point, c2: Point, end: Point):
+        """Create a new cubic bezier curve.
+
+        Args:
+            start (Point): The starting point of the curve.
+            c1 (Point): The first control point.
+            c2 (Point): The second control point.
+            end (Point): The ending point of the curve.
+        """
         self.points = [start, c1, c2, end]
         self._range = [0, 1]
 
@@ -18,7 +28,8 @@ class CubicBezier(ArcLengthMixin, Segment):
         return "B<%s-%s-%s-%s>" % (self[0], self[1], self[2], self[3])
 
     @classmethod
-    def fromRepr(klass, text):
+    def fromRepr(klass, text: str):
+        """Create a new cubic bezier curve from a string representation."""
         import re
 
         p = re.compile("^B<(<.*?>)-(<.*?>)-(<.*?>)-(<.*?>)>$")
@@ -26,7 +37,7 @@ class CubicBezier(ArcLengthMixin, Segment):
         points = [Point.fromRepr(m.group(t)) for t in range(1, 5)]
         return klass(*points)
 
-    def pointAtTime(self, t):
+    def pointAtTime(self, t: float) -> Point:
         """Returns the point at time t (0->1) along the curve."""
         x = (
             (1 - t) * (1 - t) * (1 - t) * self[0].x
@@ -42,7 +53,8 @@ class CubicBezier(ArcLengthMixin, Segment):
         )
         return Point(x, y)
 
-    def tOfPoint(self, p):
+    def tOfPoint(self, p: Point) -> float:
+        """Returns the time t (0->1) of a point on the curve."""
         precision = 1.0 / 50.0
         bestDist = float("inf")
         bestT = -1
@@ -70,7 +82,7 @@ class CubicBezier(ArcLengthMixin, Segment):
                 bestDist = rdist
         return bestT
 
-    def splitAtTime(self, t):
+    def splitAtTime(self, t: float) -> Tuple["CubicBezier", "CubicBezier"]:
         """Returns two segments, dividing the given segment at a point t (0->1) along the curve."""
         p4 = self[0].lerp(self[1], t)
         p5 = self[1].lerp(self[2], t)
@@ -82,19 +94,24 @@ class CubicBezier(ArcLengthMixin, Segment):
 
     def join(self, other):
         """Not currently implemented: join two `CubicBezier` together."""
-        raise "Not implemented"
+        raise NotImplementedError
 
     def toQuadratic(self):
         """Not currently implemented: reduce this to a `QuadraticBezier`."""
-        raise "Not implemented"
+        raise NotImplementedError
 
-    def derivative(self):
+    def derivative(self) -> QuadraticBezier:
         """Returns a `QuadraticBezier` representing the derivative of this curve."""
         return QuadraticBezier(
             (self[1] - self[0]) * 3, (self[2] - self[1]) * 3, (self[3] - self[2]) * 3
         )
 
-    def flatten(self, degree=8):
+    def flatten(self, degree=8) -> List[Line]:
+        """Flattens the curve into a list of `Line` segments.
+
+        Args:
+            degree (int): The degree of flattening to perform.
+        """
         ss = []
         if self.length < degree:
             return [Line(self[0], self[3])]
@@ -105,7 +122,7 @@ class CubicBezier(ArcLengthMixin, Segment):
             ss.append(l)
         return ss
 
-    def _findRoots(self, dimension):
+    def _findRoots(self, dimension: str) -> List[float]:
         def cuberoot(v):
             if v < 0:
                 return -math.pow(-v, 1 / 3.0)
@@ -163,7 +180,7 @@ class CubicBezier(ArcLengthMixin, Segment):
         root1 = u1 - v1 - a / 3
         return [x for x in [root1] if x >= 0 and x <= 1]
 
-    def _findDRoots(self):
+    def _findDRoots(self) -> List[float]:
         d = self.derivative()
         roots = []
 
@@ -177,7 +194,7 @@ class CubicBezier(ArcLengthMixin, Segment):
         )
         return roots
 
-    def findExtremes(self, inflections=False):
+    def findExtremes(self, inflections=False) -> List[float]:
         """Returns a list of time `t` values for extremes of the curve."""
         r = self._findDRoots()
         if inflections:
@@ -185,8 +202,8 @@ class CubicBezier(ArcLengthMixin, Segment):
         r.sort()
         return [root for root in r if root >= 0.01 and root <= 0.99]
 
-    def curvatureAtTime(self, t):
-        """Returns the C curvature at time `t`.."""
+    def curvatureAtTime(self, t: float) -> float:
+        """Returns the C curvature at time `t`."""
         d = self.derivative()
         d2 = d.derivative()
         return (
@@ -195,7 +212,7 @@ class CubicBezier(ArcLengthMixin, Segment):
         )
 
     @property
-    def tunniPoint(self):
+    def tunniPoint(self) -> Point:
         """Returns the Tunni point of this Bezier (the intersection of
         the handles)."""
         h1 = Line(self[0], self[1])
@@ -209,7 +226,7 @@ class CubicBezier(ArcLengthMixin, Segment):
         else:
             return i
 
-    def balance(self):
+    def balance(self) -> None:
         """Perform Tunni balancing on this Bezier."""
         p = self.tunniPoint
         if not p:
@@ -228,7 +245,8 @@ class CubicBezier(ArcLengthMixin, Segment):
             self[2] = self[3].lerp(p, avg)
 
     @property
-    def hasLoop(self):
+    def hasLoop(self) -> bool:
+        """Returns True if the curve has a loop."""
         a1 = (
             self[0].x * (self[3].y - self[2].y)
             + self[0].y * (self[2].x - self[3].x)
@@ -265,8 +283,8 @@ class CubicBezier(ArcLengthMixin, Segment):
         return ((d2 + f1) / f2, (d2 - f1) / f2)
 
     @property
-    def area(self):
-        """Returns the signed rea between the curve and the y-axis"""
+    def area(self) -> float:
+        """Returns the signed area between the curve and the y-axis"""
         return (
             10 * (self[3].x * self[3].y - self[0].x * self[0].y)
             + 6

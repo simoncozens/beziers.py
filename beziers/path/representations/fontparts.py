@@ -1,7 +1,7 @@
-from beziers.line import Line
 from beziers.cubicbezier import CubicBezier
+from beziers.line import Line
 from beziers.path import BezierPath
-from beziers.path.representations.Nodelist import NodelistRepresentation, Node
+from beziers.path.representations.Nodelist import Node, NodelistRepresentation
 
 
 class FontParts:

@@ -40,7 +40,8 @@ class Point(object):
         return "<%s,%s>" % (self.x, self.y)
 
     @classmethod
-    def fromRepr(klass, text):
+    def fromRepr(klass, text: str) -> "Point":
+        """Create a new point from a string representation."""
         import re
 
         p = re.compile("^<([^,]+),([^>]+)>$")
@@ -57,10 +58,11 @@ class Point(object):
         return hash(self.x) << 32 ^ hash(self.y)
 
     def __mul__(self, other):
-        """Multiply a point by a scalar."""
+        """Multiply a point (assumed to represent a vector)  by a scalar."""
         return Point(self.x * other, self.y * other)
 
     def __div__(self, other):
+        """Divide a point (assumed to represent a vector) by a scalar."""
         return Point(self.x / other, self.y / other)
 
     def __truediv__(self, other):
@@ -85,32 +87,33 @@ class Point(object):
     def __matmul__(self, other):  # Dot product. Abusing overloading. Sue me.
         return self.dot(other)
 
-    def dot(self, other):
+    def dot(self, other: "Point") -> float:
+        """Compute the dot product of two points, interpreted as vectors."""
         return self.x * other.x + self.y * other.y
 
-    def clone(self):
+    def clone(self) -> "Point":
         """Clone a point, returning a new object with the same co-ordinates."""
         return Point(self.x, self.y)
 
-    def rounded(self):
+    def rounded(self) -> "Point":
         """Return a point with the co-ordinates truncated to integers"""
         return Point(int(self.x), int(self.y))
 
-    def lerp(self, other, t):
+    def lerp(self, other: "Point", t: float) -> "Point":
         """Interpolate between two points, at time t."""
         return self * (1 - t) + other * (t)
 
     @property
-    def squareMagnitude(self):
+    def squareMagnitude(self) -> float:
         """Interpreting this point as a vector, returns the squared magnitude (Euclidean length) of the vector."""
         return self.x * self.x + self.y * self.y
 
     @property
-    def magnitude(self):
+    def magnitude(self) -> float:
         """Interpreting this point as a vector, returns the magnitude (Euclidean length) of the vector."""
         return math.sqrt(self.squareMagnitude)
 
-    def toUnitVector(self):
+    def toUnitVector(self) -> "Point":
         """Divides this point by its magnitude, returning a vector of length 1."""
         mag = self.magnitude
         if mag == 0.0:
@@ -118,23 +121,23 @@ class Point(object):
         return Point(self.x / mag, self.y / mag)
 
     @property
-    def angle(self):
+    def angle(self) -> float:
         """Interpreting this point as a vector, returns the angle in radians of the vector."""
         return math.atan2(self.y, self.x)
 
     @property
-    def slope(self):
+    def slope(self) -> float:
         """Returns slope y/x"""
         if self.x == 0:
             return 0
         return self.y / self.x
 
     @classmethod
-    def fromAngle(self, angle):
+    def fromAngle(self, angle: float) -> "Point":
         """Given an angle in radians, return a unit vector representing that angle."""
         return Point(math.cos(angle), math.sin(angle)).toUnitVector()
 
-    def rotated(self, around, by):
+    def rotated(self, around: "Point", by: float) -> "Point":
         """Return a new point found by rotating this point around another point, by an angle given in radians."""
         delta = around - self
         oldangle = delta.angle
@@ -143,23 +146,24 @@ class Point(object):
         new = around - unitvector * delta.magnitude
         return new
 
-    def rotate(self, around, by):
+    def rotate(self, around: "Point", by: float):
         """Mutate this point by rotating it around another point, by an angle given in radians."""
         new = self.rotated(around, by)
         self.x = new.x
         self.y = new.y
 
-    def squareDistanceFrom(self, other):
+    def squareDistanceFrom(self, other: "Point") -> float:
         """Returns the squared Euclidean distance between this point and another."""
         return (self.x - other.x) * (self.x - other.x) + (self.y - other.y) * (
             self.y - other.y
         )
 
-    def distanceFrom(self, other):
+    def distanceFrom(self, other: "Point") -> float:
         """Returns the Euclidean distance between this point and another."""
         return math.sqrt(self.squareDistanceFrom(other))
 
-    def transformed(self, transformation):
+    def transformed(self, transformation: "AffineTransformation") -> "Point":
+        """Returns a new point, transformed by the given transformation."""
         m = transformation.matrix
         x, y = self.x, self.y
         a1, a2, b1 = m[0]
@@ -168,7 +172,8 @@ class Point(object):
         yPrime = a3 * x + a4 * y + b2
         return Point(xPrime, yPrime)
 
-    def transform(self, transformation):
+    def transform(self, transformation: "AffineTransformation"):
+        """Mutate this point by transforming it by the given transformation."""
         new = self.transformed(transformation)
         self.x = new.x
         self.y = new.y

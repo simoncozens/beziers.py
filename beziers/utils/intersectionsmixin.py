@@ -1,7 +1,7 @@
-import sys
+from decimal import Decimal
+
 from beziers.point import Point
 from beziers.utils import isclose
-from decimal import Decimal
 
 my_epsilon = 2e-7
 

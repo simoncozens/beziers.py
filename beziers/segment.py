@@ -1,12 +1,11 @@
-from beziers.point import Point
 from beziers.affinetransformation import AffineTransformation
-from beziers.utils.samplemixin import SampleMixin
-from beziers.utils.intersectionsmixin import IntersectionsMixin
 from beziers.boundingbox import BoundingBox
+from beziers.point import Point
+from beziers.utils.intersectionsmixin import IntersectionsMixin
+from beziers.utils.samplemixin import SampleMixin
 
 
 class Segment(IntersectionsMixin, SampleMixin, object):
-
     """A segment is part of a path. Although this package is called
     `beziers.py`, it's really for font people, and paths in the font
     world are made up of cubic Bezier curves, lines and (if you're
@@ -60,47 +59,50 @@ class Segment(IntersectionsMixin, SampleMixin, object):
     def __ne__(self, other):
         return not self.__eq__(other)
 
-    def clone(self):
+    def clone(self) -> "Segment":
         """Returns a new Segment which is a copy of this segment."""
         klass = self.__class__
         return klass(*[p.clone() for p in self.points])
 
-    def round(self):
+    def round(self) -> None:
         """Rounds the points of segment to integer coordinates."""
         self.points = [p.rounded() for p in self.points]
 
     @property
-    def order(self):
+    def order(self) -> int:
+        """Returns the order of the segment. i.e. 2 for a line, 3 for a quadratic, 4 for a cubic."""
         return len(self.points)
 
     @property
-    def start(self):
+    def start(self) -> Point:
         """Returns a Point object representing the start of this segment."""
         return self.points[0]
 
     @property
-    def end(self):
+    def end(self) -> Point:
         """Returns a Point object representing the end of this segment."""
         return self.points[-1]
 
     @property
-    def startAngle(self):
+    def startAngle(self) -> float:
+        """Returns the angle of the start of the segment in radians."""
         return (self.points[1] - self.points[0]).angle
 
     @property
-    def endAngle(self):
+    def endAngle(self) -> float:
+        """Returns the angle of the end of the segment in radians."""
         return (self.points[-1] - self.points[-2]).angle
 
-    def tangentAtTime(self, t):
+    def tangentAtTime(self, t: float) -> Point:
         """Returns a `Point` representing the unit vector of tangent at time `t`."""
         return self.derivative().pointAtTime(t).toUnitVector()
 
-    def normalAtTime(self, t):
+    def normalAtTime(self, t: float) -> Point:
         """Returns a `Point` representing the normal (rotated tangent) at time `t`."""
         tan = self.tangentAtTime(t)
         return Point(-tan.y, tan.x)
 
-    def translated(self, vector):
+    def translated(self, vector: Point) -> "Segment":
         """Returns a *new Segment object* representing the translation of
         this segment by the given vector. i.e.::
 
@@ -115,7 +117,7 @@ class Segment(IntersectionsMixin, SampleMixin, object):
         klass = self.__class__
         return klass(*[p + vector for p in self.points])
 
-    def rotated(self, around, by):
+    def rotated(self, around: Point, by: float):
         """Returns a *new Segment object* representing the rotation of
         this segment around the given point and by the given angle. i.e.::
 
@@ -131,7 +133,7 @@ class Segment(IntersectionsMixin, SampleMixin, object):
             p.rotate(around, by)
         return klass(*pNew)
 
-    def scaled(self, bx):
+    def scaled(self, bx: float) -> "Segment":
         """Returns a *new Segment object* representing the scaling of
         this segment by the given magnification. i.e.::
 
@@ -145,7 +147,7 @@ class Segment(IntersectionsMixin, SampleMixin, object):
         pNew = [p * bx for p in self.points]
         return klass(*pNew)
 
-    def transformed(self, transformation):
+    def transformed(self, transformation: AffineTransformation) -> "Segment":
         """Returns a *new Segment object* transformed by the given AffineTransformation matrix."""
         klass = self.__class__
         pNew = [p.clone() for p in self.points]
@@ -153,30 +155,33 @@ class Segment(IntersectionsMixin, SampleMixin, object):
             p.transform(transformation)
         return klass(*pNew)
 
-    def alignmentTransformation(self):
+    def alignmentTransformation(self) -> AffineTransformation:
+        """Returns an AffineTransformation object representing the transformation
+        required to align the segment to the origin. i.e. with the first point
+        translated to the origin (0,0) and the last point with y=0."""
         m = AffineTransformation.translation(self.start * -1)
         m.rotate((self.end.transformed(m)).angle * -1)
         return m
 
-    def aligned(self):
+    def aligned(self) -> "Segment":
         """Returns a *new Segment object* aligned to the origin. i.e.
         with the first point translated to the origin (0,0) and the
         last point with y=0. Obviously, for a `Line` this is a bit pointless,
         but it's quite handy for higher-order curves."""
         return self.transformed(self.alignmentTransformation())
 
-    def lengthAtTime(self, t):
+    def lengthAtTime(self, t: float) -> float:
         """Returns the length of the subset of the path from the start
         up to the point t (0->1), where 1 is the end of the whole curve."""
         s1, _ = self.splitAtTime(t)
         return s1.length
 
-    def reversed(self):
+    def reversed(self) -> "Segment":
         """Returns a new segment with the points reversed."""
         klass = self.__class__
         return klass(*list(reversed(self.points)))
 
-    def bounds(self):
+    def bounds(self) -> BoundingBox:
         """Returns a BoundingBox object for this segment."""
         bounds = BoundingBox()
         ex = self.findExtremes()
@@ -187,6 +192,6 @@ class Segment(IntersectionsMixin, SampleMixin, object):
         return bounds
 
     @property
-    def hasLoop(self):
+    def hasLoop(self) -> bool:
         """Returns True if the segment has a loop. (Only possible for cubics.)"""
         return False

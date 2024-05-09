@@ -1,7 +1,8 @@
-from beziers.point import Point
-from beziers.cubicbezier import CubicBezier
-import sys
 import math
+import sys
+
+from beziers.cubicbezier import CubicBezier
+from beziers.point import Point
 
 
 def B0(u):

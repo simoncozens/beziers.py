@@ -1,10 +1,11 @@
-import sys
-from beziers.path.representations.Segment import SegmentRepresentation
-from beziers.utils.intersectionsmixin import Intersection
 import logging
+
 import pyclipper
+
 from beziers.line import Line
+from beziers.path.representations.Segment import SegmentRepresentation
 from beziers.point import Point
+from beziers.utils.intersectionsmixin import Intersection
 
 
 class BooleanOperationsMixin:

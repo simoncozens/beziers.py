@@ -1,8 +1,8 @@
+import math
+
 from beziers.cubicbezier import CubicBezier
-from beziers.quadraticbezier import QuadraticBezier
 from beziers.line import Line
 from beziers.point import Point
-import math
 
 """
 This implements (possibly badly) the algorithm in "Computing the

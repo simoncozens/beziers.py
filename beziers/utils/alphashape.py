@@ -1,8 +1,7 @@
-from shapely.ops import cascaded_union, polygonize
-from scipy.spatial import Delaunay
-import shapely.geometry as geometry
 import numpy as np
-import math
+import shapely.geometry as geometry
+from scipy.spatial import Delaunay
+from shapely.ops import cascaded_union, polygonize
 
 
 def alpha_shape(points, alpha):

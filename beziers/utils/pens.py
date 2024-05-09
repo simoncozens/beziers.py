@@ -1,6 +1,7 @@
 from fontTools.pens.basePen import BasePen
-from beziers.path.representations.Nodelist import NodelistRepresentation, Node
+
 from beziers.path import BezierPath
+from beziers.path.representations.Nodelist import Node, NodelistRepresentation
 
 
 class BezierPathCreatingPen(BasePen):
