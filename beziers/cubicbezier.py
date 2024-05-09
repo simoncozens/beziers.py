@@ -95,8 +95,10 @@ class CubicBezier(ArcLengthMixin, Segment):
         )
 
     def flatten(self, degree=8):
-        samples = self.regularSample(self.length / degree)
         ss = []
+        if self.length < degree:
+            return [Line(self[0], self[3])]
+        samples = self.regularSample(self.length / degree)
         for i in range(1, len(samples)):
             l = Line(samples[i - 1], samples[i])
             l._orig = self

@@ -70,8 +70,10 @@ class QuadraticBezier(ArcLengthMixin, Segment):
         return Line((self[1] - self[0]) * 2, (self[2] - self[1]) * 2)
 
     def flatten(self, degree=8):
-        samples = self.sample(self.length / degree)
         ss = []
+        if self.length < degree:
+            return [Line(self[0], self[2])]
+        samples = self.sample(self.length / degree)
         for i in range(1, len(samples)):
             l = Line(samples[i - 1], samples[i])
             l._orig = self
