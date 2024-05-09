@@ -21,6 +21,7 @@ alpha is more than the current best alpha) to cut down on the
 computations but I'm sure it could still be improved.
 """
 
+
 def C(y, x):
     try:
         binom = math.factorial(x) // math.factorial(y) // math.factorial(x - y)
@@ -59,7 +60,7 @@ def C_rk(r, k, bez1, bez2):
 
 
 def basis_function(n, i, u):
-    res = C(i, n) * (1 - u) ** (n - i) * u ** i
+    res = C(i, n) * (1 - u) ** (n - i) * u**i
     return res
 
 
@@ -179,11 +180,13 @@ class MinimumCurveDistanceFinder:
         results = min([r1, r2, r3, r4], key=lambda x: x[0])
         return results
 
-def curveDistance(bez1,bez2):
+
+def curveDistance(bez1, bez2):
     """Find the distance between two curves."""
     c = MinimumCurveDistanceFinder(bez1, bez2)
     dist, t1, t2 = c.minDist()
     return math.sqrt(dist), t1, t2
+
 
 if __name__ == "__main__":
     bez1 = CubicBezier(

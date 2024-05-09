@@ -1,35 +1,38 @@
 from beziers.point import Point
 
+
 class Node(object):
-  def __init__(self, x,y,type):
-    self.point = Point(x,y)
-    self.type = type
+    def __init__(self, x, y, type):
+        self.point = Point(x, y)
+        self.type = type
 
-  @property
-  def x(self):
-    return self.point.x
+    @property
+    def x(self):
+        return self.point.x
 
-  @property
-  def y(self):
-    return self.point.y
+    @property
+    def y(self):
+        return self.point.y
 
-  def __repr__(self):
-    return "<x=%s y=%s %s>" % (self.x,self.y,self.type)
+    def __repr__(self):
+        return "<x=%s y=%s %s>" % (self.x, self.y, self.type)
+
 
 class NodelistRepresentation(object):
-  def __init__(self, path, nl = None):
-    self.path = path
-    from beziers.path import BezierPath
-    assert isinstance(path, BezierPath)
-    self.nodes = []
-    if nl:
-      self.nodes = nl
+    def __init__(self, path, nl=None):
+        self.path = path
+        from beziers.path import BezierPath
 
-  def data(self):
-    return self.nodes
+        assert isinstance(path, BezierPath)
+        self.nodes = []
+        if nl:
+            self.nodes = nl
 
-  def toNodelist(self):
-    return self.nodes
+    def data(self):
+        return self.nodes
 
-  def fromNodelist(self):
-    return self
+    def toNodelist(self):
+        return self.nodes
+
+    def fromNodelist(self):
+        return self
