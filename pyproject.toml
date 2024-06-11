@@ -34,3 +34,9 @@ where = ["src"]
 [tool.setuptools_scm]
 write_to = "src/beziers/_version.py"
 git_describe_command = "git describe --match 'v*' --tags"
+
+[tool.black]
+target-version = ["py310"]
+extend-exclude = '''
+_version.py
+'''
