@@ -220,7 +220,7 @@ class BezierPath(BooleanOperationsMixin, SampleMixin, object):
             kwargs["lw"] = 2
         if "fill" not in kwargs:
             kwargs["fill"] = False
-        drawNodes = "drawNodes" not in kwargs or kwargs["drawNodes"] != False
+        drawNodes = "drawNodes" not in kwargs or kwargs["drawNodes"] is not False
         if "drawNodes" in kwargs:
             kwargs.pop("drawNodes")
         patch = patches.PathPatch(path, **kwargs)
@@ -236,31 +236,30 @@ class BezierPath(BooleanOperationsMixin, SampleMixin, object):
         ax.set_ylim(bounds.bottom, bounds.top)
         if drawNodes:
             nl = self.asNodelist()
-            for i in range(0, len(nl)):
-                n = nl[i]
+            for i, n in enumerate(nl):
                 if n.type == "offcurve":
                     circle = plt.Circle(
                         (n.x, n.y), 2, fill=True, color="black", alpha=0.5
                     )
                     ax.add_artist(circle)
                     if i + 1 < len(nl) and nl[i + 1].type != "offcurve":
-                        l = Line2D(
+                        line = Line2D(
                             [n.x, nl[i + 1].x],
                             [n.y, nl[i + 1].y],
                             linewidth=2,
                             color="black",
                             alpha=0.3,
                         )
-                        ax.add_artist(l)
+                        ax.add_artist(line)
                     if i - 0 >= 0 and nl[i - 1].type != "offcurve":
-                        l = Line2D(
+                        line = Line2D(
                             [n.x, nl[i - 1].x],
                             [n.y, nl[i - 1].y],
                             linewidth=2,
                             color="black",
                             alpha=0.3,
                         )
-                        ax.add_artist(l)
+                        ax.add_artist(line)
                 else:
                     circle = plt.Circle((n.x, n.y), 3, color="black", alpha=0.3)
                     ax.add_artist(circle)
@@ -641,8 +640,6 @@ class BezierPath(BooleanOperationsMixin, SampleMixin, object):
         if not callable(brush):
             brush = constantBrush
 
-        c = brush(0).centroid
-
         from itertools import tee
 
         def pairwise(iterable):
@@ -660,15 +657,13 @@ class BezierPath(BooleanOperationsMixin, SampleMixin, object):
         concave_hull = unary_union(polys)
         ll = []
         for x, y in pairwise(concave_hull.exterior.coords):
-            l = Line(Point(x[0], x[1]), Point(y[0], y[1]))
-            ll.append(l)
+            ll.append(Line(Point(x[0], x[1]), Point(y[0], y[1])))
         paths = [BezierPath.fromSegments(ll)]
 
         for interior in concave_hull.interiors:
             ll = []
             for x, y in pairwise(interior.coords):
-                l = Line(Point(x[0], x[1]), Point(y[0], y[1]))
-                ll.append(l)
+                ll.append(Line(Point(x[0], x[1]), Point(y[0], y[1])))
             paths.append(BezierPath.fromSegments(ll))
 
         return paths

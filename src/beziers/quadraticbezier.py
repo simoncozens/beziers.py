@@ -75,9 +75,9 @@ class QuadraticBezier(ArcLengthMixin, Segment):
             return [Line(self[0], self[2])]
         samples = self.sample(self.length / degree)
         for i in range(1, len(samples)):
-            l = Line(samples[i - 1], samples[i])
-            l._orig = self
-            ss.append(l)
+            line = Line(samples[i - 1], samples[i])
+            line._orig = self
+            ss.append(line)
         return ss
 
     def _findRoots(self, dimension):

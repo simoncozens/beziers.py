@@ -117,9 +117,9 @@ class CubicBezier(ArcLengthMixin, Segment):
             return [Line(self[0], self[3])]
         samples = self.regularSample(self.length / degree)
         for i in range(1, len(samples)):
-            l = Line(samples[i - 1], samples[i])
-            l._orig = self
-            ss.append(l)
+            line = Line(samples[i - 1], samples[i])
+            line._orig = self
+            ss.append(line)
         return ss
 
     def _findRoots(self, dimension: str) -> List[float]:
@@ -268,10 +268,10 @@ class CubicBezier(ArcLengthMixin, Segment):
         d3 = 3 * a3
         d2 = d3 - a2
         d1 = d2 - a2 + a1
-        l = math.sqrt(d1 * d1 + d2 * d2 + d3 * d3)
+        distance = math.sqrt(d1 * d1 + d2 * d2 + d3 * d3)
         s = 0
-        if l != 0:
-            s = 1 / l
+        if distance != 0:
+            s = 1 / distance
         d1 *= s
         d2 *= s
         d3 *= s

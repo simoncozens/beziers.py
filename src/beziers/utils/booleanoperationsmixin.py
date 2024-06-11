@@ -15,9 +15,15 @@ class BooleanOperationsMixin:
         segs = self.asSegments()
         intersections = []
         for seg in segs:
-            l = seg.hasLoop
-            if l and l[0] > 0 and l[0] < 1 and l[1] > 0 and l[0] < 1:
-                intersections.append(Intersection(seg, l[0], seg, l[1]))
+            loops = seg.hasLoop
+            if (
+                loops
+                and loops[0] > 0
+                and loops[0] < 1
+                and loops[1] > 0
+                and loops[1] < 1
+            ):
+                intersections.append(Intersection(seg, loops[0], seg, loops[1]))
         for i1 in range(0, len(segs)):
             for i2 in range(i1 + 1, len(segs)):
                 for i in segs[i1].intersections(segs[i2]):
@@ -28,7 +34,7 @@ class BooleanOperationsMixin:
     def removeOverlap(self):
         """Resolves a path's self-intersections by 'walking around the outside'."""
         if not self.closed:
-            raise "Can only remove overlap on closed paths"
+            raise ValueError("Can only remove overlap on closed paths")
         splitlist = []
         splitpoints = {}
 
@@ -42,22 +48,19 @@ class BooleanOperationsMixin:
         self.splitAtPoints(splitlist)
         # Trace path
         segs = self.asSegments()
-        for i in range(0, len(segs)):
-            seg = segs[i]
+        for i, seg in enumerate(segs):
             if i < len(segs) - 1:
                 seg.next = segs[i + 1]
             else:
                 seg.next = segs[0]
             seg.visited = False
-            segWinding = self.windingNumberOfPoint(seg.pointAtTime(0.5))
-            seg.windingNumber = segWinding
+            seg.windingNumber = self.windingNumberOfPoint(seg.pointAtTime(0.5))
             if roundoff(seg.end) in splitpoints:
                 splitpoints[roundoff(seg.end)]["in"].append(seg)
             if roundoff(seg.start) in splitpoints:
                 splitpoints[roundoff(seg.start)]["out"].append(seg)
         newsegs = []
-        copying = True
-        logging.debug("Split points:", splitpoints)
+        logging.debug("Split points: %s", splitpoints)
         seg = segs[0]
         while not seg.visited:
             logging.debug("Starting at %s, visiting %s" % (seg.start, seg))
@@ -168,7 +171,6 @@ class BooleanOperationsMixin:
             for curpoint, nextpoint in zip(a, b):
                 yield curpoint, nextpoint
 
-        newpaths = []
         from beziers.path import BezierPath
 
         for p in paths:

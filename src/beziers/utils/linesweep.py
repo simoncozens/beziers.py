@@ -14,8 +14,8 @@ def bbox_intersections(seta, setb):
     instructions = []
     intersections = []
 
-    def add_to(o, bounds, l):
-        l.append((o, bounds))
+    def add_to(o, bounds, lst):
+        lst.append((o, bounds))
         if l == active_a:
             other = active_b
         else:
@@ -24,8 +24,8 @@ def bbox_intersections(seta, setb):
             if bounds.overlaps(bounds2):
                 intersections.append((o, o2))
 
-    def remove_from(o, bounds, l):
-        dequefilter(l, lambda i: i[0] != o)
+    def remove_from(o, bounds, lst):
+        dequefilter(lst, lambda i: i[0] != o)
 
     for a in seta:
         bounds = a.bounds()
@@ -64,6 +64,6 @@ if __name__ == "__main__":
     for p in right:
         p.clone().plot(ax, color="red")
     intersections = bbox_intersections(left, right)
-    for l, r in intersections:
-        [p.plot(ax, fill="green") for p in l.intersection(r)]
+    for line, r in intersections:
+        [p.plot(ax, fill="green") for p in line.intersection(r)]
     plt.show()

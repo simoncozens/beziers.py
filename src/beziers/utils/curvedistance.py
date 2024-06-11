@@ -133,7 +133,7 @@ class MinimumCurveDistanceFinder:
                 if drk < alpha:
                     isOutside = False
                 if not minDRK or drk < minDRK:
-                    minDrk = drk
+                    minDRK = drk
                     minIJ = (r, k)
         if isOutside:
             return [alpha, umid, vmid]

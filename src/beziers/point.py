@@ -4,7 +4,7 @@ import typing
 if typing.TYPE_CHECKING:
     from beziers.affinetransformation import AffineTransformation
 
-    Number = typing.Union[int, float]
+Number = typing.Union[int, float]
 
 
 class Point(object):
