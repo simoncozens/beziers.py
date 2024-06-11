@@ -21,6 +21,13 @@ classifiers = [
 dependencies = [
     "pyclipper",
 ]
+
+[project.optional-dependencies]
+test = [
+  "black == 24.4.2",
+  "pytest",
+]
+
 [tool.setuptools.packages.find]
 where = ["src"]
 
