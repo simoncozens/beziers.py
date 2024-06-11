@@ -101,7 +101,7 @@ class AffineTransformation(object):
 
     def reflect(self) -> None:
         """Modify this transformation to include a reflection across the x-axis."""
-        self.apply_backwards(type(self).reflection)
+        self.apply_backwards(type(self).reflection())
 
     @classmethod
     def rotation(klass, angle: float) -> "AffineTransformation":

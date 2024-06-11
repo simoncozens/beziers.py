@@ -1,4 +1,10 @@
 import math
+import typing
+
+if typing.TYPE_CHECKING:
+    from beziers.affinetransformation import AffineTransformation
+
+    Number = typing.Union[int, float]
 
 
 class Point(object):
@@ -46,9 +52,11 @@ class Point(object):
 
         p = re.compile("^<([^,]+),([^>]+)>$")
         m = p.match(text)
+        if not m:
+            raise ValueError("Invalid point representation: %s" % text)
         return klass(m.group(1), m.group(2))
 
-    def __eq__(self, other):
+    def __eq__(self, other: "Point"):
         def isclose(a, b, rel_tol=1e-09, abs_tol=0.0):
             return abs(a - b) <= max(rel_tol * max(abs(a), abs(b)), abs_tol)
 
@@ -57,34 +65,34 @@ class Point(object):
     def __hash__(self):
         return hash(self.x) << 32 ^ hash(self.y)
 
-    def __mul__(self, other):
+    def __mul__(self, other: Number):
         """Multiply a point (assumed to represent a vector)  by a scalar."""
         return Point(self.x * other, self.y * other)
 
-    def __div__(self, other):
+    def __div__(self, other: Number):
         """Divide a point (assumed to represent a vector) by a scalar."""
         return Point(self.x / other, self.y / other)
 
-    def __truediv__(self, other):
+    def __truediv__(self, other: Number):
         return Point(self.x / other, self.y / other)
 
-    def __add__(self, other):
+    def __add__(self, other: "Point"):
         return Point(self.x + other.x, self.y + other.y)
 
-    def __sub__(self, other):
+    def __sub__(self, other: "Point"):
         return Point(self.x - other.x, self.y - other.y)
 
-    def __iadd__(self, other):
+    def __iadd__(self, other: "Point"):
         self.x += other.x
         self.y += other.y
         return self
 
-    def __isub__(self, other):
+    def __isub__(self, other: "Point"):
         self.x -= other.x
         self.y -= other.y
         return self
 
-    def __matmul__(self, other):  # Dot product. Abusing overloading. Sue me.
+    def __matmul__(self, other: "Point"):  # Dot product. Abusing overloading. Sue me.
         return self.dot(other)
 
     def dot(self, other: "Point") -> float:
