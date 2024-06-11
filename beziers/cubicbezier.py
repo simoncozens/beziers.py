@@ -209,7 +209,7 @@ class CubicBezier(ArcLengthMixin, Segment):
         return (
             d.pointAtTime(t).x * d2.pointAtTime(t).y
             - d.pointAtTime(t).y * d2.pointAtTime(t).x
-        )
+        ) / ((d.pointAtTime(t).x ** 2 + d.pointAtTime(t).y ** 2) ** 1.5)
 
     @property
     def tunniPoint(self) -> Point:

@@ -112,6 +112,14 @@ class QuadraticBezier(ArcLengthMixin, Segment):
         """Returns a list of time `t` values for extremes of the curve."""
         return self._findDRoots()
 
+    def curvatureAtTime(self, t: float) -> float:
+        """Returns the C curvature at time `t`."""
+        d = self.derivative()
+        d2 = self.end - self.start  # A constant
+        return (d.pointAtTime(t).x * d2.y - d.pointAtTime(t).y * d2.x) / (
+            (d.pointAtTime(t).x ** 2 + d.pointAtTime(t).y ** 2) ** 1.5
+        )
+
     @property
     def area(self):
         """Returns the signed area between the curve and the y-axis"""
